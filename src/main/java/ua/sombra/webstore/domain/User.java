@@ -19,8 +19,11 @@ public class User {
 	String lastname;
 	
 	String email;
+	
 	String telephone;
+	
 	int sex;
+	
 	public int getId() {
 		return id;
 	}
