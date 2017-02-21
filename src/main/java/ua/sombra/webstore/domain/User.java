@@ -1,15 +1,26 @@
 package ua.sombra.webstore.domain;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import ua.sombra.webstore.domain.Role;
 
 @Entity
+@Table(name = "user")
 public class User {
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	int id;
 	
 	@Column(name="first_name")
@@ -17,12 +28,26 @@ public class User {
 	
 	@Column(name="last_name")
 	String lastname;
-	
+
+	@Column(name="email")
 	String email;
-	
+
+	@Column(name="telephone")
 	String telephone;
+
+	@Column(name="sex")
+	String sex;
 	
-	int sex;
+	@Column(name="password")
+	String password;
+	
+    @Transient
+    private String confirmPassword;
+	
+    @ManyToMany
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
 	
 	public int getId() {
 		return id;
@@ -54,11 +79,28 @@ public class User {
 	public void setTelephone(String telephone) {
 		this.telephone = telephone;
 	}
-	public int getSex() {
+	public String getSex() {
 		return sex;
 	}
-	public void setSex(int sex) {
+	public void setSex(String sex) {
 		this.sex = sex;
 	}
-	
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
+	}
+	public Set<Role> getRoles() {
+		return roles;
+	}
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
 }

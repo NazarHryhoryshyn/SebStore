@@ -11,4 +11,6 @@ public interface UserService {
 	public List<User> listUsers();
 
 	public void removeUser(Integer id);
+	
+	User findByEmail(String email);
 }

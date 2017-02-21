@@ -31,4 +31,12 @@ public class UserDAOImpl implements UserDAO {
 		}
 	}
 
+	@Override
+	public User findByEmail(String email) {
+		User u = (User) sessionFactory.getCurrentSession()
+				.createQuery("FROM User u WHERE u.email LIKE :email")
+				.setString("email", email).uniqueResult();
+		return u;
+	}
+
 }
