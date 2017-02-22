@@ -1,0 +1,86 @@
+package ua.sombra.webstore.domain;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Table;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+
+@Entity
+@Table(name="category")
+public class Category {
+	
+	private int id;
+	private String name;
+	private boolean isSub;
+	private int mainCategoryId;
+	
+	private Set<Feature> features;
+	private Set<Product> products = new HashSet<Product>(0);
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	@Column(name="name", length = 45, nullable = false)
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	@Column(name="is_sub", nullable = false)
+	public boolean getIsSub() {
+		return isSub;
+	}
+
+	public void setIsSub(boolean isSub) {
+		this.isSub = isSub;
+	}
+
+	@Column(name="main_category_id", nullable = true)
+	public int getMainCategoryId() {
+		return mainCategoryId;
+	}
+
+	public void setMainCategoryId(int mainCategoryId) {
+		this.mainCategoryId = mainCategoryId;
+	}
+
+	@ManyToMany
+    @JoinTable(name = "additional_features", joinColumns = @JoinColumn(name = "category_id"),
+            inverseJoinColumns = @JoinColumn(name = "feature_id"))
+	public Set<Feature> getFeatures() {
+		return features;
+	}
+
+	public void setFeatures(Set<Feature> features) {
+		this.features = features;
+	}
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
+	public Set<Product> getProducts() {
+		return products;
+	}
+
+	public void setProducts(Set<Product> products) {
+		this.products = products;
+	}
+}

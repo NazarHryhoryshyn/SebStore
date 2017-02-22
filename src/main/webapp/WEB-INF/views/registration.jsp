@@ -8,7 +8,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -62,6 +62,14 @@
                	 <form:option value="w" />
                 </form:select>
                 <form:errors path="sex"></form:errors>
+            </div>
+        </spring:bind>
+        
+        <spring:bind path="telephone">
+            <div class="form-group ${status.error ? 'has-error' : ''}">
+                <form:input type="number" path="telephone" class="form-control" placeholder="telephone"
+                            ></form:input>
+                <form:errors path="telephone"></form:errors>
             </div>
         </spring:bind>
 

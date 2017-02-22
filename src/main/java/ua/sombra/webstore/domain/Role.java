@@ -7,20 +7,13 @@ import java.util.Set;
 @Entity
 @Table(name = "role")
 public class Role {
+    
+    private Long id;
+    private String name;
+    private Set<User> users;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    @Column(name = "name")
-    private String name;
-
-    @ManyToMany(mappedBy = "roles")
-    private Set<User> users;
-
-    public Role() {
-    }
-
     public Long getId() {
         return id;
     }
@@ -29,6 +22,7 @@ public class Role {
         this.id = id;
     }
 
+    @Column(name = "name", length = 45, nullable = false)
     public String getName() {
         return name;
     }
@@ -37,6 +31,7 @@ public class Role {
         this.name = name;
     }
 
+    @ManyToMany(mappedBy = "roles")
     public Set<User> getUsers() {
         return users;
     }
