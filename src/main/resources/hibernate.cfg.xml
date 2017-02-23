@@ -6,5 +6,11 @@
     <session-factory>
         <mapping class="ua.sombra.webstore.domain.User"></mapping> 
         <mapping class="ua.sombra.webstore.domain.Role"></mapping> 
+        <mapping class="ua.sombra.webstore.domain.Category"></mapping> 
+        <mapping class="ua.sombra.webstore.domain.Feature"></mapping> 
+        <mapping class="ua.sombra.webstore.domain.Order"></mapping> 
+        <mapping class="ua.sombra.webstore.domain.Photo"></mapping> 
+        <mapping class="ua.sombra.webstore.domain.Product"></mapping> 
+        <mapping class="ua.sombra.webstore.domain.ProductsInOrder"></mapping> 
     </session-factory>
 </hibernate-configuration>

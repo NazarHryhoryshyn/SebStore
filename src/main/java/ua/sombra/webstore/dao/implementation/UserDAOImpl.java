@@ -1,4 +1,4 @@
-package ua.sombra.webstore.dao;
+package ua.sombra.webstore.dao.implementation;
 
 import java.util.List;
 
@@ -6,6 +6,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import ua.sombra.webstore.dao.interfaces.UserDAO;
 import ua.sombra.webstore.domain.User;
 
 @Repository
@@ -26,7 +27,7 @@ public class UserDAOImpl implements UserDAO {
 	public void removeUser(Integer id) {
 		User user = (User) sessionFactory.getCurrentSession().load(
 				User.class, id);
-		if (null != user) {
+		if (user != null) {
 			sessionFactory.getCurrentSession().delete(user);
 		}
 	}

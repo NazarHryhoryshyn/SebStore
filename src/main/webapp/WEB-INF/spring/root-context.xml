@@ -14,17 +14,20 @@
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
 	<!-- Root Context: defines shared resources visible to all other web components -->
-		
-	<!-- Включаем опцию использования конфигурационных аннотаций (@Annotation-based configuration)-->
+
+	<!-- Включаем опцию использования конфигурационных аннотаций (@Annotation-based 
+		configuration) -->
 	<context:annotation-config />
-	
-	<!-- Определяем папки, в которых будем автоматически искать бины-компоненты (@Component, @Service)  -->
-	<context:component-scan base-package="ua.sombra.webstore.*" />
-	
+
+	<!-- Определяем папки, в которых будем автоматически искать бины-компоненты 
+		(@Component, @Service) -->
+	<context:component-scan base-package="ua.sombra.webstore.dao.implementation" />
+	<context:component-scan base-package="ua.sombra.webstore.service" />
+	<context:component-scan base-package="ua.sombra.webstore.validator" />
+
 	<!-- Файл с настройками ресурсов для работы с данными (Data Access Resources) -->
 	<import resource="data.xml" />
-	
-    <import resource="security.xml"/>
-	
-	
+
+	<import resource="security.xml" />
+
 </beans>

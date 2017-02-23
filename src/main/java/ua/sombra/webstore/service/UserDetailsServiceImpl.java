@@ -1,6 +1,6 @@
 package ua.sombra.webstore.service;
 
-import ua.sombra.webstore.dao.UserDAO;
+import ua.sombra.webstore.dao.interfaces.UserDAO;
 import ua.sombra.webstore.domain.Role;
 import ua.sombra.webstore.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;

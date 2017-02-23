@@ -3,6 +3,9 @@ package ua.sombra.webstore.domain;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -10,11 +13,22 @@ import javax.persistence.ManyToOne;
 @Entity
 @Table(name = "photo")
 public class Photo {
-	
+
+	int id;
 	private byte[] data;
 
-	private Product product;	
-	
+	private Product product;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "product_id", nullable = false)
 	public Product getProduct() {

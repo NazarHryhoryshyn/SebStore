@@ -8,11 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import ua.sombra.webstore.dao.RoleDAO;
-import ua.sombra.webstore.dao.UserDAO;
 import ua.sombra.webstore.domain.User;
 import org.springframework.transaction.annotation.Transactional;
 
+import ua.sombra.webstore.dao.interfaces.RoleDAO;
+import ua.sombra.webstore.dao.interfaces.UserDAO;
 import ua.sombra.webstore.domain.Role;
 
 @Service

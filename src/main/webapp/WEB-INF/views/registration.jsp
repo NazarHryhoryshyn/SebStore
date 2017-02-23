@@ -58,8 +58,8 @@
             <div class="form-group ${status.error ? 'has-error' : ''}">
                 
                 <form:select path="sex" class="form-control">
-               	 <form:option value="m" />
-               	 <form:option value="w" />
+               	 <form:option value="male" />
+               	 <form:option value="female" />
                 </form:select>
                 <form:errors path="sex"></form:errors>
             </div>

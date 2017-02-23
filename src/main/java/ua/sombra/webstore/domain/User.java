@@ -1,20 +1,22 @@
 package ua.sombra.webstore.domain;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import ua.sombra.webstore.domain.Role;
-import ua.sombra.webstore.enums.Sex;
 
 @Entity
 @Table(name = "user")
@@ -25,12 +27,13 @@ public class User {
 	private String lastname;
 	private String email;
 	private String telephone;
-	private Sex sex;
+	private String sex;
 	private String password;
 	private String confirmPassword;
 	
 	private Set<Role> roles;
     private Set<Product> products;
+    private Set<Order> orders = new HashSet<Order>();
 	
     @Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -80,13 +83,13 @@ public class User {
 	
 	@Column(name="sex", nullable = true)
 	public String getSex() {
-		return sex.name();
+		return sex;
 	}
 	
 	public void setSex(String sex) {
-		this.sex = Sex.valueOf(sex);
+		this.sex = sex;
 	}
-	
+
 	@Column(name="password", length = 100, nullable = false)
 	public String getPassword() {
 		return password;
@@ -125,5 +128,13 @@ public class User {
 	
 	public void setProducts(Set<Product> products) {
 		this.products = products;
+	}
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    public Set<Order> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(Set<Order> orders) {
+		this.orders = orders;
 	}
 }

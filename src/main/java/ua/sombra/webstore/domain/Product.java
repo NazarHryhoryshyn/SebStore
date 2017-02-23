@@ -30,7 +30,7 @@ public class Product {
 	
 	private Category category;
 	
-	private Set<Photo> photos = new HashSet<Photo>(0);
+	private Set<Photo> photos = new HashSet<Photo>();
 	private Set<User> users;
 	private Set<ProductsInOrder> productsInOrders = new HashSet<ProductsInOrder>(0);
 	

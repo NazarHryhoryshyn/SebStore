@@ -1,4 +1,4 @@
-package ua.sombra.webstore.dao;
+package ua.sombra.webstore.dao.interfaces;
 
 import java.util.List;
 
