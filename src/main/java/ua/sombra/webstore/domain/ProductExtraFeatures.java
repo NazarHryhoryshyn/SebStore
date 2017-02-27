@@ -6,16 +6,17 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
-@Table(name = "photo")
-public class Photo {
+@Table(name = "product_extra_features")
+public class ProductExtraFeatures {
 
-	int id;
-	private Byte[] data;
+	private int id;
+	private String name;
+	private String value;
 
 	private Product product;
 
@@ -29,6 +30,24 @@ public class Photo {
 		this.id = id;
 	}
 
+	@Column(name = "name", length = 250, nullable = false)
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	@Column(name = "value", length = 250, nullable = false)
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "product_id", nullable = false)
 	public Product getProduct() {
@@ -37,14 +56,5 @@ public class Photo {
 
 	public void setProduct(Product product) {
 		this.product = product;
-	}
-
-	@Column(name = "data", nullable = false)
-	public Byte[] getData() {
-		return data;
-	}
-
-	public void setData(Byte[] data) {
-		this.data = data;
 	}
 }

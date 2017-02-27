@@ -32,7 +32,8 @@ public class Product {
 	
 	private Set<Photo> photos = new HashSet<Photo>();
 	private Set<User> users;
-	private Set<ProductsInOrder> productsInOrders = new HashSet<ProductsInOrder>(0);
+	private Set<ProductsInOrder> productsInOrders = new HashSet<ProductsInOrder>();
+	private Set<ProductExtraFeatures> productExtraFeatures = new HashSet<ProductExtraFeatures>();
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -133,6 +134,15 @@ public class Product {
 
 	public void setProductsInOrders(Set<ProductsInOrder> productsInOrders) {
 		this.productsInOrders = productsInOrders;
+	}
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
+	public Set<ProductExtraFeatures> getProductExtraFeatures() {
+		return productExtraFeatures;
+	}
+
+	public void setProductExtraFeatures(Set<ProductExtraFeatures> productExtraFeatures) {
+		this.productExtraFeatures = productExtraFeatures;
 	}
 }
 

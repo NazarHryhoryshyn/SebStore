@@ -1,6 +1,6 @@
 package ua.sombra.webstore.dao.implementation;
 
-import java.util.List;
+import java.util.Set;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +20,8 @@ public class ProductDAOImpl implements ProductDAO {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Product> listProduct() {
-		return (List<Product>) sessionFactory.getCurrentSession().createQuery("From Product").list();
+	public Set<Product> listProduct() {
+		return (Set<Product>) sessionFactory.getCurrentSession().createQuery("From Product").list();
 	}
 
 	public void removeProduct(Integer id) {

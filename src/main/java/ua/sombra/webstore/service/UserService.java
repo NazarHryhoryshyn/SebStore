@@ -1,7 +1,9 @@
 package ua.sombra.webstore.service;
 
 import java.util.List;
+import java.util.Set;
 
+import ua.sombra.webstore.domain.Order;
 import ua.sombra.webstore.domain.User;
 
 public interface UserService {
@@ -12,5 +14,9 @@ public interface UserService {
 
 	public void removeUser(Integer id);
 	
-	User findByEmail(String email);
+	public User findByEmail(String email);
+	
+	public void addProductToUserCart(Integer userId, Integer productId);
+	
+	public Set<Order> listUserOrders(Integer id);
 }

@@ -10,7 +10,7 @@ public interface CategoryDAO {
 
 	public List<Category> listCategory();
 	
-	public List<Category> listMainCategories();
+	public List<Category> listTopCategories();
 	
 	public List<Category> listSubCategories(int mainCategoryId);
 

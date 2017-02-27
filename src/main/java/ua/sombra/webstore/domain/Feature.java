@@ -16,7 +16,6 @@ public class Feature {
 	
 	private int id;
 	private String name;
-	private String value;
 	
     private Set<Category> categories;
 	
@@ -39,15 +38,6 @@ public class Feature {
 		this.name = name;
 	}
 
-	@Column(name="value", length = 250, nullable = false)
-	public String getValue() {
-		return value;
-	}
-
-	public void setValue(String value) {
-		this.value = value;
-	}
-	
 	@ManyToMany(mappedBy = "features")
 	public Set<Category> getCategories() {
 		return categories;

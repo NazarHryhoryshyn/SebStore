@@ -25,8 +25,7 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	public void removeUser(Integer id) {
-		User user = (User) sessionFactory.getCurrentSession().load(
-				User.class, id);
+		User user = (User) sessionFactory.getCurrentSession().load(User.class, id);
 		if (user != null) {
 			sessionFactory.getCurrentSession().delete(user);
 		}
@@ -34,10 +33,14 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public User findByEmail(String email) {
-		User u = (User) sessionFactory.getCurrentSession()
-				.createQuery("FROM User u WHERE u.email LIKE :email")
+		User u = (User) sessionFactory.getCurrentSession().createQuery("FROM User u WHERE u.email LIKE :email")
 				.setString("email", email).uniqueResult();
 		return u;
+	}
+
+	public User findById(Integer id) {
+		return (User) sessionFactory.getCurrentSession().createQuery("From User u where u.id = :id")
+				.setParameter("id", id).uniqueResult();
 	}
 
 }

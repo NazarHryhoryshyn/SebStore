@@ -25,7 +25,7 @@ public class CategoryDAOImpl implements CategoryDAO {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Category> listMainCategories() {
+	public List<Category> listTopCategories() {
 		return (List<Category>) sessionFactory.getCurrentSession().createQuery("From Category C where C.isSub = false")
 				.list();
 	}
