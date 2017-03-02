@@ -12,5 +12,6 @@
         <mapping class="ua.sombra.webstore.domain.Photo"></mapping> 
         <mapping class="ua.sombra.webstore.domain.Product"></mapping> 
         <mapping class="ua.sombra.webstore.domain.ProductsInOrder"></mapping> 
+        <mapping class="ua.sombra.webstore.domain.ProductExtraFeatures"></mapping> 
     </session-factory>
 </hibernate-configuration>

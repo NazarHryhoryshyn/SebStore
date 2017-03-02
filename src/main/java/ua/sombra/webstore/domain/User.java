@@ -34,7 +34,7 @@ public class User {
 	private Set<Role> roles;
     private Set<Product> products;
     private Set<Order> orders = new HashSet<Order>();
-	
+	    
     @Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public int getId() {
@@ -108,7 +108,7 @@ public class User {
 		this.confirmPassword = confirmPassword;
 	}
 	
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	  @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
 	          inverseJoinColumns = @JoinColumn(name = "role_id"))
 	public Set<Role> getRoles() {

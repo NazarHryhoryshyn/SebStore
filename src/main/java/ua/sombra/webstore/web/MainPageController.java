@@ -1,0 +1,26 @@
+package ua.sombra.webstore.web;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import ua.sombra.webstore.service.SecurityService;
+import ua.sombra.webstore.service.UserService;
+
+@Controller
+public class MainPageController {
+
+	@Autowired
+	private UserService userService;
+
+	@Autowired
+	private SecurityService securityService;
+
+	@RequestMapping(value = { "/", }, method = RequestMethod.GET)
+	public String welcome(Model model) {
+		model.addAttribute("isAdmin", securityService.currUserIsAdmin());
+		return "mainPage";
+	}
+}
