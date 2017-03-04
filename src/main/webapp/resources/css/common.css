@@ -1,8 +1,25 @@
 body {
 	padding-top: 10px;
 	padding-bottom: 10px;
-	background-color: #eee;
+	background-color: #D7FFD7;
 }
+
+.button-bg-color{
+ background: 	#BBEABB;
+}
+
+.content-block{
+	background-color: #B3FFB3;
+	margin-top: 10px;
+}
+
+.content-sub-block{
+	background-color: #E9FFE9;
+	width: 100%;
+	margin: 7px;
+}
+
+
 
 .form-signin {
 	max-width: 330px;

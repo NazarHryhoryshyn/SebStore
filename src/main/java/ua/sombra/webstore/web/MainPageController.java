@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import ua.sombra.webstore.domain.User;
 import ua.sombra.webstore.service.SecurityService;
 import ua.sombra.webstore.service.UserService;
 
@@ -20,6 +21,8 @@ public class MainPageController {
 
 	@RequestMapping(value = { "/", }, method = RequestMethod.GET)
 	public String welcome(Model model) {
+		User u = userService.findByEmail(securityService.findLoggedInEmail());
+		model.addAttribute("uname", u.getLastname() + " " + u.getFirstname());
 		model.addAttribute("isAdmin", securityService.currUserIsAdmin());
 		return "mainPage";
 	}
