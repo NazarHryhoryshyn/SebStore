@@ -1,0 +1,68 @@
+
+
+.second-line-block{
+	margin-top: 10px;
+}
+
+.pagination-block{
+	text-align: center;
+}
+
+.filters{
+	margin-top: 20px;
+	background-color: #B3FFB3;
+}
+
+.title-filters{
+	padding: 5px;
+}
+
+.filters-container{
+	padding: 5px;
+}
+
+.parameter-block{
+	background-color: #E9FFE9;
+	height: 35px;
+	margin: 2px;
+}
+
+.parameter-name-block{
+	width: 46%;
+	float: left;
+	height: 25px;
+	margin: 5px;
+}
+
+.parameter-input-block{
+	width: 46%;
+	float: right;
+	height: 25px;
+	margin: 5px;
+}
+
+.parameter-input-block input{
+	width: 100%;
+}
+
+.parameter-interval-block{
+	background-color: #E9FFE9;
+	height: 80px;
+	margin: 2px;
+}
+
+.parameter-interval-input-container{
+	width: 48%;
+}
+
+.parameter-interval-input-container input{
+	width: 80%;
+}
+
+.mybutton{
+	width: 60%;
+	margin: 5px;
+}
+
+
+

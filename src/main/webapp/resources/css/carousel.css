@@ -1,4 +1,3 @@
-@import url(http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css);
 .col-item
 {
     border: 1px solid #E1E1E1;
@@ -103,57 +102,6 @@
     margin-right: 10px;
 }
 
-.category-block{
-	width: 30%;
-	float: left;
-	padding-left: 10px;
-	padding-right: 10px;
-	text-align: center;
-	border-right: 1px solid #287C28;
-}
-
-.product-block{
-	width: 70%;
-	float: right;
-	padding: 5px;
-}
-
-#menu {
-	margin: 0 auto;
-	text-align: left;
-}
-#menu ul {
-	list-style: none;
-	margin: 0;
-	padding: 0;
-	position: relative;
-}
-#menu li a {
-	height: 32px;
-	text-decoration: none;
-	font: 14px;
-}
-
-#menu li{
-	padding: 3px;
-	vertical-align: middle;
-}
-
-#menu li:HOVER{
-	background-color: #A5E9A5;
-}
-
-#menu li a:link, #menu li a:visited {
-	color: #116600;
-	display: block;
-	padding: 8px 0 0 35px;
-}
-
-.product-sub-block{
-	width: 100%;
-	
-}
-
 .carousel-styles{
 	margin-left: 15px;
 }
@@ -162,6 +110,6 @@
 	margin-bottom: 10px;
 }
 
-
-
-
+.product-sub-block{
+	width: 100%;	
+}

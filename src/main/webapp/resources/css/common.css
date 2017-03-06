@@ -1,7 +1,24 @@
+@import url(http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css);
 body {
 	padding-top: 10px;
 	padding-bottom: 10px;
 	background-color: #D7FFD7;
+}
+
+.category-block{
+	width: 30%;
+	float: left;
+	padding-left: 10px;
+	padding-right: 10px;
+	text-align: center;
+	border-right: 1px solid #287C28;
+	margin-top: 5px;
+}
+
+.product-block{
+	width: 70%;
+	float: right;
+	padding: 5px;
 }
 
 .button-bg-color{
@@ -18,8 +35,6 @@ body {
 	width: 100%;
 	margin: 7px;
 }
-
-
 
 .form-signin {
 	max-width: 330px;

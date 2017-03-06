@@ -9,17 +9,18 @@
 <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
 <link href="${contextPath}/resources/css/header_styles.css"
 	rel="stylesheet">
+	<link href="${contextPath}/resources/css/bootstrap.min.css"
+	rel="stylesheet">
 </head>
 <body>
-
 <form id="logoutForm" method="POST" action="${contextPath}/logout">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         </form>
-
-	<div style="width: 20%; text-align: center;"
+<div class="container-fluid header-background">
+		<div style="width: 20%; text-align: center;"
 		class="container header-block">
 		<div class="header-block-sub-block">
-			<img src="${contextPath}/resources/img/logo.png" id="logo">
+			<a href="/webstore/"><img src="${contextPath}/resources/img/logo.png" id="logo"></a>
 		</div>
 	</div>
 	<div class="container header-block " style="width: 50%;">
@@ -72,5 +73,9 @@
 		</div>
 
 	</div>
+	</div>
+
+
+	
 </body>
 </html>

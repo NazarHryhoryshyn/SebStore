@@ -1,15 +1,19 @@
 package ua.sombra.webstore.service;
 
 import java.util.HashMap;
+
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import org.springframework.stereotype.Service;
 
 import ua.sombra.webstore.dao.interfaces.ProductDAO;
 import ua.sombra.webstore.domain.Photo;
 import ua.sombra.webstore.domain.Product;
 import ua.sombra.webstore.domain.ProductExtraFeatures;
 
+@Service
 public class ProductServiceImpl implements ProductService {
 
 	ProductDAO productDao;

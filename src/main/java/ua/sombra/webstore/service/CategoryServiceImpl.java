@@ -5,11 +5,13 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import ua.sombra.webstore.dao.interfaces.CategoryDAO;
 import ua.sombra.webstore.domain.Category;
 import ua.sombra.webstore.domain.Feature;
 
+@Service
 public class CategoryServiceImpl implements CategoryService{
 
 	@Autowired
