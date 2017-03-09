@@ -45,7 +45,9 @@
 	border-bottom: 1px solid #ddd;
 }
 
-.characteristic-table tr:hover {background-color: #B3FFB3}
+.characteristic-table tr:hover {
+	background-color: #B3FFB3;
+}
 
 .comments{
 	

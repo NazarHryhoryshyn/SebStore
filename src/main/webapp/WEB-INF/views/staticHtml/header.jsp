@@ -41,9 +41,9 @@
 	<div style="width: 10%; text-align: center;"
 		class="container header-block">
 		<div class="header-block-sub-block" style="padding: 7% 0;">
-		<button class="btn btn-default button-bg-color" type="button">
-		<i class="fa fa-shopping-cart fa-2x" aria-hidden="true"></i>
-		</button>
+		<a class="btn btn-default button-bg-color" type="button" href="/webstore/cart">
+		<img src="${contextPath}/resources/img/shopping-basket-icon.png" style="width: 26px; height: 26px;">
+		</a>
 		</div>
 	</div>
 	<div class="container header-block" style="width: 20%;">
@@ -57,8 +57,8 @@
 					Hi, ${uname} <span class="caret"></span>
 				</button>
 				<ul class="dropdown-menu">
-					<li><a href="admin">Admin</a></li>
-					<li><a href="#">Profile</a></li>
+					<li><a href="/webstore/admin">Admin</a></li>
+					<li><a href="/webstore/profile">Profile</a></li>
 					<li class="divider"></li>
 					<li><a onclick="document.forms['logoutForm'].submit()">Logout</a></li>
 				</ul>

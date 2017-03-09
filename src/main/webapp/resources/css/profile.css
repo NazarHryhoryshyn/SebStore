@@ -1,0 +1,29 @@
+.column{
+	clear: both;
+}
+
+.prop-name{
+	float: left;
+	width: 20%;
+	font-weight: bold;
+	line-height: 50px;
+	margin-left: 22%;
+}
+
+.prop-value{
+	float: left;
+	width: 20%;
+	line-height: 50px;
+}
+
+.prop-butt{
+	float: left;
+	line-height: 50px;
+	width: 5%;
+}
+
+.order-block{
+	text-align: left;
+	margin: 5px;
+}
+

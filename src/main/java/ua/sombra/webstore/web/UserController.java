@@ -35,6 +35,14 @@ public class UserController {
         return "registration";
     }
     
+    @RequestMapping(value = { "/profile", }, method = RequestMethod.GET)
+	public String profile(Model model) {
+		User u = userService.findByEmail(securityService.findLoggedInEmail());
+		model.addAttribute("uname", u.getLastname() + " " + u.getFirstname());
+		model.addAttribute("isAdmin", securityService.currUserIsAdmin());
+		return "profile";
+	}
+    
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult, Model model) {
 
@@ -67,11 +75,6 @@ public class UserController {
     @RequestMapping(value = {"/welcome"}, method = RequestMethod.GET)
     public String welcome(Model model) {
         return "welcome";
-    }
-
-    @RequestMapping(value = "/admin", method = RequestMethod.GET)
-    public String admin(Model model) {
-        return "admin";
     }
     
 	@RequestMapping("/users")

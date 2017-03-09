@@ -1,0 +1,76 @@
+.order-info-column{
+	width: 33%;
+	float: left;
+	margin-bottom: 10px;
+}
+
+.order-info-column table{
+	width: 100%;
+	text-align: left;
+	border-right: 1px black solid;
+}
+
+.order-info-column table td{
+	width: 50%;
+}
+
+.stage-block{
+	width: 100%;
+}
+
+.stage{
+	width: 25%;
+	float: left;
+	height: 50px;
+	text-align: center;
+	padding: 10px;
+	border-radius: 50px; 
+	margin-top: 10px;
+	margin-bottom: 10px;
+	color: white;
+}
+
+.button-block{
+	text-align: center;
+	margin: 10px;
+}
+
+.tab-content{
+	padding-left: 200px;
+	padding-right: 200px;
+	margin: 10px;
+}
+
+.prod-block{
+	clear: both;
+	margin: 5px;
+	padding: 5px;
+	border-bottom: 1px solid black;
+}
+
+.table-delivery tr{
+	height: 35px;
+	padding: 3px;
+}
+
+.table-delivery td{
+	width: 250px;
+}
+
+.table-delivery td input{
+	width: 100%;
+}
+
+.table-delivery td select{
+	width: 100%;
+}
+
+.payment-block{
+	width: 390px;
+	margin-left: 175px;
+}
+
+
+.panel-title {display: inline;font-weight: bold;}
+.pl-ziro { padding-left: 0px; }
+

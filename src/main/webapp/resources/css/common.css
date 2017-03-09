@@ -28,13 +28,27 @@ body {
 .content-block{
 	background-color: #B3FFB3;
 	margin-top: 10px;
+	border-radius: 40px;
 }
 
 .content-sub-block{
 	background-color: #E9FFE9;
 	width: 100%;
 	margin: 7px;
+	border-radius: 20px;
 }
+
+.small-modal-button{
+	float: left; 
+	margin-left: 20px; 
+	width: 100px;
+}
+
+.small-modal-body{
+	text-align: center;
+}
+
+
 
 .form-signin {
 	max-width: 330px;
