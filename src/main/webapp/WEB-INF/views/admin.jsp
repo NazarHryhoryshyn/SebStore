@@ -50,7 +50,7 @@
 		});
 	</script>
 	<jsp:include page="staticHtml/header.jsp"></jsp:include>
-	<div class="container colation-block">
+	<div class="container location-block">
 		<div class="location-sub-block">
 			<div class="row">
 				<div id="bc2" class="btn-group btn-breadcrumb">
@@ -63,10 +63,13 @@
 	<div class="container content-block">
 		<div class="container" style="margin: 10px;">
 			<div class="tabs">
-				<input id="tab1" type="radio" name="tabs" checked> <label for="tab1" title="Вкладка 1">Users</label> 
-				<input id="tab2" type="radio" name="tabs"> <label for="tab2" title="Вкладка 2">Categories</label> 
-				<input id="tab3" type="radio" name="tabs"> <label for="tab3" title="Вкладка 3">Products</label>
-				<input id="tab4" type="radio" name="tabs"> <label for="tab4" title="Вкладка 4">Orders</label>
+				<input id="tab1" type="radio" name="tabs" checked> <label
+					for="tab1" title="Вкладка 1">Users</label> <input id="tab2"
+					type="radio" name="tabs"> <label for="tab2"
+					title="Вкладка 2">Categories</label> <input id="tab3" type="radio"
+					name="tabs"> <label for="tab3" title="Вкладка 3">Products</label>
+				<input id="tab4" type="radio" name="tabs"> <label for="tab4"
+					title="Вкладка 4">Orders</label>
 
 				<section id="content-tab1">
 					<div class="tab-content">
@@ -89,7 +92,8 @@
 								<td>male</td>
 								<td><input type="checkbox" checked></td>
 								<td><input type="checkbox"></td>
-								<td><button class="btn btn-primary" data-toggle="modal" data-target="#modal-user-orders">Show</button></td>
+								<td><button class="btn btn-primary" data-toggle="modal"
+										data-target="#modal-user-orders">Show</button></td>
 							</tr>
 							<tr>
 								<td>Nazar</td>
@@ -117,130 +121,86 @@
 				<section id="content-tab2">
 					<div class="tab-content">
 						<ul>
-							<li>
-								Category 1
-								<a class="category-button" href="#" data-toggle="modal" data-target="#modal-category-add-category">
+							<li>Category 1 <a class="category-button" href="#"
+								data-toggle="modal" data-target="#modal-category-add-category">
 									<i class="fa fa-plus"></i>
-								</a>
-								<a class="category-button" href="#" data-toggle="modal" data-target="#modal-category-edit-category">
-									<i class="fa fa-pencil"></i></a>
-								<a class="category-button" href="#" data-toggle="modal" data-target="#modal-category-features">
-									<i class="fa fa-info" aria-hidden="true"></i>
-								</a>
+							</a> <a class="category-button" href="#" data-toggle="modal"
+								data-target="#modal-category-edit-category"> <i
+									class="fa fa-pencil"></i></a>
 							</li>
-							<li>
-								Category 2
-								<a class="category-button">
-									<i class="fa fa-plus"></i>
-								</a>
-								<a class="category-button">
-									<i class="fa fa-pencil"></i></a>
-								<a class="category-button" style="text-align: center;">
-									<i class="fa fa-info" aria-hidden="true"></i>
-								</a>
+							<li>Category 2 <a class="category-button"> <i
+									class="fa fa-plus"></i>
+							</a> <a class="category-button"> <i class="fa fa-pencil"></i></a> <a
+								class="category-button" style="text-align: center;"> <i
+									class="fa fa-info" aria-hidden="true"></i>
+							</a>
 								<ul>
-									<li>Sub category 1
-										<a class="category-button">
-											<i class="fa fa-plus"></i>
-										</a>
-										<a class="category-button">
-											<i class="fa fa-pencil"></i></a>
-										<a class="category-button" style="text-align: center;">
-											<i class="fa fa-info" aria-hidden="true"></i>
-										</a>
+									<li>Sub category 1 <a class="category-button"> <i
+											class="fa fa-plus"></i>
+									</a> <a class="category-button"> <i class="fa fa-pencil"></i></a> <a
+										class="category-button" style="text-align: center;"> <i
+											class="fa fa-info" aria-hidden="true"></i>
+									</a>
 									</li>
-									<li>Sub category 2
-										<a class="category-button">
-											<i class="fa fa-plus"></i>
-										</a>
-										<a class="category-button">
-											<i class="fa fa-pencil"></i>
-										</a>
-										<a class="category-button" style="text-align: center;">
-											<i class="fa fa-info" aria-hidden="true"></i>
-										</a>
+									<li>Sub category 2 <a class="category-button"> <i
+											class="fa fa-plus"></i>
+									</a> <a class="category-button"> <i class="fa fa-pencil"></i>
+									</a> <a class="category-button" style="text-align: center;"> <i
+											class="fa fa-info" aria-hidden="true"></i>
+									</a>
 									</li>
-									<li>
-										Sub category 3
-										<a class="category-button">
-											<i class="fa fa-plus"></i>
-										</a>
-										<a class="category-button">
-											<i class="fa fa-pencil"></i>
-										</a>
-										<a class="category-button" style="text-align: center;">
-											<i class="fa fa-info" aria-hidden="true"></i>
-										</a>
+									<li>Sub category 3 <a class="category-button"> <i
+											class="fa fa-plus"></i>
+									</a> <a class="category-button"> <i class="fa fa-pencil"></i>
+									</a> <a class="category-button" style="text-align: center;"> <i
+											class="fa fa-info" aria-hidden="true"></i>
+									</a>
 										<ul>
-											<li>Sub sub category 1
-												<a class="category-button">
-													<i class="fa fa-plus"></i>
-												</a>
-												<a class="category-button">
-													<i class="fa fa-pencil"></i>
-												</a>
-												<a class="category-button" style="text-align: center;">
+											<li>Sub sub category 1 <a class="category-button"> <i
+													class="fa fa-plus"></i>
+											</a> <a class="category-button"> <i class="fa fa-pencil"></i>
+											</a> <a class="category-button" style="text-align: center;">
 													<i class="fa fa-info" aria-hidden="true"></i>
-												</a>
+											</a>
 											</li>
-											<li>Sub sub category 2
-												<a class="category-button">
-													<i class="fa fa-plus"></i>
-												</a>
-												<a class="category-button">
-													<i class="fa fa-pencil"></i>
-												</a>
-												<a class="category-button" style="text-align: center;">
+											<li>Sub sub category 2 <a class="category-button"> <i
+													class="fa fa-plus"></i>
+											</a> <a class="category-button"> <i class="fa fa-pencil"></i>
+											</a> <a class="category-button" style="text-align: center;">
 													<i class="fa fa-info" aria-hidden="true"></i>
-												</a>
+											</a>
 											</li>
-											<li>Sub sub category 3
-												<a class="category-button">
-													<i class="fa fa-plus"></i>
-												</a>
-												<a class="category-button">
-													<i class="fa fa-pencil"></i>
-												</a>
-												<a class="category-button" style="text-align: center;">
+											<li>Sub sub category 3 <a class="category-button"> <i
+													class="fa fa-plus"></i>
+											</a> <a class="category-button"> <i class="fa fa-pencil"></i>
+											</a> <a class="category-button" style="text-align: center;">
 													<i class="fa fa-info" aria-hidden="true"></i>
-												</a>
+											</a>
 											</li>
 										</ul>
 									</li>
 								</ul>
 							</li>
-							<li>Category 3
-								<a class="category-button">
-									<i class="fa fa-plus"></i>
-								</a>
-								<a class="category-button">
-									<i class="fa fa-pencil"></i>
-								</a>
-								<a class="category-button" style="text-align: center;">
-									<i class="fa fa-info" aria-hidden="true"></i>
-								</a>
+							<li>Category 3 <a class="category-button"> <i
+									class="fa fa-plus"></i>
+							</a> <a class="category-button"> <i class="fa fa-pencil"></i>
+							</a> <a class="category-button" style="text-align: center;"> <i
+									class="fa fa-info" aria-hidden="true"></i>
+							</a>
 							</li>
-							<li>Category 4
-								<a class="category-button">
-									<i class="fa fa-plus"></i>
-								</a>
-								<a class="category-button">
-									<i class="fa fa-pencil"></i>
-								</a>
-								<a class="category-button" style="text-align: center;">
-									<i class="fa fa-info" aria-hidden="true"></i>
-								</a>
+							<li>Category 4 <a class="category-button"> <i
+									class="fa fa-plus"></i>
+							</a> <a class="category-button"> <i class="fa fa-pencil"></i>
+							</a> <a class="category-button" style="text-align: center;"> <i
+									class="fa fa-info" aria-hidden="true"></i>
+							</a>
 							</li>
-							<li>Category 5
-								<a class="category-button">
-									<i class="fa fa-plus"></i>
-								</a>
-								<a class="category-button">
-									<i class="fa fa-pencil"></i>
-								</a>
-								<a class="category-button" style="text-align: center;">
-									<i class="fa fa-info" aria-hidden="true"></i>
-								</a>
+							<li>Category 5 <a class="category-button"> <i
+									class="fa fa-plus"></i>
+							</a> <a class="category-button"> <i class="fa fa-pencil"></i>
+							</a> <a class="category-button" style="text-align: center;"> <i
+									class="fa fa-info" aria-hidden="true"></i>
+							</a>
 							</li>
 						</ul>
 					</div>
@@ -257,8 +217,9 @@
 								<th>Weight</th>
 								<th>Amount on warehouse</th>
 								<th>Additional features</th>
+								<th>Photos</th>
 								<th></th>
-							</tr>	
+							</tr>
 							<tr>
 								<td>Ball</td>
 								<td>$99</td>
@@ -267,9 +228,15 @@
 								<td>Ukrain</td>
 								<td>230</td>
 								<td>40</td>
-								<td><button class="btn btn-primary" data-toggle="modal" data-target="#modal-product-features">Show</button></td>
-								<td><button class="btn btn-danger" data-toggle="modal" data-target="#modal-product-edit"><i class="fa fa-pencil"></i></button></td>
-							</tr>	
+								<td><button class="btn btn-primary" data-toggle="modal"
+										data-target="#modal-product-features">Show</button></td>
+								<td><button class="btn btn-primary" data-toggle="modal"
+										data-target="#modal-product-photos">Show</button></td>
+								<td><button class="btn btn-danger" data-toggle="modal"
+										data-target="#modal-product-edit">
+										<i class="fa fa-pencil"></i>
+									</button></td>
+							</tr>
 							<tr>
 								<td>Ball</td>
 								<td>$99</td>
@@ -279,8 +246,12 @@
 								<td>230</td>
 								<td>40</td>
 								<td><button class="btn btn-primary">Show</button></td>
-								<td><button class="btn btn-danger"><i class="fa fa-pencil"></i></button></td>
-							</tr>	
+								<td><button class="btn btn-primary" data-toggle="modal"
+										data-target="#modal-product-photos">Show</button></td>
+								<td><button class="btn btn-danger">
+										<i class="fa fa-pencil"></i>
+									</button></td>
+							</tr>
 							<tr>
 								<td></td>
 								<td></td>
@@ -290,40 +261,44 @@
 								<td></td>
 								<td></td>
 								<td></td>
-								<td><button class="btn btn-success" data-toggle="modal" data-target="#modal-category-add-product"><i class="fa fa-plus"></i></button></td>
-							</tr>					
+								<td><button class="btn btn-success" data-toggle="modal"
+										data-target="#modal-category-add-product">
+										<i class="fa fa-plus"></i>
+									</button></td>
+							</tr>
 						</table>
 					</div>
 				</section>
 				<section id="content-tab4">
 					<div class="tab-content">
-							<table class="table-order">
-								<tr>
-									<th>№</th>
-									<th>User</th>
-									<th>Status</th>
-									<th>Date</th>
-									<th></th>
-									<th></th>
-								</tr>
-								<tr>
-									<td>2342345</td>
-									<td>Nazar Hryhoryshyn</td>
-									<td>in processing</td>
-									<td>23.05.2017 16:33:07</td>
-									<td><a class="btn btn-info" href="/webstore/admin/order/235">full info</a></td>
-									<td><button class="btn btn-danger"  
-									data-toggle="modal" data-target="#modal-order-ch-status">change status</button></td>
-								</tr>
-								<tr>
-									<td>2342345</td>
-									<td>Nazar Hryhoryshyn</td>
-									<td>in processing</td>
-									<td>23.05.2017 16:33:07</td>
-									<td><button class="btn btn-info">full info</button></td>
-									<td><button class="btn btn-danger">change status</button></td>
-								</tr>
-							</table>
+						<table class="table-order">
+							<tr>
+								<th>№</th>
+								<th>User</th>
+								<th>Status</th>
+								<th>Date</th>
+								<th></th>
+								<th></th>
+							</tr>
+							<tr>
+								<td>2342345</td>
+								<td>Nazar Hryhoryshyn</td>
+								<td>in processing</td>
+								<td>23.05.2017 16:33:07</td>
+								<td><a class="btn btn-info"
+									href="/webstore/admin/order/235">full info</a></td>
+								<td><button class="btn btn-danger" data-toggle="modal"
+										data-target="#modal-order-ch-status">change status</button></td>
+							</tr>
+							<tr>
+								<td>2342345</td>
+								<td>Nazar Hryhoryshyn</td>
+								<td>in processing</td>
+								<td>23.05.2017 16:33:07</td>
+								<td><button class="btn btn-info">full info</button></td>
+								<td><button class="btn btn-danger">change status</button></td>
+							</tr>
+						</table>
 					</div>
 				</section>
 			</div>
@@ -332,36 +307,37 @@
 	<div class="container-fluid">
 		<jsp:include page="staticHtml/footer.jsp"></jsp:include>
 	</div>
-	
+
 	<div class="modal fade" id="modal-user-orders">
 		<div class="modal-dialog modal-sm">
 			<div class="modal-content">
 				<div class="modal-header">
-				<button class="close" data-dismiss="modal">&times;</button>
+					<button class="close" data-dismiss="modal">&times;</button>
 					<h4 class="modal-title">Nazar orders</h4>
 				</div>
 				<div class="modal-body small-modal-body">
 					<div class="modal-body-content">
-							<div class="u-order">
-								<p>№ 324235</p>
-								<ul>
-									<li>Ball $99</li>
-									<li>Ball $99</li>
-								</ul>
-								Count price: $198
-							</div>
-							<div class="u-order">
-								<p>№ 324235</p>
-								<ul>
-									<li>Ball $99</li>
-									<li>Ball $99</li>
-								</ul>
-								Count price: $198
-							</div>
+						<div class="u-order">
+							<p>№ 324235</p>
+							<ul>
+								<li>Ball $99</li>
+								<li>Ball $99</li>
+							</ul>
+							Count price: $198
+						</div>
+						<div class="u-order">
+							<p>№ 324235</p>
+							<ul>
+								<li>Ball $99</li>
+								<li>Ball $99</li>
+							</ul>
+							Count price: $198
+						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-danger small-modal-button" data-dismiss="modal">Close</button>
+					<button class="btn btn-danger small-modal-button"
+						data-dismiss="modal">Close</button>
 				</div>
 			</div>
 		</div>
@@ -370,7 +346,7 @@
 		<div class="modal-dialog modal-sm">
 			<div class="modal-content">
 				<div class="modal-header">
-				<button class="close" data-dismiss="modal">&times;</button>
+					<button class="close" data-dismiss="modal">&times;</button>
 					<h4 class="modal-title">Ball features</h4>
 				</div>
 				<div class="modal-body small-modal-body">
@@ -389,17 +365,69 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-danger small-modal-button" data-dismiss="modal">Close</button>
+					<button class="btn btn-danger small-modal-button"
+						data-dismiss="modal">Close</button>
 				</div>
 			</div>
 		</div>
 	</div>
-	
+
+	<div class="modal fade" id="modal-product-photos">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Ball photos</h4>
+				</div>
+				<div class="modal-body small-modal-body">
+					<div class="modal-body-content">
+						<p style="font-weight: bold;">Ball</p>
+						<div id="carousel" class="carousel slide" data-ride="carousel">
+							<ol class="carousel-indicators">
+								<li data-target="#carousel" data-slide-to="0" class="active"></li>
+								<li data-target="#carousel" data-slide-to="1"></li>
+								<li data-target="#carousel" data-slide-to="2"></li>
+							</ol>
+							<div class="carousel-inner">
+								<div class="item active">
+										<button style="margin-left: 45%;" onclick="alert('hi');"><i class="fa fa-times"></i></button>
+									<img src="${contextPath}/resources/img/open_box-512.png"
+										alt="Slide 1">
+								</div>
+								<div class="item">
+								<button style="margin-left: 45%;" onclick="alert('hi');"><i class="fa fa-times"></i></button>
+									<img src="${contextPath}/resources/img/open_box-512.png"
+										alt="Slide 2">
+								</div>
+								<div class="item">
+								<button style="margin-left: 45%;" onclick="alert('hi');"><i class="fa fa-times"></i></button>
+									<img src="${contextPath}/resources/img/open_box-512.png"
+										alt="Slide 3">
+								</div>
+							</div>
+							<a href="#carousel" class="left carousel-control"
+								data-slide="prev"></a> <a href="#carousel"
+								class="right carousel-control" data-slide="next"></a>
+						</div>
+						<br>
+						<input type="file" accept="image/*">
+						<br>
+						<button class="btn btn-primary">add photo</button>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-danger small-modal-button"
+						data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<div class="modal fade" id="modal-product-edit">
 		<div class="modal-dialog modal-md">
 			<div class="modal-content">
 				<div class="modal-header">
-				<button class="close" data-dismiss="modal">&times;</button>
+					<button class="close" data-dismiss="modal">&times;</button>
 					<h4 class="modal-title">Ball edit</h4>
 				</div>
 				<div class="modal-body small-modal-body">
@@ -415,12 +443,10 @@
 							</tr>
 							<tr>
 								<td>Category</td>
-								<td>
-									<select>
+								<td><select>
 										<option selected="selected">Toys</option>
 										<option>Food</option>
-									</select>
-								</td>
+								</select></td>
 							</tr>
 							<tr>
 								<td>Producer</td>
@@ -436,9 +462,7 @@
 							</tr>
 							<tr>
 								<td>Amount on warehouse</td>
-								<td>
-									<input type="number" value="45"> 
-								</td>
+								<td><input type="number" value="45"></td>
 							</tr>
 						</table>
 						<hr>
@@ -455,141 +479,107 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-primary small-modal-button" data-dismiss="modal">Save</button>
-					<button class="btn btn-danger small-modal-button" data-dismiss="modal">Close</button>
+					<button class="btn btn-primary small-modal-button"
+						data-dismiss="modal">Save</button>
+					<button class="btn btn-danger small-modal-button"
+						data-dismiss="modal">Close</button>
 				</div>
 			</div>
 		</div>
 	</div>
-	
+
 	<div class="modal fade" id="modal-category-add-product">
 		<div class="modal-dialog modal-sm">
 			<div class="modal-content">
 				<div class="modal-header">
-				<button class="close" data-dismiss="modal">&times;</button>
+					<button class="close" data-dismiss="modal">&times;</button>
 					<h4 class="modal-title">New Product</h4>
 				</div>
 				<div class="modal-body small-modal-body">
-						Name:<br>
-						<input type="text" placeholder="Product name"><br>
-						Price:<br>
-						<input type="number" placeholder="Price"><br>
-						Category:<br>
-						<select><option selected="selected">Toys</option><option>Food</option></select><br>
-						Producer:<br>
-						<input type="text" placeholder="Producer"><br>
-						Country:<br>
-						<input type="text" placeholder="Country"><br>
-						Weight:<br>
-						<input type="number" min="0" value="0" placeholder="Weight"><br>
-						Amount on warehouse:<br>
-						<input type="text" value="1" min="0" placeholder="Product name"><br>
+					Name:<br> <input type="text" placeholder="Product name"><br>
+					Price:<br> <input type="number" placeholder="Price"><br>
+					Category:<br> <select><option selected="selected">Toys</option>
+						<option>Food</option></select><br> Producer:<br> <input
+						type="text" placeholder="Producer"><br> Country:<br>
+					<input type="text" placeholder="Country"><br> Weight:<br>
+					<input type="number" min="0" value="0" placeholder="Weight"><br>
+					Amount on warehouse:<br> <input type="text" value="1" min="0"
+						placeholder="Product name"><br>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-primary small-modal-button" data-dismiss="modal">Save</button>
-					<button class="btn btn-danger small-modal-button" data-dismiss="modal">Close</button>
+					<button class="btn btn-primary small-modal-button"
+						data-dismiss="modal">Save</button>
+					<button class="btn btn-danger small-modal-button"
+						data-dismiss="modal">Close</button>
 				</div>
 			</div>
 		</div>
 	</div>
-	
-	<div class="modal fade" id="modal-category-features">
-		<div class="modal-dialog modal-sm">
-			<div class="modal-content">
-				<div class="modal-header">
-				<button class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title">Category features</h4>
-				</div>
-				<div class="modal-body small-modal-body">
-					<p style="font-weight: bold;">Category 1</p>
-						<table class="table-features">
-							<tr>
-								<td>Color</td>
-								<td><i class="fa fa-times"></i></td>
-							</tr>
-							<tr>
-								<td>year made</td>
-								<td><i class="fa fa-times"></i></td>
-							</tr>
-							<tr>
-								<th></th>
-								<th><i class="fa fa-plus"></i></th>
-							</tr>
-						</table>
-				</div>
-				<div class="modal-footer">
-					<button class="btn btn-danger small-modal-button" data-dismiss="modal">Close</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	
+
 	<div class="modal fade" id="modal-category-add-category">
 		<div class="modal-dialog modal-sm">
 			<div class="modal-content">
 				<div class="modal-header">
-				<button class="close" data-dismiss="modal">&times;</button>
+					<button class="close" data-dismiss="modal">&times;</button>
 					<h4 class="modal-title">New Category</h4>
 				</div>
 				<div class="modal-body small-modal-body">
-						Name:<br>
-						<input type="text" placeholder="Category name"><br>
-						Additional features:<br>
-						<ul style="text-align: left;">
-						
-						</ul>
-						<br>
-						<br>
-						new feature: 
-						<input type="text" placeholder="New feature name">
-						<br>
-						<br>
-						<button class="btn btn-primary"><i class="fa fa-plus"> Add feature</i></button>
+					Name:<br> <input type="text" placeholder="Category name"><br>
+					Additional features:<br>
+					<ul style="text-align: left;">
+
+					</ul>
+					<br> <br> new feature: <input type="text"
+						placeholder="New feature name"> <br> <br>
+					<button class="btn btn-primary">
+						<i class="fa fa-plus"> Add feature</i>
+					</button>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-primary small-modal-button" data-dismiss="modal">Save</button>
-					<button class="btn btn-danger small-modal-button" data-dismiss="modal">Close</button>
+					<button class="btn btn-primary small-modal-button"
+						data-dismiss="modal">Save</button>
+					<button class="btn btn-danger small-modal-button"
+						data-dismiss="modal">Close</button>
 				</div>
 			</div>
 		</div>
 	</div>
-	
+
 	<div class="modal fade" id="modal-category-edit-category">
 		<div class="modal-dialog modal-sm">
 			<div class="modal-content">
 				<div class="modal-header">
-				<button class="close" data-dismiss="modal">&times;</button>
+					<button class="close" data-dismiss="modal">&times;</button>
 					<h4 class="modal-title">Edit category</h4>
 				</div>
 				<div class="modal-body small-modal-body">
-						Name:<br>
-						<input type="text" placeholder="Category name" value="Toys"><br>
-						Additional features:<br>
-						<ul style="text-align: left;">
-							<li>Color <a><i class="fa fa-times"></i></a></li>
-							<li>Year made <a><i class="fa fa-times"></i></a></li>
-						</ul>
-						<br>
-						<br>
-						new feature: 
-						<input type="text" placeholder="New feature name">
-						<br>
-						<br>
-						<button class="btn btn-primary"><i class="fa fa-plus"> Add feature</i></button>
+					Name:<br> <input type="text" placeholder="Category name"
+						value="Toys"><br> Additional features:<br>
+					<ul style="text-align: left;">
+						<li>Color <a><i class="fa fa-times"></i></a></li>
+						<li>Year made <a><i class="fa fa-times"></i></a></li>
+					</ul>
+					<br> <br> new feature: <input type="text"
+						placeholder="New feature name"> <br> <br>
+					<button class="btn btn-primary">
+						<i class="fa fa-plus"> Add feature</i>
+					</button>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-primary small-modal-button" data-dismiss="modal">Save</button>
-					<button class="btn btn-danger small-modal-button" data-dismiss="modal">Close</button>
+					<button class="btn btn-primary small-modal-button"
+						data-dismiss="modal">Save</button>
+					<button class="btn btn-danger small-modal-button"
+						data-dismiss="modal">Close</button>
 				</div>
 			</div>
 		</div>
 	</div>
-	
+
 	<div class="modal fade" id="modal-order-ch-status">
 		<div class="modal-dialog modal-sm">
 			<div class="modal-content">
 				<div class="modal-header">
-				<button class="close" data-dismiss="modal">&times;</button>
+					<button class="close" data-dismiss="modal">&times;</button>
 					<h4 class="modal-title">Change status</h4>
 				</div>
 				<div class="modal-body small-modal-body">
@@ -602,8 +592,10 @@
 					</select>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-primary small-modal-button" data-dismiss="modal">Save</button>
-					<button class="btn btn-danger small-modal-button" data-dismiss="modal">Close</button>
+					<button class="btn btn-primary small-modal-button"
+						data-dismiss="modal">Save</button>
+					<button class="btn btn-danger small-modal-button"
+						data-dismiss="modal">Close</button>
 				</div>
 			</div>
 		</div>

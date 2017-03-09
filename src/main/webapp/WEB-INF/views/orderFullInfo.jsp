@@ -22,7 +22,7 @@
 </head>
 <body>
 	<jsp:include page="staticHtml/header.jsp"></jsp:include>
-	<div class="container colation-block">
+	<div class="container location-block">
 		<div class="location-sub-block">
 			<div class="row">
 				<div id="bc2" class="btn-group btn-breadcrumb">

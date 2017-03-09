@@ -56,7 +56,7 @@ public class UserController {
 
         securityService.autoLogin(userForm.getEmail(), userForm.getConfirmPassword());
 
-        return "redirect:/welcome";
+        return "redirect:/";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -71,11 +71,6 @@ public class UserController {
 
         return "login";
     }
-
-    @RequestMapping(value = {"/welcome"}, method = RequestMethod.GET)
-    public String welcome(Model model) {
-        return "welcome";
-    }
     
 	@RequestMapping("/users")
 	public String listUsers(Map<String, Object> map) {
@@ -85,11 +80,6 @@ public class UserController {
 
 		return "user";
 	}
-	
-	//@RequestMapping("/")
-	//public String home() {
-	//	return "redirect:/index";
-	//}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String addUser(@ModelAttribute("contact") User user,
