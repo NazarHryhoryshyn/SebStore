@@ -5,6 +5,7 @@ import java.util.Map;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,6 +33,9 @@ public class UserController {
     @Autowired
     private UserValidator userValidator;
 
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String registration(Model model) {
         model.addAttribute("userForm", new User());
@@ -44,7 +48,9 @@ public class UserController {
 		User u = userService.findByLogin(securityService.findLoggedInLogin());
 		model.addAttribute("uname", u.getLastname() + " " + u.getFirstname());
 		model.addAttribute("isAdmin", securityService.currUserIsAdmin());
-		model.addAttribute("user", userService.findByLogin(securityService.findLoggedInLogin()));
+		model.addAttribute("user", u);
+
+		
 		return "profile";
 	}
     
@@ -132,6 +138,16 @@ public class UserController {
 	public void changeSex(@RequestParam("sex") String sex){
 		User u = userService.findByLogin(securityService.findLoggedInLogin());
 		u.setSex(sex);
+		userService.editUser(u);
+	}
+	
+	@RequestMapping(value = "/profile/changePassword", method = RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.OK)
+	public void changePassword(@RequestParam("oldPassword") String oldPassword, @RequestParam("newPassword") String newPassword){
+		User u = userService.findByLogin(securityService.findLoggedInLogin());
+		if(bCryptPasswordEncoder.matches(oldPassword, bCryptPasswordEncoder.encode(u.getPassword()))){
+			u.setPassword(bCryptPasswordEncoder.encode(newPassword));
+		}		
 		userService.editUser(u);
 	}
 }

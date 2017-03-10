@@ -3,7 +3,7 @@ package ua.sombra.webstore.service;
 import java.util.List;
 import java.util.Set;
 
-import ua.sombra.webstore.domain.Order;
+import ua.sombra.webstore.domain.Orders;
 import ua.sombra.webstore.domain.User;
 
 public interface UserService {
@@ -18,7 +18,7 @@ public interface UserService {
 	
 	public void addProductToUserCart(Integer userId, Integer productId);
 	
-	public Set<Order> listUserOrders(Integer id);
+	public Set<Orders> listUserOrders(Integer id);
 	
 	public void editUser(User newParamUser);
 }

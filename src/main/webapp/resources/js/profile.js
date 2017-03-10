@@ -37,3 +37,15 @@ function changeSex(){
 	     data: { sex: $( "#newSex" ).val()}
 	});
 }
+
+function changePassword(){
+	if($( "#newPass" ).val() != $( "#newPass2" ).val()){
+		alert("new passwords are not same");
+		return;
+	}
+	$.ajax({
+	     method: "POST",
+	     url: "/webstore/profile/changePassword",
+	     data: { oldPassword: $( "#oldPass" ).val(), newPassword : $("#newPass").val()}
+	});
+}

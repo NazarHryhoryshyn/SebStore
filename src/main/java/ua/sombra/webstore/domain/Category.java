@@ -55,7 +55,7 @@ public class Category {
 		this.isSub = isSub;
 	}
 
-	@Column(name="main_category_id", nullable = true)
+	@Column(name="main_category_id")
 	public int getMainCategoryId() {
 		return mainCategoryId;
 	}
@@ -75,7 +75,7 @@ public class Category {
 		this.features = features;
 	}
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "category")
 	public Set<Product> getProducts() {
 		return products;
 	}

@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.sombra.webstore.dao.interfaces.ProductDAO;
 import ua.sombra.webstore.dao.interfaces.RoleDAO;
 import ua.sombra.webstore.dao.interfaces.UserDAO;
-import ua.sombra.webstore.domain.Order;
+import ua.sombra.webstore.domain.Orders;
 import ua.sombra.webstore.domain.Product;
 import ua.sombra.webstore.domain.Role;
 
@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
 		u.setProducts(products);
 	}
 	
-	public Set<Order> listUserOrders(Integer id){
+	public Set<Orders> listUserOrders(Integer id){
 		User u = userDao.findById(id);
 		return u.getOrders();
 	}

@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -30,10 +31,10 @@ public class Product {
 	
 	private Category category;
 	
-	private Set<Photo> photos = new HashSet<Photo>();
+	private Set<Photo> photos;
 	private Set<User> users;
-	private Set<ProductsInOrder> productsInOrders = new HashSet<ProductsInOrder>();
-	private Set<ProductExtraFeatures> productExtraFeatures = new HashSet<ProductExtraFeatures>();
+	private Set<Orders> orders;
+	private Set<ProductExtraFeatures> productExtraFeatures;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -99,7 +100,7 @@ public class Product {
 		this.weight = weight;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "category_id", nullable = false)
 	public Category getCategory() {
 		return category;
@@ -109,7 +110,7 @@ public class Product {
 		this.category = category;
 	}	
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
+	@OneToMany(mappedBy = "product")
 	public Set<Photo> getPhotos() {
 		return photos;
 	}
@@ -127,16 +128,16 @@ public class Product {
 		this.users = users;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
-	public Set<ProductsInOrder> getProductsInOrders() {
-		return productsInOrders;
+	 @ManyToMany(mappedBy = "products", fetch = FetchType.EAGER)
+	public Set<Orders> getOrders() {
+		return orders;
 	}
 
-	public void setProductsInOrders(Set<ProductsInOrder> productsInOrders) {
-		this.productsInOrders = productsInOrders;
+	public void setOrders(Set<Orders> orders) {
+		this.orders = orders;
 	}
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
+	@OneToMany(mappedBy = "product")
 	public Set<ProductExtraFeatures> getProductExtraFeatures() {
 		return productExtraFeatures;
 	}

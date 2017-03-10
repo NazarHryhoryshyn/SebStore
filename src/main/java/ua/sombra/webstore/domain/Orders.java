@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,23 +13,21 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import ua.sombra.webstore.enums.DeliveryType;
-import ua.sombra.webstore.enums.OrderStatus;
-import ua.sombra.webstore.enums.PaymentType;
-
 @Entity
-@Table(name="order")
-public class Order {
+@Table(name="orders")
+public class Orders {
 	
-	private int id;
-	private OrderStatus status;
-	private DeliveryType deliveryType;
+	private Integer id;
+	private String status;
+	private String deliveryType;
 	private Date date;
-	private PaymentType paymentType;
+	private String paymentType;
 	private String receiver;
 	private String phone;
 	private String email;
@@ -37,37 +36,36 @@ public class Order {
 	private String cardNumber;
 	private String cardTermOf;
 	private int cardThreeNumbers;
-	
-	
+
 	private User user;	
 
-	private Set<ProductsInOrder> productsInOrders = new HashSet<ProductsInOrder>(0);
+	private Set<Product> products = new HashSet<Product>();
 		
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
-
-	public void setId(int id) {
+	
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
 	@Column(name = "status", nullable = false)
-	public OrderStatus getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(OrderStatus status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 
 	@Column(name = "delivery_type", nullable = false)
-	public DeliveryType getDeliveryType() {
+	public String getDeliveryType() {
 		return deliveryType;
 	}
 
-	public void setDeliveryType(DeliveryType deliveryType) {
+	public void setDeliveryType(String deliveryType) {
 		this.deliveryType = deliveryType;
 	}
 
@@ -81,11 +79,11 @@ public class Order {
 	}
 
 	@Column(name = "payment_type", nullable = false)
-	public PaymentType getPaymentType() {
+	public String getPaymentType() {
 		return paymentType;
 	}
 
-	public void setPaymentType(PaymentType paymentType) {
+	public void setPaymentType(String paymentType) {
 		this.paymentType = paymentType;
 	}
 
@@ -116,7 +114,7 @@ public class Order {
 		this.email = email;
 	}
 
-	@Column(name = "delivery_price", nullable = false)
+	@Column(name = "delivery_price")
 	public BigDecimal getDeliveryPrice() {
 		return deliveryPrice;
 	}
@@ -125,13 +123,15 @@ public class Order {
 		this.deliveryPrice = deliveryPrice;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
-	public Set<ProductsInOrder> getProductsInOrders() {
-		return productsInOrders;
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	  @JoinTable(name = "orders_products", joinColumns = @JoinColumn(name = "order_id"),
+	          inverseJoinColumns = @JoinColumn(name = "product_id"))
+	public Set<Product> getProducts() {
+		return products;
 	}
 
-	public void setProductsInOrders(Set<ProductsInOrder> productsInOrders) {
-		this.productsInOrders = productsInOrders;
+	public void setProducts(Set<Product> products) {
+		this.products = products;
 	}
 	
 	@Column(name = "address", length = 250 ,nullable = true)
@@ -152,7 +152,7 @@ public class Order {
 		this.cardNumber = cardNumber;
 	}
 
-	@Column(name = "get_card_term_of", length = 5, nullable = true)
+	@Column(name = "card_term_of", length = 5, nullable = true)
 	public String getCardTermOf() {
 		return cardTermOf;
 	}
@@ -170,8 +170,8 @@ public class Order {
 		this.cardThreeNumbers = cardThreeNumbers;
 	}
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id", nullable = false)
+	@ManyToOne
+	@JoinColumn(name = "user_id")
 	public User getUser() {
 		return user;
 	}

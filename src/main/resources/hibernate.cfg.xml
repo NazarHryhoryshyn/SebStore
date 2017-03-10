@@ -8,10 +8,9 @@
         <mapping class="ua.sombra.webstore.domain.Role"></mapping> 
         <mapping class="ua.sombra.webstore.domain.Category"></mapping> 
         <mapping class="ua.sombra.webstore.domain.Feature"></mapping> 
-        <mapping class="ua.sombra.webstore.domain.Order"></mapping> 
+        <mapping class="ua.sombra.webstore.domain.Orders"></mapping> 
         <mapping class="ua.sombra.webstore.domain.Photo"></mapping> 
         <mapping class="ua.sombra.webstore.domain.Product"></mapping> 
-        <mapping class="ua.sombra.webstore.domain.ProductsInOrder"></mapping> 
         <mapping class="ua.sombra.webstore.domain.ProductExtraFeatures"></mapping> 
     </session-factory>
 </hibernate-configuration>

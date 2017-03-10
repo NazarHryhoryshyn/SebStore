@@ -3,6 +3,7 @@ package ua.sombra.webstore.domain;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -32,10 +33,11 @@ public class User {
 	private String confirmPassword;
 	private String login;
 
-	private Set<Role> roles;
-    private Set<Product> products;
-    private Set<Order> orders = new HashSet<Order>();
+	private Set<Role> roles = new HashSet<Role>(0);
+    private Set<Product> products = new HashSet<Product>(0);
+    private Set<Orders> orders = new HashSet<Orders>(0);
 	    
+    
     @Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public int getId() {
@@ -118,7 +120,7 @@ public class User {
 		this.login = login;
 	}
 	
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	  @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
 	          inverseJoinColumns = @JoinColumn(name = "role_id"))
 	public Set<Role> getRoles() {
@@ -129,7 +131,7 @@ public class User {
 		this.roles = roles;
 	}
 	
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	   @JoinTable(name = "cart", joinColumns = @JoinColumn(name = "user_id"),
 	           inverseJoinColumns = @JoinColumn(name = "product_id"))
 	public Set<Product> getProducts() {
@@ -137,14 +139,18 @@ public class User {
 	}
 	
 	public void setProducts(Set<Product> products) {
+		if(products!=null){
 		this.products = products;
+		}
 	}
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    public Set<Order> getOrders() {
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    public Set<Orders> getOrders() {
 		return orders;
 	}
 
-	public void setOrders(Set<Order> orders) {
+	public void setOrders(Set<Orders> orders) {
+		if(orders!=null){
 		this.orders = orders;
+		}
 	}
 }

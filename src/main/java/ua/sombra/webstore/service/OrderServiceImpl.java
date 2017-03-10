@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ua.sombra.webstore.dao.interfaces.OrderDAO;
-import ua.sombra.webstore.domain.Order;
+import ua.sombra.webstore.domain.Orders;
 import ua.sombra.webstore.domain.User;
 
 @Service
@@ -16,8 +16,8 @@ public class OrderServiceImpl implements OrderService {
 	OrderDAO orderDao;
 
 	@Override
-	public void addOrder(Order order, User user) {
-		Set<Order> uOrders = user.getOrders();
+	public void addOrder(Orders order, User user) {
+		Set<Orders> uOrders = user.getOrders();
 		uOrders.add(order);
 		user.setOrders(uOrders);
 		order.setUser(user);
@@ -30,7 +30,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public Order findById(Integer id) {
+	public Orders findById(Integer id) {
 		return orderDao.findById(id);
 	}
 }

@@ -14,8 +14,7 @@
 <link href="${contextPath}/resources/css/location_div_styles.css"
 	rel="stylesheet">
 <link href="${contextPath}/resources/css/profile.css" rel="stylesheet">
-<script
-	src="${contextPath}/resources/js/jquery-3.1.1.js"></script>
+<script src="${contextPath}/resources/js/jquery-3.1.1.js"></script>
 <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
 <script src="${contextPath}/resources/js/profile.js"></script>
 <link href="${contextPath}/resources/css/admin.css" rel="stylesheet">
@@ -111,7 +110,8 @@
 				</div>
 				<div class="modal-footer">
 					<button class="btn btn-success small-modal-button"
-						 onclick="changeFirstName(); location.reload();" data-dismiss="modal">Save</button>
+						onclick="changeFirstName(); location.reload();"
+						data-dismiss="modal">Save</button>
 					<button class="btn btn-danger small-modal-button"
 						data-dismiss="modal">Close</button>
 				</div>
@@ -130,7 +130,8 @@
 				</div>
 				<div class="modal-footer">
 					<button class="btn btn-success small-modal-button"
-						onclick="changeLastName(); location.reload();" data-dismiss="modal">Save</button>
+						onclick="changeLastName(); location.reload();"
+						data-dismiss="modal">Save</button>
 					<button class="btn btn-danger small-modal-button"
 						data-dismiss="modal">Close</button>
 				</div>
@@ -168,7 +169,8 @@
 				</div>
 				<div class="modal-footer">
 					<button class="btn btn-success small-modal-button"
-						onclick="changeTelephone(); location.reload();" data-dismiss="modal">Save</button>
+						onclick="changeTelephone(); location.reload();"
+						data-dismiss="modal">Save</button>
 					<button class="btn btn-danger small-modal-button"
 						data-dismiss="modal">Close</button>
 				</div>
@@ -213,14 +215,13 @@
 					<h4 class="modal-title">Change password</h4>
 				</div>
 				<div class="modal-body small-modal-body">
-					old password:<br>
-					<input type="text"><br> new password:<br>
-					<input type="text"><br> repeat new password: <br>
-					<input type="text"><br>
+					old password:<br> <input id="oldPass" type="text"><br>
+					new password:<br> <input id="newPass" type="text"><br>
+					repeat new password: <br> <input id="newPass2" type="text"><br>
 				</div>
 				<div class="modal-footer">
 					<button class="btn btn-success small-modal-button"
-						data-dismiss="modal">Save</button>
+						onclick="changePassword();" data-dismiss="modal">Save</button>
 					<button class="btn btn-danger small-modal-button"
 						data-dismiss="modal">Close</button>
 				</div>
@@ -235,14 +236,21 @@
 					<h4 class="modal-title">My orders</h4>
 				</div>
 				<div class="modal-body small-modal-body">
-					<div class="order-block">
-						<p>№ 324235</p>
-						<ul>
-							<li>Ball $99</li>
-							<li>Ball $99</li>
-						</ul>
-						Count price: $198
-					</div>
+				
+					<c:forEach items="${user.orders}" var="o">
+						<div class="order-block">
+							<p>№ ${o.id}</p>
+							<div class="order-block">
+								<ul>
+									<c:forEach items="${o.products}" var="p">
+										<li>${p.name} ${p.price}</li>
+									</c:forEach>
+								</ul>
+								Count price: $198
+							</div>
+						</div>
+					</c:forEach>
+				
 				</div>
 				<div class="modal-footer">
 					<button class="btn btn-danger small-modal-button"
