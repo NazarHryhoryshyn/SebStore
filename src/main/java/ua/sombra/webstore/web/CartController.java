@@ -21,7 +21,7 @@ public class CartController {
 	
 	@RequestMapping(value = { "/cart", }, method = RequestMethod.GET)
 	public String getCartInfo(Model model) {
-		User u = userService.findByEmail(securityService.findLoggedInEmail());
+		User u = userService.findByLogin(securityService.findLoggedInLogin());
 		model.addAttribute("uname", u.getLastname() + " " + u.getFirstname());
 		model.addAttribute("isAdmin", securityService.currUserIsAdmin());
 		return "cart";

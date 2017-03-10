@@ -30,7 +30,8 @@ public class User {
 	private String sex;
 	private String password;
 	private String confirmPassword;
-	
+	private String login;
+
 	private Set<Role> roles;
     private Set<Product> products;
     private Set<Order> orders = new HashSet<Order>();
@@ -106,6 +107,15 @@ public class User {
 	
 	public void setConfirmPassword(String confirmPassword) {
 		this.confirmPassword = confirmPassword;
+	}
+	
+	@Column(name="login", nullable = false, length = 45)
+	public String getLogin() {
+		return login;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
 	}
 	
 	@ManyToMany(fetch = FetchType.EAGER)

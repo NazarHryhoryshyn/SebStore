@@ -77,6 +77,7 @@
 							<tr>
 								<th>First name</th>
 								<th>Last name</th>
+								<th>Login</th>
 								<th>Email</th>
 								<th>Telephone</th>
 								<th>Sex</th>
@@ -87,6 +88,7 @@
 							<tr>
 								<td>Nazar</td>
 								<td>Hryhoryshyn</td>
+								<td>login</td>
 								<td>nazik.star1@mail.ru</td>
 								<td>0950760624</td>
 								<td>male</td>
@@ -98,6 +100,7 @@
 							<tr>
 								<td>Nazar</td>
 								<td>Hryhoryshyn</td>
+								<td>login</td>
 								<td>nazik.star1@mail.ru</td>
 								<td>0950760624</td>
 								<td>male</td>
@@ -108,6 +111,7 @@
 							<tr>
 								<td>Nazar</td>
 								<td>Hryhoryshyn</td>
+								<td>login</td>
 								<td>nazik.star1@mail.ru</td>
 								<td>0950760624</td>
 								<td>male</td>

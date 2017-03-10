@@ -12,7 +12,9 @@ public interface UserDAO {
 
 	public void removeUser(Integer id);
 	
-	public User findByEmail(String email);
+	public void editUser(User userNewParameters);
+	
+	public User findByLogin(String login);
 	
 	public User findById(Integer id);
 }

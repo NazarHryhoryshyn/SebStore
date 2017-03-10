@@ -28,15 +28,15 @@ public class SecurityServiceImpl implements SecurityService {
 	private UserService userService;
 	
 	@Override
-	public String findLoggedInEmail() {
+	public String findLoggedInLogin() {
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		String email = user.getUsername();
-		return email;
+		String login = user.getUsername();
+		return login;
 	}
 
 	@Override
-	public void autoLogin(String email, String password) {
-		UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+	public void autoLogin(String login, String password) {
+		UserDetails userDetails = userDetailsService.loadUserByUsername(login);
 
 		UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails,
 				password, userDetails.getAuthorities());
@@ -46,13 +46,13 @@ public class SecurityServiceImpl implements SecurityService {
 		if (authenticationToken.isAuthenticated()) {
 			SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
-			logger.debug(String.format("Successfully %s auto logged in", email));
+			logger.debug(String.format("Successfully %s auto logged in", login));
 		}
 	}
 		
 	public boolean currUserIsAdmin(){
-		String email = findLoggedInEmail();
-		ua.sombra.webstore.domain.User u = userService.findByEmail(email);
+		String login = findLoggedInLogin();
+		ua.sombra.webstore.domain.User u = userService.findByLogin(login);
 		for (Role r : u.getRoles()) {
 			if (r.getName().equals("ROLE_ADMIN")) {
 				return true;

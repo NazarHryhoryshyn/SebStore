@@ -20,8 +20,9 @@ public class MainPageController {
 	private SecurityService securityService;
 
 	@RequestMapping(value = { "/", }, method = RequestMethod.GET)
-	public String welcome(Model model) {
-		User u = userService.findByEmail(securityService.findLoggedInEmail());
+	public String mainPage(Model model) {
+		User u = userService.findByLogin(securityService.findLoggedInLogin());
+		System.out.println(u);
 		model.addAttribute("uname", u.getLastname() + " " + u.getFirstname());
 		model.addAttribute("isAdmin", securityService.currUserIsAdmin());
 		return "mainPage";

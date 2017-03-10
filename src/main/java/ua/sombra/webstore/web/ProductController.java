@@ -37,7 +37,7 @@ public class ProductController {
 
 	@RequestMapping(value = { "/products", }, method = RequestMethod.GET)
 	public String getProducts(Model model) {
-		User u = userService.findByEmail(securityService.findLoggedInEmail());
+		User u = userService.findByLogin(securityService.findLoggedInLogin());
 		model.addAttribute("uname", u.getLastname() + " " + u.getFirstname());
 		model.addAttribute("isAdmin", securityService.currUserIsAdmin());
 		return "products";
@@ -45,7 +45,7 @@ public class ProductController {
 
 	@RequestMapping(value = { "/products/{categoryName}", }, method = RequestMethod.GET)
 	public String getProductsByCategory(Model model, @PathVariable("categoryName") String categoryName) {
-		User u = userService.findByEmail(securityService.findLoggedInEmail());
+		User u = userService.findByLogin(securityService.findLoggedInLogin());
 		model.addAttribute("uname", u.getLastname() + " " + u.getFirstname());
 		model.addAttribute("isAdmin", securityService.currUserIsAdmin());
 		return "products";
@@ -53,7 +53,7 @@ public class ProductController {
 	
 	@RequestMapping(value = { "/product/{id}", }, method = RequestMethod.GET)
 	public String productInfo(Model model, @PathVariable("id") String productId) {
-		User u = userService.findByEmail(securityService.findLoggedInEmail());
+		User u = userService.findByLogin(securityService.findLoggedInLogin());
 		model.addAttribute("uname", u.getLastname() + " " + u.getFirstname());
 		model.addAttribute("isAdmin", securityService.currUserIsAdmin());
 		return "product";

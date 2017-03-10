@@ -8,15 +8,17 @@ import ua.sombra.webstore.domain.User;
 
 public interface UserService {
 	
-	public void addUser(User contact);
+	public void addUser(User user);
 
 	public List<User> listUsers();
 
 	public void removeUser(Integer id);
 	
-	public User findByEmail(String email);
+	public User findByLogin(String login);
 	
 	public void addProductToUserCart(Integer userId, Integer productId);
 	
 	public Set<Order> listUserOrders(Integer id);
+	
+	public void editUser(User newParamUser);
 }

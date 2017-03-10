@@ -55,8 +55,8 @@ public class UserServiceImpl implements UserService {
     }
 
 	@Override
-	public User findByEmail(String email) {
-		return userDao.findByEmail(email);
+	public User findByLogin(String login) {
+		return userDao.findByLogin(login);
 	}
 
 	@Override
@@ -71,5 +71,9 @@ public class UserServiceImpl implements UserService {
 	public Set<Order> listUserOrders(Integer id){
 		User u = userDao.findById(id);
 		return u.getOrders();
+	}
+	
+	public void editUser(User newParamUser){
+		userDao.editUser(newParamUser);
 	}
 }

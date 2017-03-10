@@ -2,9 +2,9 @@ package ua.sombra.webstore.service;
 
 public interface SecurityService {
 
-    String findLoggedInEmail();
+    String findLoggedInLogin();
 
-    void autoLogin(String email, String password);
+    void autoLogin(String login, String password);
     
     public boolean currUserIsAdmin();
 }

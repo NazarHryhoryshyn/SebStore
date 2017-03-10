@@ -30,6 +30,14 @@
 
     <form:form method="POST" modelAttribute="userForm" class="form-signin">
         <h2 class="form-signin-heading">Create your account</h2>
+        <spring:bind path="login">
+            <div class="form-group ${status.error ? 'has-error' : ''}">
+                <form:input type="text" path="login" class="form-control" placeholder="Login"
+                            autofocus="true"></form:input>
+                <form:errors path="login"></form:errors>
+            </div>
+        </spring:bind>
+        
         <spring:bind path="email">
             <div class="form-group ${status.error ? 'has-error' : ''}">
                 <form:input type="text" path="email" class="form-control" placeholder="Email"

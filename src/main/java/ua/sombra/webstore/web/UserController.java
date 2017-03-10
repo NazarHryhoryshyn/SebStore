@@ -2,7 +2,9 @@ package ua.sombra.webstore.web;
 
 import java.util.Map;
 
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,6 +12,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import ua.sombra.webstore.service.SecurityService;
 import ua.sombra.webstore.validator.UserValidator;
@@ -37,9 +41,10 @@ public class UserController {
     
     @RequestMapping(value = { "/profile", }, method = RequestMethod.GET)
 	public String profile(Model model) {
-		User u = userService.findByEmail(securityService.findLoggedInEmail());
+		User u = userService.findByLogin(securityService.findLoggedInLogin());
 		model.addAttribute("uname", u.getLastname() + " " + u.getFirstname());
 		model.addAttribute("isAdmin", securityService.currUserIsAdmin());
+		model.addAttribute("user", userService.findByLogin(securityService.findLoggedInLogin()));
 		return "profile";
 	}
     
@@ -54,7 +59,7 @@ public class UserController {
 
         userService.addUser(userForm);
 
-        securityService.autoLogin(userForm.getEmail(), userForm.getConfirmPassword());
+        securityService.autoLogin(userForm.getLogin(), userForm.getConfirmPassword());
 
         return "redirect:/";
     }
@@ -62,7 +67,7 @@ public class UserController {
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(Model model, String error, String logout) {
         if (error != null) {
-            model.addAttribute("error", "Email or password is incorrect.");
+            model.addAttribute("error", "Login or password is incorrect.");
         }
 
         if (logout != null) {
@@ -89,12 +94,44 @@ public class UserController {
 
 		return "redirect:/";
 	}
-
-	@RequestMapping("/delete/{userId}")
-	public String deleteUser(@PathVariable("userId") Integer userId) {
-
-		userService.removeUser(userId);
-
-		return "redirect:/";
+	
+	@RequestMapping(value = "/profile/changefname", method = RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.OK)
+	public void changeFirstName(@RequestParam("firstname") String firstname){
+		User u = userService.findByLogin(securityService.findLoggedInLogin());
+		u.setFirstname(firstname);
+		userService.editUser(u);
+	}
+	
+	@RequestMapping(value = "/profile/changelname", method = RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.OK)
+	public void changeLastName(@RequestParam("lastname") String lastname){
+		User u = userService.findByLogin(securityService.findLoggedInLogin());
+		u.setLastname(lastname);
+		userService.editUser(u);
+	}
+	
+	@RequestMapping(value = "/profile/changeEmail", method = RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.OK)
+	public void changeEmail(@RequestParam("email") String email){
+		User u = userService.findByLogin(securityService.findLoggedInLogin());
+		u.setEmail(email);
+		userService.editUser(u);
+	}
+	
+	@RequestMapping(value = "/profile/changeTelephone", method = RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.OK)
+	public void changeTelephone(@RequestParam("telephone") String telephone){
+		User u = userService.findByLogin(securityService.findLoggedInLogin());
+		u.setTelephone(telephone);
+		userService.editUser(u);
+	}
+	
+	@RequestMapping(value = "/profile/changeSex", method = RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.OK)
+	public void changeSex(@RequestParam("sex") String sex){
+		User u = userService.findByLogin(securityService.findLoggedInLogin());
+		u.setSex(sex);
+		userService.editUser(u);
 	}
 }

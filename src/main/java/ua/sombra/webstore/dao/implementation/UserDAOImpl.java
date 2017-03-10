@@ -32,9 +32,9 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public User findByEmail(String email) {
-		User u = (User) sessionFactory.getCurrentSession().createQuery("FROM User u WHERE u.email LIKE :email")
-				.setString("email", email).uniqueResult();
+	public User findByLogin(String login) {
+		User u = (User) sessionFactory.getCurrentSession().createQuery("FROM User u WHERE u.login LIKE :login")
+				.setString("login", login).uniqueResult();
 		return u;
 	}
 
@@ -43,4 +43,13 @@ public class UserDAOImpl implements UserDAO {
 				.setParameter("id", id).uniqueResult();
 	}
 
+	public void editUser(User userNewParameters){
+		User u = findById(userNewParameters.getId());
+		u.setFirstname(userNewParameters.getFirstname());
+		u.setLastname(userNewParameters.getLastname());
+		u.setEmail(userNewParameters.getEmail());
+		u.setTelephone(userNewParameters.getTelephone());
+		u.setSex(userNewParameters.getSex());
+		u.setPassword(userNewParameters.getPassword());
+	}
 }
