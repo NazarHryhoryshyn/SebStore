@@ -21,4 +21,14 @@ public interface UserService {
 	public Set<Orders> listUserOrders(Integer id);
 	
 	public void editUser(User newParamUser);
+	
+    public void ChangeIsAdmin(String login, Boolean status);
+    
+    public boolean currUserIsAdmin();
+    
+    public boolean UserIsAdmin(String login);
+
+    public boolean UserIsBlocked(String login);
+    
+    public void ChangeIsBlocked(String login, Boolean status);
 }

@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "product_extra_features")
 public class ProductExtraFeatures {
@@ -50,6 +52,7 @@ public class ProductExtraFeatures {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "product_id", nullable = false)
+	@JsonBackReference
 	public Product getProduct() {
 		return product;
 	}

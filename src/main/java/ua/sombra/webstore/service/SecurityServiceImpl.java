@@ -1,5 +1,7 @@
 package ua.sombra.webstore.service;
 
+import java.util.Set;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
+import ua.sombra.webstore.dao.interfaces.RoleDAO;
 import ua.sombra.webstore.domain.Role;
 
 @Service
@@ -26,6 +29,9 @@ public class SecurityServiceImpl implements SecurityService {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private RoleDAO roleDao;
 	
 	@Override
 	public String findLoggedInLogin() {
@@ -48,16 +54,5 @@ public class SecurityServiceImpl implements SecurityService {
 
 			logger.debug(String.format("Successfully %s auto logged in", login));
 		}
-	}
-		
-	public boolean currUserIsAdmin(){
-		String login = findLoggedInLogin();
-		ua.sombra.webstore.domain.User u = userService.findByLogin(login);
-		for (Role r : u.getRoles()) {
-			if (r.getName().equals("ROLE_ADMIN")) {
-				return true;
-			}
-		}
-		return false;
 	}
 }

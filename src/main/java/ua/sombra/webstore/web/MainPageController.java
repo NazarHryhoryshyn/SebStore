@@ -24,7 +24,7 @@ public class MainPageController {
 		User u = userService.findByLogin(securityService.findLoggedInLogin());
 		System.out.println(u);
 		model.addAttribute("uname", u.getLastname() + " " + u.getFirstname());
-		model.addAttribute("isAdmin", securityService.currUserIsAdmin());
+		model.addAttribute("isAdmin", userService.currUserIsAdmin());
 		return "mainPage";
 	}
 }

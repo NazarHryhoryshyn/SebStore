@@ -17,6 +17,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import ua.sombra.webstore.domain.Role;
 
 @Entity
@@ -123,6 +125,7 @@ public class User {
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	  @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
 	          inverseJoinColumns = @JoinColumn(name = "role_id"))
+	@JsonManagedReference
 	public Set<Role> getRoles() {
 		return roles;
 	}
@@ -134,6 +137,7 @@ public class User {
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	   @JoinTable(name = "cart", joinColumns = @JoinColumn(name = "user_id"),
 	           inverseJoinColumns = @JoinColumn(name = "product_id"))
+	@JsonManagedReference
 	public Set<Product> getProducts() {
 		return products;
 	}
@@ -144,13 +148,12 @@ public class User {
 		}
 	}
 	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JsonManagedReference
     public Set<Orders> getOrders() {
 		return orders;
 	}
 
 	public void setOrders(Set<Orders> orders) {
-		if(orders!=null){
 		this.orders = orders;
-		}
 	}
 }

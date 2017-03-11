@@ -19,4 +19,10 @@ public class RoleDAOImpl implements RoleDAO {
 				.setParameter("id", id).uniqueResult();
 	}
 
+	@Override
+	public Role getByName(String Name) {
+		return (Role) sessionFactory.getCurrentSession().createQuery("FROM Role r WHERE r.name = :name")
+				.setParameter("name", Name).uniqueResult();
+	}
+
 }

@@ -19,6 +19,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name="orders")
 public class Orders {
@@ -126,6 +129,7 @@ public class Orders {
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	  @JoinTable(name = "orders_products", joinColumns = @JoinColumn(name = "order_id"),
 	          inverseJoinColumns = @JoinColumn(name = "product_id"))
+	@JsonManagedReference
 	public Set<Product> getProducts() {
 		return products;
 	}
@@ -170,8 +174,9 @@ public class Orders {
 		this.cardThreeNumbers = cardThreeNumbers;
 	}
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id")
+	@JsonBackReference
 	public User getUser() {
 		return user;
 	}

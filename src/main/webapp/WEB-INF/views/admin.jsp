@@ -27,6 +27,7 @@
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+<script src="${contextPath}/resources/js/admin.js"></script>
 
 </head>
 
@@ -85,40 +86,30 @@
 								<th>Blocked</th>
 								<th>Orders</th>
 							</tr>
-							<tr>
-								<td>Nazar</td>
-								<td>Hryhoryshyn</td>
-								<td>login</td>
-								<td>nazik.star1@mail.ru</td>
-								<td>0950760624</td>
-								<td>male</td>
-								<td><input type="checkbox" checked></td>
-								<td><input type="checkbox"></td>
-								<td><button class="btn btn-primary" data-toggle="modal"
-										data-target="#modal-user-orders">Show</button></td>
-							</tr>
-							<tr>
-								<td>Nazar</td>
-								<td>Hryhoryshyn</td>
-								<td>login</td>
-								<td>nazik.star1@mail.ru</td>
-								<td>0950760624</td>
-								<td>male</td>
-								<td><input type="checkbox" checked></td>
-								<td><input type="checkbox"></td>
-								<td><button class="btn btn-primary">Show</button></td>
-							</tr>
-							<tr>
-								<td>Nazar</td>
-								<td>Hryhoryshyn</td>
-								<td>login</td>
-								<td>nazik.star1@mail.ru</td>
-								<td>0950760624</td>
-								<td>male</td>
-								<td><input type="checkbox" checked></td>
-								<td><input type="checkbox"></td>
-								<td><button class="btn btn-primary">Show</button></td>
-							</tr>
+							<c:forEach items="${users}" var="u">
+								<tr>
+									<td>${u.firstname}</td>
+									<td>${u.lastname}</td>
+									<td>${u.login}</td>
+									<td>${u.email}</td>
+									<td>${u.telephone}</td>
+									<td>${u.sex}</td>
+									<c:if test="${isAdmins[u.login] == true}">
+										<td><input type="checkbox"  onclick="changeAdmiStatus(this,'${u.login}');" checked></td>
+									</c:if>
+									<c:if test="${isAdmins[u.login] == false}">
+										<td><input type="checkbox" onclick="changeAdmiStatus(this,'${u.login}');"></td>
+									</c:if>
+									<c:if test="${isBlockeds[u.login] == true}">
+										<td><input type="checkbox"  onclick="changeBlockedStatus(this,'${u.login}');" checked></td>
+									</c:if>
+									<c:if test="${isBlockeds[u.login] == false}">
+										<td><input type="checkbox" onclick="changeBlockedStatus(this,'${u.login}');"></td>
+									</c:if>
+									<td><button class="btn btn-primary" data-toggle="modal" onclick="showUserOrders('${u.login}');"
+											data-target="#modal-user-orders">Show</button></td>
+								</tr>
+							</c:forEach>
 						</table>
 					</div>
 				</section>
@@ -317,26 +308,10 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title">Nazar orders</h4>
+					<h4 id="modal-user-orders-title" class="modal-title"></h4>
 				</div>
 				<div class="modal-body small-modal-body">
-					<div class="modal-body-content">
-						<div class="u-order">
-							<p>№ 324235</p>
-							<ul>
-								<li>Ball $99</li>
-								<li>Ball $99</li>
-							</ul>
-							Count price: $198
-						</div>
-						<div class="u-order">
-							<p>№ 324235</p>
-							<ul>
-								<li>Ball $99</li>
-								<li>Ball $99</li>
-							</ul>
-							Count price: $198
-						</div>
+					<div id="modal-user-orders-orders" class="modal-body-content">
 					</div>
 				</div>
 				<div class="modal-footer">

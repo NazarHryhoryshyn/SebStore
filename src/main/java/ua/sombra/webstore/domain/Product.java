@@ -17,6 +17,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name="product")
 public class Product {
@@ -100,8 +103,9 @@ public class Product {
 		this.weight = weight;
 	}
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "category_id", nullable = false)
+	@JsonBackReference
 	public Category getCategory() {
 		return category;
 	}
@@ -110,7 +114,8 @@ public class Product {
 		this.category = category;
 	}	
 	
-	@OneToMany(mappedBy = "product")
+	@OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
+	@JsonManagedReference
 	public Set<Photo> getPhotos() {
 		return photos;
 	}
@@ -119,7 +124,8 @@ public class Product {
 		this.photos = photos;
 	}
 
-	@ManyToMany(mappedBy = "products")
+	@ManyToMany(mappedBy = "products", fetch = FetchType.EAGER)
+	@JsonBackReference
 	public Set<User> getUsers() {
 		return users;
 	}
@@ -129,6 +135,7 @@ public class Product {
 	}
 
 	 @ManyToMany(mappedBy = "products", fetch = FetchType.EAGER)
+	 @JsonBackReference
 	public Set<Orders> getOrders() {
 		return orders;
 	}
@@ -137,7 +144,8 @@ public class Product {
 		this.orders = orders;
 	}
 	
-	@OneToMany(mappedBy = "product")
+	@OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
+	@JsonManagedReference
 	public Set<ProductExtraFeatures> getProductExtraFeatures() {
 		return productExtraFeatures;
 	}

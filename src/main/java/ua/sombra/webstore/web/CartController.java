@@ -23,7 +23,7 @@ public class CartController {
 	public String getCartInfo(Model model) {
 		User u = userService.findByLogin(securityService.findLoggedInLogin());
 		model.addAttribute("uname", u.getLastname() + " " + u.getFirstname());
-		model.addAttribute("isAdmin", securityService.currUserIsAdmin());
+		model.addAttribute("isAdmin", userService.currUserIsAdmin());
 		return "cart";
 	}
 }

@@ -2,6 +2,9 @@ package ua.sombra.webstore.domain;
 
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import java.util.Set;
 
 @Entity
@@ -32,6 +35,7 @@ public class Role {
     }
 
     @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
+    @JsonBackReference
     public Set<User> getUsers() {
         return users;
     }

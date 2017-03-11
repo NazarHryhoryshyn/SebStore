@@ -39,7 +39,7 @@ public class ProductController {
 	public String getProducts(Model model) {
 		User u = userService.findByLogin(securityService.findLoggedInLogin());
 		model.addAttribute("uname", u.getLastname() + " " + u.getFirstname());
-		model.addAttribute("isAdmin", securityService.currUserIsAdmin());
+		model.addAttribute("isAdmin", userService.currUserIsAdmin());
 		return "products";
 	}
 
@@ -47,7 +47,7 @@ public class ProductController {
 	public String getProductsByCategory(Model model, @PathVariable("categoryName") String categoryName) {
 		User u = userService.findByLogin(securityService.findLoggedInLogin());
 		model.addAttribute("uname", u.getLastname() + " " + u.getFirstname());
-		model.addAttribute("isAdmin", securityService.currUserIsAdmin());
+		model.addAttribute("isAdmin", userService.currUserIsAdmin());
 		return "products";
 	}
 	
@@ -55,7 +55,7 @@ public class ProductController {
 	public String productInfo(Model model, @PathVariable("id") String productId) {
 		User u = userService.findByLogin(securityService.findLoggedInLogin());
 		model.addAttribute("uname", u.getLastname() + " " + u.getFirstname());
-		model.addAttribute("isAdmin", securityService.currUserIsAdmin());
+		model.addAttribute("isAdmin", userService.currUserIsAdmin());
 		return "product";
 	}
 }

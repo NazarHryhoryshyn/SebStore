@@ -9,6 +9,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -64,9 +67,10 @@ public class Category {
 		this.mainCategoryId = mainCategoryId;
 	}
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "additional_features", joinColumns = @JoinColumn(name = "category_id"),
             inverseJoinColumns = @JoinColumn(name = "feature_id"))
+	@JsonManagedReference
 	public Set<Feature> getFeatures() {
 		return features;
 	}
@@ -76,6 +80,7 @@ public class Category {
 	}
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "category")
+	@JsonManagedReference
 	public Set<Product> getProducts() {
 		return products;
 	}
