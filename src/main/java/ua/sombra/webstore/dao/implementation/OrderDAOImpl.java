@@ -3,11 +3,13 @@ package ua.sombra.webstore.dao.implementation;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import ua.sombra.webstore.dao.interfaces.OrderDAO;
 import ua.sombra.webstore.domain.Orders;
 
 @Repository
+@Transactional
 public class OrderDAOImpl implements OrderDAO {
 
 	@Autowired

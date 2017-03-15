@@ -61,20 +61,6 @@ public class UserServiceImpl implements UserService {
 	public User findByLogin(String login) {
 		return userDao.findByLogin(login);
 	}
-
-	@Override
-	public void addProductToUserCart(Integer userId, Integer productId) {
-		User u = userDao.findById(userId);
-		Product p = productDao.findById(productId);
-		Set<Product> products = u.getProducts();
-		products.add(p);
-		u.setProducts(products);
-	}
-	
-	public Set<Orders> listUserOrders(Integer id){
-		User u = userDao.findById(id);
-		return u.getOrders();
-	}
 	
 	public void editUser(User newParamUser){
 		userDao.editUser(newParamUser);
@@ -164,4 +150,12 @@ public class UserServiceImpl implements UserService {
 	    		userRole.setUsers(users2);
 	    	}
 	    }
+	 
+	 public void addProduct(User u, Product p){
+		 userDao.addProduct(u, p);
+	 }
+
+		public void removeProduct(User u, Product p){
+			 userDao.removeProduct(u, p);
+		}
 }

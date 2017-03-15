@@ -42,7 +42,7 @@ public class Orders {
 
 	private User user;	
 
-	private Set<Product> products = new HashSet<Product>();
+	private Set<Product> products = new HashSet<Product>(0);
 		
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -174,7 +174,7 @@ public class Orders {
 		this.cardThreeNumbers = cardThreeNumbers;
 	}
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id")
 	@JsonBackReference
 	public User getUser() {

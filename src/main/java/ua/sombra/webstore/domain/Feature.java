@@ -1,7 +1,9 @@
 package ua.sombra.webstore.domain;
 
+import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,8 +22,8 @@ public class Feature {
 	private int id;
 	private String name;
 	
-    private Set<Category> categories;
-	
+    private Set<Category> categories = new HashSet<Category>(0);
+    
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	public int getId() {
@@ -32,7 +34,7 @@ public class Feature {
 		this.id = id;
 	}
 
-	@Column(name="name", length = 250, nullable = false)
+	@Column(name="name", length = 250, nullable = false, unique = true)
 	public String getName() {
 		return name;
 	}
@@ -41,7 +43,7 @@ public class Feature {
 		this.name = name;
 	}
 
-	@ManyToMany(mappedBy = "features", fetch = FetchType.EAGER)
+	@ManyToMany(mappedBy = "features", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JsonBackReference
 	public Set<Category> getCategories() {
 		return categories;

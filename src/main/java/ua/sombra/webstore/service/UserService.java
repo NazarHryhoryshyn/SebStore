@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import ua.sombra.webstore.domain.Orders;
+import ua.sombra.webstore.domain.Product;
 import ua.sombra.webstore.domain.User;
 
 public interface UserService {
@@ -16,10 +17,6 @@ public interface UserService {
 	
 	public User findByLogin(String login);
 	
-	public void addProductToUserCart(Integer userId, Integer productId);
-	
-	public Set<Orders> listUserOrders(Integer id);
-	
 	public void editUser(User newParamUser);
 	
     public void ChangeIsAdmin(String login, Boolean status);
@@ -31,4 +28,8 @@ public interface UserService {
     public boolean UserIsBlocked(String login);
     
     public void ChangeIsBlocked(String login, Boolean status);
+    
+    public void addProduct(User u, Product p);
+
+	public void removeProduct(User u, Product p);
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import ua.sombra.webstore.dao.interfaces.CategoryDAO;
 import ua.sombra.webstore.domain.Category;
 import ua.sombra.webstore.domain.Feature;
+import ua.sombra.webstore.domain.Product;
 
 @Service
 public class CategoryServiceImpl implements CategoryService{
@@ -19,6 +20,8 @@ public class CategoryServiceImpl implements CategoryService{
 	
 	@Override
 	public void addTopCategory(Category category) {
+		category.setIsSub(false);
+		category.setMainCategoryId(0);
 		categoryDao.addCategory(category);
 	}
 
@@ -56,8 +59,7 @@ public class CategoryServiceImpl implements CategoryService{
 
 	@Override
 	public void rename(Integer id, String newName) {
-		Category c = categoryDao.findById(id);
-		c.setName(newName);
+		categoryDao.rename(id, newName);
 	}
 
 	@Override
@@ -80,12 +82,60 @@ public class CategoryServiceImpl implements CategoryService{
 	@Override
 	public Set<String> listFeatures(Integer id) {
 		Category c = categoryDao.findById(id);
-		Set<Feature> features = c.getFeatures();
 		Set<String> feturesName = new HashSet<String>();
 		
-		for(Feature f : features){
+		for(Feature f : c.getFeatures()){
 			feturesName.add(f.getName());
 		}
 		return feturesName;
+	}
+	
+	@Override
+	public Set<String> listTreeFeaturesToTop(Integer categoryId){
+		Category c = categoryDao.findById(categoryId);
+		Set<String> feturesName = new HashSet<String>();
+		
+		if(c.getIsSub()){
+			Set<String> topCatFeats = listTreeFeaturesToTop(c.getMainCategoryId());
+			for(String feats : topCatFeats){
+				feturesName.add(feats);
+			}
+		}
+		else{
+			for(Feature f : c.getFeatures()){
+				feturesName.add(f.getName());
+			}
+		}
+		return feturesName;
+	}
+	
+	@Override
+	public Category findByName(String name){
+		return categoryDao.findByName(name);
+	}
+	
+	@Override
+	public void AddFeature(Category category, Feature feature){
+		categoryDao.AddFeature(category, feature);
+	}
+	
+	@Override
+	public void RemoveFeature(Category category, Feature feature){
+		categoryDao.RemoveFeature(category, feature);
+	}
+	
+	@Override
+	public void RemoveAllFeatures(Category category){
+		categoryDao.RemoveAllFeatures(category);
+	}
+	
+	@Override
+	public void AddProduct(Category category, Product product){
+		categoryDao.AddProduct(category, product);
+	}
+	
+	@Override
+	public void RemoveProduct(Category category, Product product){
+		categoryDao.RemoveProduct(category, product);
 	}
 }

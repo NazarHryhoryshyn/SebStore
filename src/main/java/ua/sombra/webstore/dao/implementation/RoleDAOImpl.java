@@ -3,11 +3,13 @@ package ua.sombra.webstore.dao.implementation;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import ua.sombra.webstore.dao.interfaces.RoleDAO;
 import ua.sombra.webstore.domain.Role;
 
 @Repository
+@Transactional
 public class RoleDAOImpl implements RoleDAO {
 
 	@Autowired

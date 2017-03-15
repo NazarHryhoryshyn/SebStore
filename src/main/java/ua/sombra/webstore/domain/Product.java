@@ -34,10 +34,10 @@ public class Product {
 	
 	private Category category;
 	
-	private Set<Photo> photos;
-	private Set<User> users;
-	private Set<Orders> orders;
-	private Set<ProductExtraFeatures> productExtraFeatures;
+	private Set<Photo> photos = new HashSet<Photo>(0);
+	private Set<User> users = new HashSet<User>(0);
+	private Set<Orders> orders = new HashSet<Orders>(0);
+	private Set<ProductExtraFeatures> productExtraFeatures = new HashSet<ProductExtraFeatures>(0);
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -114,7 +114,7 @@ public class Product {
 		this.category = category;
 	}	
 	
-	@OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "product", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JsonManagedReference
 	public Set<Photo> getPhotos() {
 		return photos;
@@ -124,7 +124,7 @@ public class Product {
 		this.photos = photos;
 	}
 
-	@ManyToMany(mappedBy = "products", fetch = FetchType.EAGER)
+	@ManyToMany(mappedBy = "products", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JsonBackReference
 	public Set<User> getUsers() {
 		return users;
@@ -134,7 +134,7 @@ public class Product {
 		this.users = users;
 	}
 
-	 @ManyToMany(mappedBy = "products", fetch = FetchType.EAGER)
+	 @ManyToMany(mappedBy = "products", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	 @JsonBackReference
 	public Set<Orders> getOrders() {
 		return orders;
@@ -144,7 +144,7 @@ public class Product {
 		this.orders = orders;
 	}
 	
-	@OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "product", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JsonManagedReference
 	public Set<ProductExtraFeatures> getProductExtraFeatures() {
 		return productExtraFeatures;
@@ -153,6 +153,28 @@ public class Product {
 	public void setProductExtraFeatures(Set<ProductExtraFeatures> productExtraFeatures) {
 		this.productExtraFeatures = productExtraFeatures;
 	}
+	
+	public boolean hasFeature(String featureName){
+		if(getProductExtraFeatures() == null || getProductExtraFeatures().size() == 0){
+			return false;
+		}
+		for(ProductExtraFeatures pef : getProductExtraFeatures()){
+			if(pef.getName().equals(featureName)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public ProductExtraFeatures getExtraFeatureByName(String featureName){
+		for(ProductExtraFeatures pef : getProductExtraFeatures()){
+			if(pef.getName().equals(featureName)){
+				return pef;
+			}
+		}
+	return null;
+	}
+	
 }
 
 

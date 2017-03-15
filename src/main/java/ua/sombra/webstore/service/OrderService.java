@@ -8,6 +8,6 @@ public interface OrderService {
 	public void addOrder(Orders order, User user);
 	
 	public void removeOrder(Integer id);
-	
+
 	public Orders findById(Integer id);
 }

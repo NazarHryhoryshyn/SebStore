@@ -1,12 +1,12 @@
 .header-background{
-	background-color: #00B200;
+	background-color: #62D862;
 }
 
 .header-block {
 	height: 75px;
 	float: left;
 	position: relative;
-	border-left: 1px solid #287C28;
+	border-left: 1px solid #B3FFB3;
 }
 
 .header-block-sub-block{

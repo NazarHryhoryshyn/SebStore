@@ -1,11 +1,11 @@
-package ua.sombra.webstore.dao.interfaces;
+package ua.sombra.webstore.service;
 
 import java.util.List;
 
 import ua.sombra.webstore.domain.Category;
 import ua.sombra.webstore.domain.Feature;
 
-public interface FeatureDAO {
+public interface FeatureService {
 	
 	public void addFeature(Feature feature);
 	
@@ -19,5 +19,5 @@ public interface FeatureDAO {
 
 	public void AddCategory(Feature feature, Category category);
 	
-	public void removeCategory(Feature f, Category category);
+	public void removeCategory(Feature feature, Category category);
 }

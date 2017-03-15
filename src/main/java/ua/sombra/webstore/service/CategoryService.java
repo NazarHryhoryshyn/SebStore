@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Set;
 
 import ua.sombra.webstore.domain.Category;
+import ua.sombra.webstore.domain.Feature;
+import ua.sombra.webstore.domain.Product;
 
 public interface CategoryService {
 
@@ -26,4 +28,18 @@ public interface CategoryService {
 	public void addFeatures(Integer id, Set<String> features);
 	
 	public Set<String> listFeatures(Integer id);
+	
+	public Set<String> listTreeFeaturesToTop(Integer categoryId);
+	
+	public Category findByName(String name);
+	
+	public void AddFeature(Category category, Feature feature);
+	
+	public void RemoveFeature(Category category, Feature feature);
+	
+	public void RemoveAllFeatures(Category category);
+
+	public void AddProduct(Category category, Product product);
+	
+	public void RemoveProduct(Category category, Product product);
 }

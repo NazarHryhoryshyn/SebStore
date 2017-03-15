@@ -3,12 +3,15 @@ package ua.sombra.webstore.service;
 import java.util.HashMap;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ua.sombra.webstore.dao.interfaces.ProductDAO;
+import ua.sombra.webstore.domain.Category;
 import ua.sombra.webstore.domain.Photo;
 import ua.sombra.webstore.domain.Product;
 import ua.sombra.webstore.domain.ProductExtraFeatures;
@@ -16,6 +19,7 @@ import ua.sombra.webstore.domain.ProductExtraFeatures;
 @Service
 public class ProductServiceImpl implements ProductService {
 
+	@Autowired
 	ProductDAO productDao;
 
 	@Override
@@ -29,55 +33,15 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Set<Product> listProduct() {
-		return productDao.listProduct();
+	public List<Product> listProducts() {
+		return productDao.listProducts();
 	}
 
-	@Override
+	@Override 
 	public Product findById(Integer id) {
 		return productDao.findById(id);
 	}
-
-	@Override
-	public Set<String> getExtraFeaturesName(Integer id) {
-		Product p = productDao.findById(id);
-		Set<ProductExtraFeatures> features = p.getProductExtraFeatures();
-		Set<String> featuresName = new HashSet<String>();
-		for (ProductExtraFeatures f : features) {
-			featuresName.add(f.getName());
-		}
-		return featuresName;
-	}
-
-	@Override
-	public Map<String, String> getExtraFeaturesNameValue(int id) {
-		Product p = productDao.findById(id);
-		Set<ProductExtraFeatures> features = p.getProductExtraFeatures();
-		Map<String, String> featuresNameValue = new HashMap<String, String>();
-		for (ProductExtraFeatures f : features) {
-			featuresNameValue.put(f.getName(), f.getValue());
-		}
-		return featuresNameValue;
-	}
-
-	@Override
-	public void setExtraFeatures(Integer id, Map<String, String> featureNameValue) {
-		Product p = productDao.findById(id);
-		Set<ProductExtraFeatures> features = p.getProductExtraFeatures();
-		Set<String> featuresName = getExtraFeaturesName(id);
-		for (Map.Entry<String, String> entry : featureNameValue.entrySet()) {
-			if (featuresName.contains(entry.getKey())) {
-				continue;
-			}
-			ProductExtraFeatures pef = new ProductExtraFeatures();
-			pef.setName(entry.getValue());
-			pef.setValue(entry.getValue());
-			pef.setProduct(p);
-			features.add(pef);
-		}
-		p.setProductExtraFeatures(features);
-	}
-
+	
 	@Override
 	public Set<Byte[]> getBytesPhotos(Integer id) {
 		Product product = productDao.findById(id);
@@ -96,13 +60,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public void removeProductFromWarehouse(Integer id, Integer amount) {
-		Product product = productDao.findById(id);
-		product.setAmountOnWarehouse(product.getAmountOnWarehouse() - amount);
-	}
-
-	@Override
-	public void editProduct(Integer id, Map<String, String> propertiesNameValue) {
+	public void editProductProperties(Integer id, Map<String, String> propertiesNameValue) {
 		Product product = productDao.findById(id);
 		for (Map.Entry<String, String> entry : propertiesNameValue.entrySet()) {
 			try {
@@ -111,5 +69,40 @@ public class ProductServiceImpl implements ProductService {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	@Override
+	public Product findByName(String name){
+		return productDao.findByName(name);
+	}
+	
+	@Override
+	public void editProduct(Integer productId, Product newParamsProduct){
+		productDao.editProduct(productId, newParamsProduct);
+	}
+	
+	@Override
+	public void removeCategory(Product p){
+		productDao.removeCategory(p);
+	}
+
+	@Override
+	public void setCategory(Product p, Category c){
+		productDao.addCategory(p, c);
+	}
+	
+	@Override
+	public void addNewExtraFeatures(Product p, Set<String> featureNames){
+		productDao.addNewExtraFeatures(p, featureNames);
+	}
+	
+	@Override
+	public void removeExtraFeatures(Product p, Set<String> featureNames){
+		productDao.removeExtraFeatures(p, featureNames);
+	}
+	
+	@Override
+	public void removeExtraFeature(Product p, ProductExtraFeatures extraFeature){
+		productDao.removeExtraFeature(p, extraFeature);
 	}
 }
