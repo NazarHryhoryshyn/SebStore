@@ -43,10 +43,10 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	@Override
-	public Set<Byte[]> getBytesPhotos(Integer id) {
+	public Set<byte[]> getBytesPhotos(Integer id) {
 		Product product = productDao.findById(id);
 		Set<Photo> photos = product.getPhotos();
-		Set<Byte[]> byteOfPhotos = new HashSet<>();
+		Set<byte[]> byteOfPhotos = new HashSet<>();
 		for (Photo p : photos) {
 			byteOfPhotos.add(p.getData());
 		}
@@ -104,5 +104,15 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public void removeExtraFeature(Product p, ProductExtraFeatures extraFeature){
 		productDao.removeExtraFeature(p, extraFeature);
+	}
+	
+	@Override
+	public void addPhoto(Product product, Photo photo){
+		productDao.addPhoto(product, photo);
+	}
+	
+	@Override
+	public void removePhoto(Product product, Photo photo){
+		productDao.removePhoto(product, photo);
 	}
 }

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import ua.sombra.webstore.domain.Category;
+import ua.sombra.webstore.domain.Photo;
 import ua.sombra.webstore.domain.Product;
 import ua.sombra.webstore.domain.ProductExtraFeatures;
 
@@ -30,4 +31,8 @@ public interface ProductDAO {
 	public void removeExtraFeatures(Product p, Set<String> featureNames);
 	
 	public void removeExtraFeature(Product p, ProductExtraFeatures extraFeature);
+	
+	public void addPhoto(Product product, Photo photo);
+
+	public void removePhoto(Product product, Photo photo);
 }

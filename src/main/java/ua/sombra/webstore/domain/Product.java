@@ -114,7 +114,7 @@ public class Product {
 		this.category = category;
 	}	
 	
-	@OneToMany(mappedBy = "product", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
 	@JsonManagedReference
 	public Set<Photo> getPhotos() {
 		return photos;

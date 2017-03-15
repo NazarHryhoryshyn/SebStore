@@ -23,6 +23,10 @@ public class PhotoServiceImpl implements PhotoService{
 		photoDao.addPhoto(photo);
 	}
 
+	public Photo findById(int id){
+		return photoDao.findById(id);
+	}
+	
 	public void removePhoto(int id) {
 		photoDao.removePhoto(id);
 	}

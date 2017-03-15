@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Set;
 
 import ua.sombra.webstore.domain.Category;
+import ua.sombra.webstore.domain.Photo;
 import ua.sombra.webstore.domain.Product;
 import ua.sombra.webstore.domain.ProductExtraFeatures;
 
@@ -18,7 +19,7 @@ public interface ProductService {
 	
 	public Product findById(Integer id);
 	
-	public Set<Byte[]> getBytesPhotos(Integer id);
+	public Set<byte[]> getBytesPhotos(Integer id);
 
 	public void addProductOnWarehouse(Integer id, Integer amount);
 	
@@ -37,4 +38,8 @@ public interface ProductService {
 	public void removeExtraFeatures(Product p, Set<String> featureNames);
 	
 	public void removeExtraFeature(Product p, ProductExtraFeatures extraFeature);
+	
+	public void addPhoto(Product product, Photo photo);
+
+	public void removePhoto(Product product, Photo photo);
 }

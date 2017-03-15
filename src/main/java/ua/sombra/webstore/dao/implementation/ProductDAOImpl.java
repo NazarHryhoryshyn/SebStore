@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ua.sombra.webstore.dao.interfaces.ProductDAO;
 import ua.sombra.webstore.domain.Category;
+import ua.sombra.webstore.domain.Photo;
 import ua.sombra.webstore.domain.Product;
 import ua.sombra.webstore.domain.ProductExtraFeatures;
 import ua.sombra.webstore.service.ProductExtraFeatureService;
@@ -108,6 +109,23 @@ public class ProductDAOImpl implements ProductDAO {
 	public void removeExtraFeature(Product p, ProductExtraFeatures extraFeature){
 		p.getProductExtraFeatures().remove(extraFeature);
 		sessionFactory.getCurrentSession().update( p );
+	}
+	
+	@Override
+	public void addPhoto(Product product, Photo photo){
+		Session session = sessionFactory.getCurrentSession();
+		product.getPhotos().add(photo);
+		photo.setProduct(product);
+        session.save(photo);
+        session.save(product);
+	}
+	
+	@Override
+	public void removePhoto(Product product, Photo photo){
+		Session session = sessionFactory.getCurrentSession();
+		product.getPhotos().remove(photo);
+        session.update(product);
+		sessionFactory.getCurrentSession().delete(photo);
 	}
 }
 

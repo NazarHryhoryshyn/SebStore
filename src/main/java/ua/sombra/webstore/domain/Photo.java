@@ -19,7 +19,7 @@ import javax.persistence.ManyToOne;
 public class Photo {
 
 	int id;
-	private Byte[] data;
+	private byte[] data;
 
 	private Product product;
 
@@ -33,7 +33,7 @@ public class Photo {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "product_id", nullable = false)
 	@JsonBackReference
 	public Product getProduct() {
@@ -45,11 +45,11 @@ public class Photo {
 	}
 
 	@Column(name = "data", nullable = false)
-	public Byte[] getData() {
+	public byte[] getData() {
 		return data;
 	}
 
-	public void setData(Byte[] data) {
+	public void setData(byte[] data) {
 		this.data = data;
 	}
 }

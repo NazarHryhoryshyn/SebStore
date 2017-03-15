@@ -315,46 +315,32 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title">Ball photos</h4>
+					<h4 id="modal-product-photos-title" class="modal-title"></h4>
 				</div>
 				<div class="modal-body small-modal-body">
 					<div class="modal-body-content">
-						<p style="font-weight: bold;">Ball</p>
 						<div id="carousel" class="carousel slide" data-ride="carousel">
-							<ol class="carousel-indicators">
-								<li data-target="#carousel" data-slide-to="0" class="active"></li>
-								<li data-target="#carousel" data-slide-to="1"></li>
-								<li data-target="#carousel" data-slide-to="2"></li>
+							<ol id="photo-data-slides" class="carousel-indicators">
+							<li class="active" data-target='#carousel' data-slide-to="0"></li>
 							</ol>
-							<div class="carousel-inner">
-								<div class="item active">
-										<button style="margin-left: 45%;" onclick="alert('hi');"><i class="fa fa-times"></i></button>
-									<img src="${contextPath}/resources/img/open_box-512.png"
-										alt="Slide 1">
-								</div>
-								<div class="item">
-								<button style="margin-left: 45%;" onclick="alert('hi');"><i class="fa fa-times"></i></button>
-									<img src="${contextPath}/resources/img/open_box-512.png"
-										alt="Slide 2">
-								</div>
-								<div class="item">
-								<button style="margin-left: 45%;" onclick="alert('hi');"><i class="fa fa-times"></i></button>
-									<img src="${contextPath}/resources/img/open_box-512.png"
-										alt="Slide 3">
-								</div>
+							<div id="photo-slide-items" class="carousel-inner">
+							<div class="item active"><button style="margin-left: 45%;"> <i class="fa fa-times"></i></button>
+								<img src="#" style="width: 250px;"></div>
 							</div>
 							<a href="#carousel" class="left carousel-control"
 								data-slide="prev"></a> <a href="#carousel"
 								class="right carousel-control" data-slide="next"></a>
 						</div>
+						<br>						
+					 	    <input id="photos-product-id" type="hidden">					 
+					 		<input type="file" name="file" id="fileLoader" accept="image/*"/> 						
+							<input onclick="processUpload();" type="submit" id="fileSubmit" value="Upload"/>
 						<br>
-						<input type="file" accept="image/*">
-						<br>
-						<button class="btn btn-primary">add photo</button>
+						
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-danger small-modal-button"
+					<button id="button-close-photos" class="btn btn-danger small-modal-button"
 						data-dismiss="modal">Close</button>
 				</div>
 			</div>

@@ -2,6 +2,7 @@ package ua.sombra.webstore.dao.implementation;
 
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +23,12 @@ public class FeatureDAOImpl implements FeatureDAO {
 	public void addFeature(Feature feature) {
 		sessionFactory.getCurrentSession().save(feature);
 	}
-
+	
 	public void removeFeature(Integer id) {
-		Session session = sessionFactory.getCurrentSession();
-		Feature feat = (Feature)session.get(Feature.class, id);
-        session.delete(feat);
+		 Session session = sessionFactory.getCurrentSession();	        
+	        Query q = session.createSQLQuery("delete from feature where id = :id");
+	        q.setParameter("id", id);
+	        q.executeUpdate();
 	}
 
 	@SuppressWarnings("unchecked")

@@ -5,9 +5,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -24,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.multipart.MultipartFile;
 
 import ua.sombra.webstore.domain.Category;
 import ua.sombra.webstore.domain.Feature;
@@ -256,9 +262,9 @@ public class AdminController {
 		for(String removeFeat : removeFeatures){
 			System.out.println(removeFeat);
 			Feature removingFeat = featureService.findByName(removeFeat);
-//			featureService.removeCategory(removingFeat, editedCategory);
-//			categoryService.RemoveFeature(editedCategory, removingFeat);
-			//featureService.removeFeature(removingFeat.getId());
+			featureService.removeCategory(removingFeat, editedCategory);
+			categoryService.RemoveFeature(editedCategory, removingFeat);
+			featureService.removeFeature(removingFeat.getId());            //fix the problem can not delete a feature
 		}
 		
 	}
@@ -378,18 +384,18 @@ public class AdminController {
 			, @RequestParam("country") String country
 			, @RequestParam("weight") Integer weight
 			, @RequestParam("amountOnWarehouse") Integer amountOnWarehouse
-			, @RequestParam("extraFeatures[]") List<String> extraFeatures
+			//, @RequestParam("extraFeatures[]") List<String> extraFeatures
 			){
 		
 		Map<String, String> efNameValue = new HashMap<String, String>();
 		
-		for(String efName : extraFeatures){
-			String[] nameValue = efName.split("__");
-			if(nameValue[1] == "null_null"){
-				nameValue[1] = "";
-			}
-			efNameValue.put(nameValue[0], nameValue[1]);
-		}
+//		for(String efName : extraFeatures){
+//			String[] nameValue = efName.split("__");
+//			if(nameValue[1] == "null_null"){
+//				nameValue[1] = "";
+//			}
+//			efNameValue.put(nameValue[0], nameValue[1]);
+//		}
 		
 		productExtraFeatureService.setExtraFeatures(productId, efNameValue);
 		
@@ -406,7 +412,7 @@ public class AdminController {
 		Category oldCat = editedProduct.getCategory();
 		Category newCat = categoryService.findByName(category);
 
-		if(oldCat != newCat){
+		if(!oldCat.getName().equals(newCat.getName())){
 			categoryService.RemoveProduct(oldCat, editedProduct);
 
 			productService.setCategory(editedProduct, newCat);
@@ -421,6 +427,51 @@ public class AdminController {
 		if(p.getOrders().size() == 0){
 			productService.removeProduct(productId);
 		}
+	}
+	
+	
+	@RequestMapping(value = "/admin/addProductPhoto/{productId}", method = RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.OK)
+	public void addProductPhoto(@PathVariable("productId") int productId,
+			@RequestParam("file") MultipartFile file) {
+
+		try {
+			if(file != null && file.getBytes() != null ){
+				Product prod = productService.findById(productId);
+				
+				Photo newPhoto = new Photo();
+					newPhoto.setData(file.getBytes());
+					newPhoto.setProduct(prod);
+					photoService.addPhoto(newPhoto);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+				
+	}
+	
+	@RequestMapping(value = "/admin/removeProductPhoto", method = RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.OK)
+	public void removeProductPhoto(@RequestParam("photoId") int photoId) {
+		
+		//productService.removePhoto(photoService.findById(photoId).getProduct(), photoService.findById(photoId));
+				photoService.removePhoto(photoId);
+//				
+//				Photo newPhoto = new Photo();
+//					newPhoto.setData(file.getBytes());
+//					newPhoto.setProduct(prod);
+//					photoService.addPhoto(newPhoto);
+	}
+	
+	@RequestMapping(value = "/admin/product/photo", method = RequestMethod.GET)
+	  public void showImage(@RequestParam("id") Integer itemId, HttpServletResponse response,HttpServletRequest request) 
+	          throws ServletException, IOException{
+
+	    Photo photo = photoService.findById(itemId);        
+	    response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
+	    response.getOutputStream().write(photo.getData());
+	    
+	    response.getOutputStream().close();
 	}
 }
 

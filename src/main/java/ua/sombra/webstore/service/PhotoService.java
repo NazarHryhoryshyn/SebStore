@@ -10,6 +10,8 @@ public interface PhotoService {
 	
 	public void addPhoto(Photo photo);
 	
+	public Photo findById(int id);
+	
 	public void removePhoto(int id);
 	
 	public void addProduct(Photo photo, Product product);

@@ -6,6 +6,8 @@ import ua.sombra.webstore.domain.User;
 
 public interface PhotoDAO {
 
+	public Photo findById(int id);
+	
 	public void addPhoto(Photo photo);
 
 	public void removePhoto(int id);
