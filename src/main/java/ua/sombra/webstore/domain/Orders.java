@@ -126,7 +126,7 @@ public class Orders {
 		this.deliveryPrice = deliveryPrice;
 	}
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER)
 	  @JoinTable(name = "orders_products", joinColumns = @JoinColumn(name = "order_id"),
 	          inverseJoinColumns = @JoinColumn(name = "product_id"))
 	@JsonManagedReference

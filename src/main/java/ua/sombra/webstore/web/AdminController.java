@@ -33,6 +33,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import ua.sombra.webstore.domain.Category;
 import ua.sombra.webstore.domain.Feature;
+import ua.sombra.webstore.domain.OrderWrapper;
 import ua.sombra.webstore.domain.Orders;
 import ua.sombra.webstore.domain.Photo;
 import ua.sombra.webstore.domain.Product;
@@ -472,6 +473,28 @@ public class AdminController {
 	    response.getOutputStream().write(photo.getData());
 	    
 	    response.getOutputStream().close();
+	}
+	
+	@RequestMapping(value = "/admin/getOrders", method = RequestMethod.GET)
+	public @ResponseBody List<OrderWrapper> getOrders(HttpServletRequest request, HttpServletResponse response){
+		OrderWrapper ord = new OrderWrapper();
+		List<OrderWrapper> list = new ArrayList<OrderWrapper>();
+		
+		for(Orders o : orderService.listOrders()){
+			ord.setOrder(o);
+			ord.setUser(o.getUser());
+			list.add(ord);
+		}
+		
+		return list;
+	}
+	
+	@RequestMapping(value = "/admin/changeOrderStatus", method = RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.OK)
+	public void changeOrderStatus(@RequestParam("orderId") int orderId, @RequestParam("status") String status){
+		Orders ord = orderService.findById(orderId);
+		ord.setStatus(status);
+		orderService.updateOrder(ord);
 	}
 }
 

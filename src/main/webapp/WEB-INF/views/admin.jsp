@@ -70,7 +70,7 @@
 					title="Categories">Categories</label> 
 				<input id="tab3" onclick="createListProducts();" type="radio"
 					name="tabs"> <label for="tab3" title="Products">Products</label>
-				<input id="tab4" type="radio" name="tabs"> <label for="tab4"
+				<input id="tab4" onclick="createListOrders();" type="radio" name="tabs"> <label for="tab4"
 					title="Orders">Orders</label>
 
 				<section id="content-tab1">
@@ -121,6 +121,10 @@
 				<section id="content-tab3">
 					<div id="list-product" class="tab-content">
 						
+					</div>
+				</section>
+				<section id="content-tab4">
+					<div id="list-orders" class="tab-content">
 					</div>
 				</section>
 			</div>
@@ -347,10 +351,6 @@
 		</div>
 	</div>
 
-	
-
-	
-
 	<div class="modal fade" id="modal-order-ch-status">
 		<div class="modal-dialog modal-sm">
 			<div class="modal-content">
@@ -359,16 +359,16 @@
 					<h4 class="modal-title">Change status</h4>
 				</div>
 				<div class="modal-body small-modal-body">
-					<p style="font-weight: bold;">Order № 234324</p>
-					<select>
-						<option selected="selected">in processing</option>
+					<p style="font-weight: bold;">Order №<font id="title-order-id">234324</font></p>
+					<select id="new-order-status">
+						<option selected="selected">in_processing</option>
 						<option>preparation for sending</option>
 						<option>sent</option>
 						<option>arrived</option>
 					</select>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-primary small-modal-button"
+					<button onclick='changeOrderStatus();' class="btn btn-primary small-modal-button"
 						data-dismiss="modal">Save</button>
 					<button class="btn btn-danger small-modal-button"
 						data-dismiss="modal">Close</button>

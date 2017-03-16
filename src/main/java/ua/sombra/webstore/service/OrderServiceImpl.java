@@ -1,5 +1,6 @@
 package ua.sombra.webstore.service;
 
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,16 @@ public class OrderServiceImpl implements OrderService {
 	OrderDAO orderDao;
 
 	@Override
+	public void updateOrder(Orders order){
+		orderDao.updateOrder(order);
+	}
+	
+	@Override
+	public void addOrder(Orders order){
+		orderDao.addOrder(order);
+	}
+	
+	@Override
 	public void addOrder(Orders order, User user) {
 		Set<Orders> uOrders = user.getOrders();
 		uOrders.add(order);
@@ -24,6 +35,10 @@ public class OrderServiceImpl implements OrderService {
 		orderDao.addOrder(order);
 	}
 
+	public List<Orders> listOrders(){
+		return orderDao.listOrders();
+	}
+	
 	@Override
 	public void removeOrder(Integer id) {
 		orderDao.removeOrder(id);

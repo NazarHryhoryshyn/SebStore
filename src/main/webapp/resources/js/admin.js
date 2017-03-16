@@ -1,3 +1,31 @@
+function showUserOrders(login) {
+	$.ajax({
+		type : "GET",
+		url : "/webstore/admin/user/orders",
+		data : {
+			"login" : login
+		},
+		success : function(orders) {
+			$("#modal-user-orders-title").text(login + " orders");
+			$("#modal-user-orders-orders").text("");
+			var countPrice = 0;
+			for (var i = 0; i < orders.length; i++) {
+				var prods = "";
+				for (var j = 0; j < orders[i].products.length; j++) {
+					prods += "<li>" + orders[i].products[j].name + " "
+							+ orders[i].products[j].price + "&#8372;</li>";
+					countPrice += orders[i].products[j].price;
+				}
+				$("#modal-user-orders-orders").append(
+						"<div class='u-order'>" + "	<p>№ " + orders[i].id
+								+ "</p>" + "	<ul>" + prods + "	</ul>"
+								+ "	Count price: " + countPrice
+								+ "&#8372;</div>");
+			}
+		}
+	});
+}
+
 function createTreeCategory() {
 	$.ajax({
 		type : "GET",
@@ -424,56 +452,6 @@ function editProduct(){
 	createListProducts();
 }
 
-function showUserOrders(login) {
-	$.ajax({
-		type : "GET",
-		url : "/webstore/admin/user/orders",
-		data : {
-			"login" : login
-		},
-		success : function(orders) {
-			$("#modal-user-orders-title").text(login + " orders");
-			$("#modal-user-orders-orders").text("");
-			var countPrice = 0;
-			for (var i = 0; i < orders.length; i++) {
-				var prods = "";
-				for (var j = 0; j < orders[i].products.length; j++) {
-					prods += "<li>" + orders[i].products[j].name + " "
-							+ orders[i].products[j].price + "&#8372;</li>";
-					countPrice += orders[i].products[j].price;
-				}
-				$("#modal-user-orders-orders").append(
-						"<div class='u-order'>" + "	<p>№ " + orders[i].id
-								+ "</p>" + "	<ul>" + prods + "	</ul>"
-								+ "	Count price: " + countPrice
-								+ "&#8372;</div>");
-			}
-		}
-	});
-}
-
-function changeAdmiStatus(cb, login) {
-	$.ajax({
-		method : "POST",
-		url : "/webstore/admin/changeIsAdmin",
-		data : {
-			login : login,
-			status : cb.checked
-		}
-	});
-}
-
-function changeBlockedStatus(cb, login) {
-	$.ajax({
-		method : "POST",
-		url : "/webstore/admin/changeIsBlocked",
-		data : {
-			login : login,
-			status : cb.checked
-		}
-	});
-}
-
 function generateModalProductPhotos(productId){
 	$("#modal-product-photos-title").text("");
 	$.ajax({
@@ -541,5 +519,77 @@ function removePhoto(photoId){
 	$("#photo-slide-items").text("");
 }
 
+function changeAdmiStatus(cb, login) {
+	$.ajax({
+		method : "POST",
+		url : "/webstore/admin/changeIsAdmin",
+		data : {
+			login : login,
+			status : cb.checked
+		}
+	});
+}
 
+function changeBlockedStatus(cb, login) {
+	$.ajax({
+		method : "POST",
+		url : "/webstore/admin/changeIsBlocked",
+		data : {
+			login : login,
+			status : cb.checked
+		}
+	});
+}
 
+function createListOrders(){
+	$("#list-orders").text("");
+	$.ajax({
+		type : "GET",
+		url : "/webstore/admin/getOrders",
+		data : {},
+		success : function(orders) {
+					
+					var ords = "<tr>"+
+									"<th>№</th>"+
+									"<th>User</th>"+
+									"<th>Status</th>"+
+									"<th>Date</th>"+
+									"<th></th>"+
+									"<th></th>"+
+								"</tr>";
+					for (var i = 0; i < orders.length; i++) {
+						var date =  new Date();
+						date.setTime(orders[i].order.date);
+						ords+="<tr>"+
+						"<td>"+orders[i].order.id+"</td>"+
+						"<td>"+orders[i].user.login+"</td>"+
+						"<td>"+orders[i].order.status+"</td>"+
+						"<td>"+date.getDate()+"."+(date.getMonth()+1)+"."+date.getFullYear()+" " + date.getHours()+":"+date.getMinutes()+":"+date.getSeconds()+"</td>"+
+						"<td><a class='btn btn-info' href='/webstore/admin/order/"+orders[i].order.id+"'>full info</a></td>"+
+								"<td><button onclick='generateModelChangeOrderStatus(\""+orders[i].order.id+"\", \""+orders[i].order.status+"\");' class='btn btn-danger' data-toggle='modal' data-target='#modal-order-ch-status'>"+
+								"change status</button></td>"
+										"</tr>";
+					}
+					$("#list-orders").append(
+					"<table class='table-order'>" + ords + "</table>");
+				}
+			});
+}
+
+function generateModelChangeOrderStatus(orderId, status){
+	$("#title-order-id").text(orderId);
+	$("#new-order-status").val(status);
+}
+
+function changeOrderStatus() {
+	var orderId = $("#title-order-id").text();
+	var status = $("#new-order-status").val();
+	$.ajax({
+		method : "POST",
+		url : "/webstore/admin/changeOrderStatus",
+		data : {
+			orderId : orderId,
+			status : status
+		}
+	});
+}
