@@ -63,6 +63,7 @@
 .table-product th {
 	height: 40px;
 	border-bottom: 1px solid black;
+	paddind: 3px;
 }
 
 .table-product td {

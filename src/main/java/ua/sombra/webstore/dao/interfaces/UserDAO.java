@@ -19,7 +19,7 @@ public interface UserDAO {
 	
 	public User findById(Integer id);
 	
-	public void addProduct(User u, Product p);
+	public void addProduct(int userId, int productId);
 
-	public void removeProduct(User u, Product p);
+	public void removeProduct(int userId, int productId);
 }

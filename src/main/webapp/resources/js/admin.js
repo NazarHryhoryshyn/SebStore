@@ -304,7 +304,7 @@ function removeProduct(productId){
 		url : "/webstore/admin/removeProduct",
 		data : {"productId" : productId}
 	});
-	//createListProducts();
+	createListProducts();
 }
 
 function generateModalProductFeatures(productId){
@@ -460,11 +460,11 @@ function generateModalProductPhotos(productId){
 		data : {productId : productId},
 		success : function(product){
 			$("#photos-product-id").val(productId);
+			$("#modal-product-photos-title").append(product.product.name + " photos");
+			$("#photo-data-slides").text("");
+			$("#photo-slide-items").text("");
 			
-			if(product.product.photos.length > 0){					
-				$("#modal-product-photos-title").append(product.product.name + " photos");
-				$("#photo-data-slides").text("");
-				$("#photo-slide-items").text("");
+			if(product.product.photos.length > 0){
 				var setActive = "active";
 				for(var i = 0; i < product.product.photos.length; i++){
 					if(i == 0){
@@ -491,6 +491,11 @@ $(document).on("change",
 });
 
 function processUpload(){
+	if($("#fileLoader").val() == ""){$("#button-close-photos").click();
+	$("#photo-data-slides").text("");
+	$("#photo-slide-items").text("");
+		return;
+	}
 	var fileData = new FormData();
 	fileData.append("file", files[0]);
 	var productId = $("#photos-product-id").val();
@@ -506,6 +511,7 @@ function processUpload(){
 	$("#button-close-photos").click();
 	$("#photo-data-slides").text("");
 	$("#photo-slide-items").text("");
+	$("#fileLoader").val("");
 }
 
 function removePhoto(photoId){

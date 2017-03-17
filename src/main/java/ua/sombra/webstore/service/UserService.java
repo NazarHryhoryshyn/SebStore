@@ -29,7 +29,7 @@ public interface UserService {
     
     public void ChangeIsBlocked(String login, Boolean status);
     
-    public void addProduct(User u, Product p);
+    public void addProduct(int userId, int productId);
 
-	public void removeProduct(User u, Product p);
+	public void removeProduct(int userId, int productId);
 }

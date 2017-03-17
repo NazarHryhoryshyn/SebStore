@@ -38,7 +38,7 @@ public class Orders {
 	private String address;
 	private String cardNumber;
 	private String cardTermOf;
-	private int cardThreeNumbers;
+	private String cardThreeNumbers;
 
 	private User user;	
 
@@ -166,11 +166,11 @@ public class Orders {
 	}
 
 	@Column(name = "card_three_numbers", nullable = true)
-	public int getCardThreeNumbers() {
+	public String getCardThreeNumbers() {
 		return cardThreeNumbers;
 	}
 
-	public void setCardThreeNumbers(int cardThreeNumbers) {
+	public void setCardThreeNumbers(String cardThreeNumbers) {
 		this.cardThreeNumbers = cardThreeNumbers;
 	}
 	

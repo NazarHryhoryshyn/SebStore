@@ -38,13 +38,10 @@
 			<div class="category-block">
 				<div id="menu">
 					<ul class="menu-ul">
-						<li><a href="#">All</a></li>
-						<li><a href="#">Category 1</a></li>
-						<li><a href="#">Category 2</a></li>
-						<li><a href="#">Category 3</a></li>
-						<li><a href="#">Category 4</a></li>
-						<li><a href="#">Category 5</a></li>
-						<li><a href="#">Category 6</a></li>
+					<li><a href="/webstore/products/allCategory">All category</a></li>
+					<c:forEach items="${categories}" var="category">
+						<li><a href="/webstore/products/${category}">${category}</a></li>
+					</c:forEach>
 					</ul>
 				</div>
 				<div style="border-bottom: 3px solid #B3FFB3; margin-top: 20px;"></div>

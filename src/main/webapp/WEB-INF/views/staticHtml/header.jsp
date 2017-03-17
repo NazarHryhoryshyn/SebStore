@@ -54,7 +54,7 @@
 			">
 				<button class="btn btn-default dropdown-toggle button-bg-color" type="button"
 					data-toggle="dropdown">
-					Hi, ${uname} <span class="caret"></span>
+					${uname} <span class="caret"></span>
 				</button>
 				<ul class="dropdown-menu">
 					<li><a href="/webstore/admin">Admin</a></li>

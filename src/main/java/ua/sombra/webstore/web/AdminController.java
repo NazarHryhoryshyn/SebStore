@@ -2,6 +2,7 @@ package ua.sombra.webstore.web;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -100,6 +101,12 @@ public class AdminController {
 
 	@RequestMapping(value = "/admin/order/{orderId}", method = RequestMethod.GET)
 	public String order(Model model, @PathVariable("orderId") Integer orderId) {
+		User u = userService.findByLogin(securityService.findLoggedInLogin());
+		model.addAttribute("uname", u.getLastname() + " " + u.getFirstname());
+		model.addAttribute("isAdmin", userService.currUserIsAdmin());
+		
+		model.addAttribute("order", orderService.findById(orderId));
+		
 		return "orderFullInfo";
 	}
 	
@@ -414,10 +421,7 @@ public class AdminController {
 		Category newCat = categoryService.findByName(category);
 
 		if(!oldCat.getName().equals(newCat.getName())){
-			categoryService.RemoveProduct(oldCat, editedProduct);
-
 			productService.setCategory(editedProduct, newCat);
-			categoryService.AddProduct(newCat, editedProduct);
 		}
 	}
 	
@@ -439,6 +443,13 @@ public class AdminController {
 		try {
 			if(file != null && file.getBytes() != null ){
 				Product prod = productService.findById(productId);
+				for(Photo phot : prod.getPhotos()){
+					byte[] bytesFile = file.getBytes();
+					byte[] bytesPhoto = phot.getData();
+					if(Arrays.equals(bytesFile, bytesPhoto)){
+						return;
+					}
+				}
 				
 				Photo newPhoto = new Photo();
 					newPhoto.setData(file.getBytes());

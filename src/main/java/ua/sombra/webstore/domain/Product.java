@@ -124,7 +124,7 @@ public class Product {
 		this.photos = photos;
 	}
 
-	@ManyToMany(mappedBy = "products", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToMany(mappedBy = "products", fetch = FetchType.EAGER)
 	@JsonBackReference
 	public Set<User> getUsers() {
 		return users;

@@ -101,6 +101,6 @@ public class CategoryDAOImpl implements CategoryDAO {
 	
 	public void RemoveProduct(Category category, Product product){
 		category.getProducts().remove( product );
-		sessionFactory.getCurrentSession().save( category );
+		sessionFactory.getCurrentSession().update( category );
 	}
 }

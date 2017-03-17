@@ -35,40 +35,29 @@
 	</div>
 	<div class="container content-block">
 		<div class="products">
+		<c:forEach items="${products}" var="product">
 			<div class="prod">
 				<div class="product-photo">
-					<img alt="" src="${contextPath}/resources/img/open_box-512.png">
+				<c:if test="${photos[product.id] != null}">
+					<img src="/webstore/admin/product/photo?id=${photos[product.id].id}">
+				</c:if>
+				<c:if test="${photos[product.id] == null}">
+					<img src="${contextPath}/resources/img/open_box-512.png">
+				</c:if>
 				</div>
 				<div class="product-description-block">
 					<div class="product-description-text">
-						<div class="column-product-name">Ball</div>
-						<div class="column">Price: $29</div>
-						<div class="column">Amount: 1</div>
-						<div class="column">Sum: $29</div>
+						<div class="column-product-name">${product.name}</div>
+						<div class="column">Price: ${product.price}&#8372;</div>
 					</div>
 					<div class="container-remove">
-						<a class="btn btn-danger"><i class="fa fa-times fa-3x" aria-hidden="true"></i></a>
+						<a href="cart/delete/${product.id}" class="btn btn-danger"><i class="fa fa-times fa-3x" aria-hidden="true"></i></a>
 					</div>
 				</div>
 			</div>
-			<div class="prod">
-				<div class="product-photo">
-					<img alt="" src="${contextPath}/resources/img/open_box-512.png">
-				</div>
-				<div class="product-description-block">
-					<div class="product-description-text">
-						<div class="column-product-name">Ball</div>
-						<div class="column">Price: $29</div>
-						<div class="column">Amount: 1</div>
-						<div class="column">Sum: $29</div>
-					</div>
-					<div class="container-remove">
-						<a class="btn btn-danger"><i class="fa fa-times fa-3x" aria-hidden="true"></i></a>
-					</div>
-				</div>
-			</div>
+		</c:forEach>
 			<div class="count-price">
-				<div>Count price: $58</div>
+				<div>Count price: ${productSumPrice}&#8372;</div>
 			</div>
 			<div class="make-order">
 				<a class="btn btn-primary" href="order">Make an order</a>

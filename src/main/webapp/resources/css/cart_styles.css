@@ -16,7 +16,9 @@
 }
 
 .product-photo img{
-	width: 100%;
+	width: 90%;
+	border-radius: 20px;
+	margin: 5%;
 }
 
 .product-description-block{

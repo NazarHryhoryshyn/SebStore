@@ -28,7 +28,7 @@
 				<div id="bc2" class="btn-group btn-breadcrumb">
 					<a href="#" class="btn btn-default "><i class="fa fa-home"></i></a>
 					<a href="#" class="btn btn-default ">admin</a> <a href="#"
-						class="btn btn-default ">order №34564</a>
+						class="btn btn-default ">order № ${order.id}</a>
 				</div>
 			</div>
 		</div>
@@ -38,19 +38,19 @@
 			<table>
 				<tr>
 					<td>User</td>
-					<td>Hryhoryshyn Nazar</td>
+					<td>${order.user.lastname} ${order.user.firstname}</td>
 				</tr>
 				<tr>
 					<td>Receiver</td>
-					<td>Hryhoryshyn Ivan</td>
+					<td>${order.receiver}</td>
 				</tr>
 				<tr>
 					<td>Phone</td>
-					<td>095645654</td>
+					<td>${order.phone}</td>
 				</tr>
 				<tr>
 					<td>Email</td>
-					<td>naz.@gmail.ru</td>
+					<td>${order.email}</td>
 				</tr>
 			</table>
 		</div>
@@ -58,15 +58,15 @@
 		<table>
 				<tr>
 					<td>Delivery type</td>
-					<td>self sending</td>
+					<td>${order.deliveryType}</td>
 				</tr>
 				<tr>
 					<td>Delivery price</td>
-					<td>10</td>
+					<td>${order.deliveryPrice}&#8372;</td>
 				</tr>
 				<tr>
 					<td>Address</td>
-					<td>Ivano-Frankivsk Vovchinetska street</td>
+					<td>${order.address}</td>
 				</tr>
 			</table>
 		</div>
@@ -74,29 +74,36 @@
 		<table>
 				<tr>
 					<td>Payment type</td>
-					<td>credit card</td>
+					<td>${order.paymentType}</td>
 				</tr>
 				<tr>
 					<td>Card number</td>
-					<td>7890 8979 6776 5776</td>
+					<td>${order.cardNumber}</td>
 				</tr>
 			</table>
 		</div>
 		<div class="order-info-column" style="clear: both;">
-		<table>
+			<table>
 				<tr>
 					<td>Date</td>
-					<td>24.08.1997 01:04:01</td>
+					<td>${order.date}</td>
 				</tr>
 				<tr>
 					<td>Status</td>
-					<td>in processing</td>
-				</tr>
-				<tr>
-					<td>Payed Money</td>
-					<td>$208</td>
+					<td>${order.status}</td>
 				</tr>
 			</table>
+		</div>
+		<div class="" style="clear: both;">
+		<br><p>Products in order:</p>
+		<table>
+			<c:forEach items="${order.products}" var="product">
+				<tr>
+					<td>${product.name}</td>
+					<td>${product.price}&#8372;</td>
+				</tr>
+			</c:forEach>
+		</table>
 		</div>
 	</div>
 	<div class="container-fluid">

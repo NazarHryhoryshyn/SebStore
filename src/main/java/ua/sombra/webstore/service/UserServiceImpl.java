@@ -151,11 +151,11 @@ public class UserServiceImpl implements UserService {
 	    	}
 	    }
 	 
-	 public void addProduct(User u, Product p){
-		 userDao.addProduct(u, p);
+	 public void addProduct(int userId, int productId){
+		 userDao.addProduct(userId, productId);
 	 }
 
-		public void removeProduct(User u, Product p){
-			 userDao.removeProduct(u, p);
+		public void removeProduct(int userId, int productId){
+			 userDao.removeProduct(userId, productId);
 		}
 }

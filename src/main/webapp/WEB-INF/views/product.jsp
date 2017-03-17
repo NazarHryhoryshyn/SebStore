@@ -18,10 +18,10 @@
 
 <link href="${contextPath}/resources/css/tab_styles.css"
 	rel="stylesheet">
-<script
-	src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="${contextPath}/resources/js/jquery-3.1.1.js"></script>
 <script	src="${contextPath}/resources/js/bootstrap.min.js"></script>
 <link href="${contextPath}/resources/css/admin.css" rel="stylesheet">
+<script src="${contextPath}/resources/js/product.js"></script>
 </head>
 <body>
 	<script type="text/javascript">
@@ -49,8 +49,8 @@
 			<div class="row">
 				<div id="bc2" class="btn-group btn-breadcrumb">
 					<a href="#" class="btn btn-default "><i class="fa fa-home"></i></a>
-					<a href="#" class="btn btn-default ">category 1</a> <a href="#"
-						class="btn btn-default ">product name</a>
+					<a href="#" class="btn btn-default ">${product.category.name}</a> <a href="#"
+						class="btn btn-default ">${product.name}</a>
 				</div>
 			</div>
 		</div>
@@ -60,48 +60,63 @@
 			<div class="image-side">
 				<div id="carousel" class="carousel slide" data-ride="carousel">
 					<ol class="carousel-indicators">
-						<li data-target="#carousel" data-slide-to="0" class="active"></li>
-						<li data-target="#carousel" data-slide-to="1"></li>
-						<li data-target="#carousel" data-slide-to="2"></li>
+						<c:if test="${amountPhotos == 0}">
+							<li data-target="#carousel" data-slide-to="0" class="active"></li>
+						</c:if>						
+						<c:if test="${amountPhotos != 0}">
+							<c:forEach begin="0" end="${amountPhotos-1}" step="1" var="ind">
+								<c:if test="${ind == 0}">
+									<li data-target="#carousel" data-slide-to="${ind}" class="active"></li>
+								</c:if>
+								<c:if test="${ind != 0}">
+									<li data-target="#carousel" data-slide-to="${ind}"></li>
+								</c:if>
+							</c:forEach>
+						</c:if>
 					</ol>
 					<div class="carousel-inner">
-						<div class="item active">
-							<img src="${contextPath}/resources/img/open_box-512.png"
-								alt="Slide 1">
-						</div>
-						<div class="item">
-							<img src="${contextPath}/resources/img/open_box-512.png"
-								alt="Slide 2">
-						</div>
-						<div class="item">
-							<img src="${contextPath}/resources/img/open_box-512.png"
-								alt="Slide 3">
-						</div>
+						<c:if test="${amountPhotos == 0}">
+							<div class="item active">
+								<img src="${contextPath}/resources/img/open_box-512.png"
+									alt="Slide 1">
+							</div>
+						</c:if>
+						<c:if test="${amountPhotos != 0}">
+							<c:forEach items="${photos}" var="photo" varStatus="loop">
+								<c:if test="${loop.index == 0}">
+									<div class="item active">
+										<img src="/webstore/admin/product/photo?id=${photo}"
+											alt="Slide ${loop.index}">
+									</div>
+								</c:if>
+								<c:if test="${loop.index != 0}">
+									<div class="item">
+										<img src="/webstore/admin/product/photo?id=${photo}"
+											alt="Slide ${loop.index}">
+									</div>
+								</c:if>
+							</c:forEach>
+						</c:if>
 					</div>
 					<a href="#carousel" class="left carousel-control" data-slide="prev"></a> 
 					<a href="#carousel" class="right carousel-control" data-slide="next"></a>
 				</div>
 			</div>
 			<div class="main-info-side">
-			<div style="height: 80%;">
-				<div class="product-name">
-						Product name
-					</div>
-					<div class="column">
-					   <font style="font-weight: bold;">$</font> 99
-					</div>
-					<div class="column">
-						Exists 99 pcs. on stack
-					</div>
-					<div class="column">
-					Buy <input type="number" min="1" max="99" value="1"> ones
+				<div style="height: 80%;">
+					<div class="product-name">
+							${product.name}
+						</div>
+						<div class="column">
+						   ${product.price}&#8372;
+						</div>
+						<div class="column">
+							Exists ${product.amountOnWarehouse} pcs. on stack
+						</div>
 				</div>
-			</div>
-				
 				<div style="height: 20%; margin-left: 30px;">
-				<button type="button" class="btn btn-success"><span style="margin-right: 5px;"><i class="fa fa-plus" aria-hidden="true"></i></span>Add to cart</button>
+					<button onclick="addProductToCart(${product.id});" type="button" class="btn btn-success"><span style="margin-right: 5px;"><i class="fa fa-plus" aria-hidden="true"></i></span>Add to cart</button>
 				</div>
-				
 			</div>
 		</div>
 		<div class="bottom-block">

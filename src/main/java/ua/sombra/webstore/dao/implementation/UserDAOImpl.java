@@ -2,6 +2,7 @@ package ua.sombra.webstore.dao.implementation;
 
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,20 +68,26 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public void addProduct(User u, Product p){
+	public void addProduct(int userId, int productId){
 		Session session = sessionFactory.getCurrentSession();
-		u.getProducts().add(p);
-        p.getUsers().add(u);
-        session.save(p);
-        session.save(u);
+		User u = (User) session.load(User.class, userId);
+		Product p = (Product) session.load(Product.class, productId);
+		if(!u.getProducts().contains(p)){
+			Query query = session.createSQLQuery("insert into cart values(:userId, :productId)");
+			query.setParameter("userId", userId);
+			query.setParameter("productId", productId);
+			 
+			query.executeUpdate();
+		}
 	}
 
 	@Override
-	public void removeProduct(User u, Product p){
+	public void removeProduct(int userId, int productId){
 		Session session = sessionFactory.getCurrentSession();
-		u.getProducts().remove(p);
-        p.getUsers().remove(u);
-        session.save(p);
-        session.save(u);
+		Query query = session.createSQLQuery("delete from cart where user_id = :userId and product_id = :productId");
+		query.setParameter("userId", userId);
+		query.setParameter("productId", productId);
+		 
+		query.executeUpdate();
 	}
 }
