@@ -1,8 +1,10 @@
 package ua.sombra.webstore.service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -110,6 +112,21 @@ public class CategoryServiceImpl implements CategoryService{
 	}
 	
 	@Override
+	public List<String> TreeCategoriesToTop(Integer categoryId){
+		Category c = categoryDao.findById(categoryId);
+		List<String> categoryNames = new ArrayList<String>();
+		
+		if(c.getIsSub()){
+			List<String> topCategory = TreeCategoriesToTop(c.getMainCategoryId());
+			for(String cat : topCategory){
+				categoryNames.add(cat);
+			}
+		}
+		categoryNames.add(c.getName());
+		return categoryNames;
+	}
+	
+	@Override
 	public Category findByName(String name){
 		return categoryDao.findByName(name);
 	}
@@ -137,5 +154,25 @@ public class CategoryServiceImpl implements CategoryService{
 	@Override
 	public void RemoveProduct(Category category, Product product){
 		categoryDao.RemoveProduct(category, product);
+	}
+	
+	@Override
+	public Set<Product> ProductsFromTreeCategory (Category category){
+		Set<Product> products = new HashSet<Product>();
+		
+		if(categoryDao.listSubCategories(category.getId()).size() > 0){
+			List<Category> catList =  categoryDao.listSubCategories(category.getId());
+			
+			for (Category cat :  catList)
+			{
+				for(Product p : ProductsFromTreeCategory(cat)){
+					products.add(p);
+				}
+			}
+		}
+		for(Product p : category.getProducts()){
+			products.add(p);
+		}
+		return products;
 	}
 }

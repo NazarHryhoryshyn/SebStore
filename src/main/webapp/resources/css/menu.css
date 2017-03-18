@@ -10,7 +10,7 @@
 	position: relative;
 }
 #menu li a {
-	height: 32px;
+	height: 40px;
 	text-decoration: none;
 	font: 14px;
 }
@@ -29,3 +29,14 @@
 	display: block;
 	padding: 8px 0 0 35px;
 }
+
+.selected-menu-item{
+	background-color: #A5E9A5;
+}
+
+.menu-separator{
+	height: 25px;
+	background-color: white;
+	text-align: center;
+}
+

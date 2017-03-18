@@ -210,12 +210,7 @@ public class AdminController {
 		
 		Set<String> featsOldNames = FeatureNames(editedCategory.getFeatures());
 
-		List<Product> productsTree =  ProductsFromTreeCategory(editedCategory);
-		
-		System.out.println("product tree:");
-		for(Product p : productsTree){
-			System.out.println("p.name : " + p.getName() + " p.category : " + p.getCategory().getName());
-		}
+		Set<Product> productsTree =  categoryService.ProductsFromTreeCategory(editedCategory);
 		
 		Set<String> keepFeatures = new HashSet<String>();
 		Set<String> removeFeatures = new HashSet<String>();
@@ -276,41 +271,13 @@ public class AdminController {
 		}
 		
 	}
-	
-	//
 	private Set<String> FeatureNames(Set<Feature> feats){
 		Set<String> names = new HashSet<String>();
 		for(Feature p : feats){
 			names.add(p.getName());
 		}
 		return names;
-	}
-	
-	//
-	private List<Product> ProductsFromTreeCategory (Category category){
-		List<Product> products = new ArrayList<Product>();
-		System.out.println("category.name : " + category.getName());
-		System.out.println("categoryService.listSubCategories(category.getId()).size() : " 
-				+ categoryService.listSubCategories(category.getId()).size());
-		
-		if(categoryService.listSubCategories(category.getId()).size() > 0){
-			List<Category> catList =  categoryService.listSubCategories(category.getId());
-			
-			for (Category cat :  catList)
-			{
-				for(Product p : ProductsFromTreeCategory(cat)){
-					System.out.println("catList.p : " + p.getName());
-					products.add(p);
-				}
-			}
-		}
-			else{
-				for(Product p : category.getProducts()){
-					products.add(p);
-				}
-			}
-		return products;
-	}
+	}	
 	
 	@RequestMapping(value = "/admin/removeCategory", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.OK)

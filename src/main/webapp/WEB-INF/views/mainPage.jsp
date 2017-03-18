@@ -42,9 +42,9 @@
 			<div class="category-block">
 				<div id="menu">
 					<ul class="menu-ul">
-					<li><a href="products/allCategory">All category</a></li>
+					<li><a href="products/All category-1">All category</a></li>
 					<c:forEach items="${categories}" var="category">
-						<li><a href="products/${category}">${category}</a></li>
+						<li><a href="products/${category}-1">${category}</a></li>
 					</c:forEach>
 					</ul>
 				</div>

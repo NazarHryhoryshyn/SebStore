@@ -28,8 +28,10 @@ public interface CategoryService {
 	public void addFeatures(Integer id, Set<String> features);
 	
 	public Set<String> listFeatures(Integer id);
-	
+
 	public Set<String> listTreeFeaturesToTop(Integer categoryId);
+
+	public List<String> TreeCategoriesToTop(Integer categoryId);
 	
 	public Category findByName(String name);
 	
@@ -42,4 +44,6 @@ public interface CategoryService {
 	public void AddProduct(Category category, Product product);
 	
 	public void RemoveProduct(Category category, Product product);
+	
+	Set<Product> ProductsFromTreeCategory (Category category);
 }
