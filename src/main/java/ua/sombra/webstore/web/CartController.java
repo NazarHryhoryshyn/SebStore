@@ -15,9 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import ua.sombra.webstore.domain.Photo;
 import ua.sombra.webstore.domain.Product;
 import ua.sombra.webstore.domain.User;
-import ua.sombra.webstore.service.ProductService;
-import ua.sombra.webstore.service.SecurityService;
-import ua.sombra.webstore.service.UserService;
+import ua.sombra.webstore.service.databaseService.interfaces.SecurityService;
+import ua.sombra.webstore.service.databaseService.interfaces.UserService;
 
 @Controller
 public class CartController {
@@ -28,17 +27,12 @@ public class CartController {
 	@Autowired
 	private SecurityService securityService;
 	
-	@Autowired
-	private ProductService productService;
-	
 	@RequestMapping(value = { "/cart", }, method = RequestMethod.GET)
 	public String getCartInfo(Model model) {
 		User u = userService.findByLogin(securityService.findLoggedInLogin());
-		model.addAttribute("uname", u.getLastname() + " " + u.getFirstname());
-		model.addAttribute("isAdmin", userService.currUserIsAdmin());
 		BigDecimal productSumPrice = new BigDecimal(0);
-		
 		Map<Integer, Photo> photos = new HashMap<Integer, Photo>();
+		
 		for(Product p : u.getProducts()){
 			if(p.getPhotos().size() > 0){
 				Iterator<Photo> iter = p.getPhotos().iterator();
@@ -47,6 +41,8 @@ public class CartController {
 			productSumPrice = productSumPrice.add(p.getPrice());
 		}
 
+		model.addAttribute("uname", u.getLastname() + " " + u.getFirstname());
+		model.addAttribute("isAdmin", userService.currUserIsAdmin());
 		model.addAttribute("products", u.getProducts());
 		model.addAttribute("photos", photos);
 		model.addAttribute("productSumPrice", productSumPrice.longValueExact());
@@ -57,8 +53,9 @@ public class CartController {
 	@RequestMapping(value = { "/cart/delete/{productId}", }, method = RequestMethod.GET)
 	public String deleteProduct(@PathVariable("productId") int productId){
 		User u = userService.findByLogin(securityService.findLoggedInLogin());
-		Product p = productService.findById(productId);
-		userService.removeProduct(u.getId(), p.getId());
+		
+		userService.removeReferenceToProduct(u.getId(), productId);
+		
 		return  "redirect: /webstore/cart";
 	}
 }

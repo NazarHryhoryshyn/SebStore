@@ -1,7 +1,8 @@
 package ua.sombra.webstore.validator;
 
 import ua.sombra.webstore.domain.User;
-import ua.sombra.webstore.service.UserService;
+import ua.sombra.webstore.service.databaseService.interfaces.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;

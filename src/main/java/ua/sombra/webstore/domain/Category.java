@@ -3,15 +3,12 @@ package ua.sombra.webstore.domain;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.Cascade;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 

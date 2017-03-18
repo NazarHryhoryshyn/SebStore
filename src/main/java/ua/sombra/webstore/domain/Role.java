@@ -12,17 +12,17 @@ import java.util.Set;
 @Table(name = "role")
 public class Role {
     
-    private Long id;
+    private int id;
     private String name;
     private Set<User> users = new HashSet<User>(0);
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

@@ -8,18 +8,13 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.util.List;
 
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -41,14 +36,14 @@ import ua.sombra.webstore.domain.Product;
 import ua.sombra.webstore.domain.ProductExtraFeatures;
 import ua.sombra.webstore.domain.ProductWrapper;
 import ua.sombra.webstore.domain.User;
-import ua.sombra.webstore.service.CategoryService;
-import ua.sombra.webstore.service.FeatureService;
-import ua.sombra.webstore.service.OrderService;
-import ua.sombra.webstore.service.PhotoService;
-import ua.sombra.webstore.service.ProductExtraFeatureService;
-import ua.sombra.webstore.service.ProductService;
-import ua.sombra.webstore.service.SecurityService;
-import ua.sombra.webstore.service.UserService;
+import ua.sombra.webstore.service.databaseService.interfaces.CategoryService;
+import ua.sombra.webstore.service.databaseService.interfaces.FeatureService;
+import ua.sombra.webstore.service.databaseService.interfaces.OrderService;
+import ua.sombra.webstore.service.databaseService.interfaces.PhotoService;
+import ua.sombra.webstore.service.databaseService.interfaces.ProductExtraFeatureService;
+import ua.sombra.webstore.service.databaseService.interfaces.ProductService;
+import ua.sombra.webstore.service.databaseService.interfaces.SecurityService;
+import ua.sombra.webstore.service.databaseService.interfaces.UserService;
 
 @Controller
 public class AdminController {
@@ -80,8 +75,6 @@ public class AdminController {
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
 	public String admin(Model model) {
 		User u = userService.findByLogin(securityService.findLoggedInLogin());
-		model.addAttribute("uname", u.getLastname() + " " + u.getFirstname());
-		model.addAttribute("isAdmin", userService.currUserIsAdmin());
 		List<User> users = userService.listUsers();
 		
 		Map<String, Boolean> isAdmins = new HashMap<String, Boolean>();
@@ -92,6 +85,8 @@ public class AdminController {
 			isBlockeds.put(user.getLogin(), userService.UserIsBlocked(user.getLogin()));
 		}
 
+		model.addAttribute("uname", u.getLastname() + " " + u.getFirstname());
+		model.addAttribute("isAdmin", userService.currUserIsAdmin());
 		model.addAttribute("users", users);
 		model.addAttribute("isAdmins", isAdmins);		
 		model.addAttribute("isBlockeds", isBlockeds);
@@ -99,19 +94,8 @@ public class AdminController {
 		return "admin";
 	}
 
-	@RequestMapping(value = "/admin/order/{orderId}", method = RequestMethod.GET)
-	public String order(Model model, @PathVariable("orderId") Integer orderId) {
-		User u = userService.findByLogin(securityService.findLoggedInLogin());
-		model.addAttribute("uname", u.getLastname() + " " + u.getFirstname());
-		model.addAttribute("isAdmin", userService.currUserIsAdmin());
-		
-		model.addAttribute("order", orderService.findById(orderId));
-		
-		return "orderFullInfo";
-	}
-	
 	@RequestMapping(value = "/admin/user/orders", method = RequestMethod.GET)
-	public @ResponseBody Set<Orders> userOrders(@RequestParam String login, HttpServletRequest request, HttpServletResponse response, Model model){
+	public @ResponseBody Set<Orders> userOrders(@RequestParam String login){
 		User u = userService.findByLogin(login);
 		 return u.getOrders();
 	}	
@@ -129,40 +113,22 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value = "/admin/TreeCategories", method = RequestMethod.GET)
-	public @ResponseBody Map<Integer, List<Category>> getTreeCategories(HttpServletRequest request, HttpServletResponse response, Model model){
-		return mapCategories(categoryService.listTopCategories());
+	public @ResponseBody Map<Integer, List<Category>> getTreeCategories(){
+		return categoryService.mapCategorySubCats(categoryService.listTopCategories());
 	}
 	
 	@RequestMapping(value = "/admin/MainCategories", method = RequestMethod.GET)
-	public @ResponseBody List<Category> getMainCategories(HttpServletRequest request, HttpServletResponse response, Model model){
+	public @ResponseBody List<Category> getMainCategories(){
 		return categoryService.listTopCategories();
 	}
 	
 	@RequestMapping(value = "/admin/allCategories", method = RequestMethod.GET)
-	public @ResponseBody List<Category> getAllCategories(HttpServletRequest request, HttpServletResponse response, Model model){
-		return categoryService.listCategory();
-	}
-	
-	private Map<Integer, List<Category>> mapCategories(List<Category> categs){
-		Map<Integer, List<Category>> mapCategs = new HashMap<Integer, List<Category>>();
-		for(Category c : categs){
-			if(categoryService.listSubCategories(c.getId()).size() > 0){
-				mapCategs.put(c.getId(), categoryService.listSubCategories(c.getId()));
-				List<Category> catList =  categoryService.listSubCategories(c.getId());
-				for (Map.Entry<Integer, List<Category>> entry :  mapCategories(catList).entrySet())
-				{
-					mapCategs.put(entry.getKey(), entry.getValue());
-				}
-			}
-			else{
-				mapCategs.put(c.getId(), new ArrayList<Category>());
-			}
-		}	
-		return mapCategs;
+	public @ResponseBody List<Category> getAllCategories(){
+		return categoryService.listAllCategories();
 	}
 	
 	@RequestMapping(value = "/admin/getCategory", method = RequestMethod.GET)
-	public @ResponseBody Category getCategoryById(@RequestParam Integer categoryId, HttpServletRequest request, HttpServletResponse response, Model model){
+	public @ResponseBody Category getCategoryById(@RequestParam Integer categoryId){
 		return categoryService.findById(categoryId);
 	}
 	
@@ -185,19 +151,65 @@ public class AdminController {
 			categoryService.addSubCategory(newCategory, mainCategoryId);
 		}
 		
-		for(String fname: featureNames ){
-			Feature f = new  Feature();
-			f.setName(fname);
-			featureService.addFeature(f);
-			categoryService.AddFeature(newCategory, f);
-			
-			featureService.AddCategory(f, newCategory);
+		Set<Category> editedCategories = new HashSet<Category>();
+		Set<Product> editedProducts = new HashSet<Product>();
+		editedCategories = categoryService.categoriesTreeFromCategory(newCategory);
+		editedProducts = categoryService.productsTreeFromCategory(newCategory);
+
+		Set<String> addExistsFeature = new HashSet<String>();
+		Set<String> addNewFeatures = new HashSet<String>();
+		
+		for(String feature : featureNames){
+			if(featureService.findByName(feature) != null ){
+				addExistsFeature.add(feature);
+			} else {
+				addNewFeatures.add(feature);
+			}
+		}
+		
+		for(String fName : addExistsFeature){
+			Feature f = featureService.findByName(fName);
+			for(Category cat : editedCategories){
+				categoryService.AddReferenceToFeature(cat.getId(), f.getId());
+			}
+		}
+		
+		for(String fName : addNewFeatures){
+			Feature newFeat = new  Feature();
+			newFeat.setName(fName);
+			featureService.addFeature(newFeat);
+			for(Category cat : editedCategories){
+				categoryService.AddReferenceToFeature(cat.getId(), newFeat.getId());
+			}
+		}
+		
+		for(Product p : editedProducts){
+			for(String extraFeature : addExistsFeature){
+				if(!p.hasFeature(extraFeature)){
+					ProductExtraFeatures newExtFeature = new ProductExtraFeatures();
+					newExtFeature.setName(extraFeature);
+					newExtFeature.setValue("");
+					newExtFeature.setProduct(p);
+					productExtraFeatureService.addProductExtraFeature(newExtFeature);					
+					
+				}
+			}
+			for(String extraFeature : addNewFeatures){
+				if(!p.hasFeature(extraFeature)){
+					ProductExtraFeatures newExtFeature = new ProductExtraFeatures();
+					newExtFeature.setName(extraFeature);
+					newExtFeature.setValue("");
+					newExtFeature.setProduct(p);
+					productExtraFeatureService.addProductExtraFeature(newExtFeature);					
+					
+				}
+			}
 		}
 	}
 	
 	@RequestMapping(value = "/admin/editCategory", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.OK)
-	public void editCategory(@RequestParam("name") String name
+	public void editCategory(@RequestParam("name") String newName
 			, @RequestParam("categoryId") Integer categoryId
 			, @RequestParam("featureNames[]") List<String> featureNames
 			){
@@ -206,19 +218,26 @@ public class AdminController {
 		}
 
 		Category editedCategory = categoryService.findById(categoryId);
-		categoryService.rename(categoryId, name);
+		categoryService.renameCategory(editedCategory.getName(), newName);
 		
-		Set<String> featsOldNames = FeatureNames(editedCategory.getFeatures());
-
-		Set<Product> productsTree =  categoryService.ProductsFromTreeCategory(editedCategory);
+		Set<Category> editedCategories = new HashSet<Category>();
+		Set<Product> editedProducts = new HashSet<Product>();
 		
-		Set<String> keepFeatures = new HashSet<String>();
+		editedCategories = categoryService.categoriesTreeFromCategory(editedCategory);
+		editedProducts = categoryService.productsTreeFromCategory(editedCategory);
+		
+		Set<String> featsOldNames = new HashSet<String>();
+		Set<String> addExistsFeature = new HashSet<String>();
+		Set<String> addNewFeatures = new HashSet<String>();
 		Set<String> removeFeatures = new HashSet<String>();
-		Set<String> addFeatures = new HashSet<String>();
+		
+		for(Feature p : editedCategory.getFeatures()){
+			featsOldNames.add(p.getName());
+		}
 		
 		for(String feature : featureNames){
-			if(featureService.findByName(feature) != null){
-				keepFeatures.add(feature);
+			if(featureService.findByName(feature) != null && !featsOldNames.contains(feature)){
+				addExistsFeature.add(feature);
 			}
 		}
 		
@@ -230,54 +249,66 @@ public class AdminController {
 		
 		for(String feature : featureNames){
 			if(featureService.findByName(feature) == null){
-				addFeatures.add(feature);
+				addNewFeatures.add(feature);
 			}
 		}
-				
-		for(Feature f : editedCategory.getFeatures()){
-			featureService.removeCategory(f, editedCategory);
+		
+		for(String fName : addExistsFeature){
+			Feature f = featureService.findByName(fName);
+			for(Category cat : editedCategories){
+				categoryService.AddReferenceToFeature(cat.getId(), f.getId());
+			}
 		}
 		
-		categoryService.RemoveAllFeatures(editedCategory);
-		
-		for(String kFeat : keepFeatures){
-			Feature f = featureService.findByName(kFeat);
-			categoryService.AddFeature(editedCategory, f);
-			//featureService.AddCategory(f, editedCategory);
-		}
-
-		System.out.println("in cycle addFeatures:");
-		for(String addFeat : addFeatures){
-			System.out.println(addFeat);
+		for(String fName : addNewFeatures){
 			Feature newFeat = new  Feature();
-			newFeat.setName(addFeat);
+			newFeat.setName(fName);
 			featureService.addFeature(newFeat);
-			categoryService.AddFeature(editedCategory, newFeat);
-			//featureService.AddCategory(newFeat, editedCategory);
-		}
-
-		for(Product p : productsTree){
-			productService.addNewExtraFeatures(p, addFeatures);
-			productService.removeExtraFeatures(p, removeFeatures);
+			for(Category cat : editedCategories){
+				categoryService.AddReferenceToFeature(cat.getId(), newFeat.getId());
+			}
 		}
 		
-		System.out.println("in cycle removeFeatures:");
 		for(String removeFeat : removeFeatures){
-			System.out.println(removeFeat);
 			Feature removingFeat = featureService.findByName(removeFeat);
-			featureService.removeCategory(removingFeat, editedCategory);
-			categoryService.RemoveFeature(editedCategory, removingFeat);
-			featureService.removeFeature(removingFeat.getId());            //fix the problem can not delete a feature
+			
+			for(Category cat : editedCategories){
+				categoryService.RemoveReferenceToFeature(cat.getId(), removingFeat.getId());
+			}
+			
+			removingFeat = featureService.findByName(removeFeat);
+			if(removingFeat.getCategories().size() == 0){
+				featureService.removeFeature(removingFeat.getId());
+			}
 		}
 		
+		for(Product p : editedProducts){
+			for(String extraFeature : addExistsFeature){
+				if(!p.hasFeature(extraFeature)){
+					ProductExtraFeatures newExtFeature = new ProductExtraFeatures();
+					newExtFeature.setName(extraFeature);
+					newExtFeature.setValue("");
+					newExtFeature.setProduct(p);
+					productExtraFeatureService.addProductExtraFeature(newExtFeature);
+				}
+			}
+			for(String extraFeature : addNewFeatures){
+				if(!p.hasFeature(extraFeature)){
+					ProductExtraFeatures newExtFeature = new ProductExtraFeatures();
+					newExtFeature.setName(extraFeature);
+					newExtFeature.setValue("");
+					newExtFeature.setProduct(p);
+					productExtraFeatureService.addProductExtraFeature(newExtFeature);
+				}
+			}
+			for(String extraFeature : removeFeatures){
+				if(p.hasFeature(extraFeature)){
+					ProductExtraFeatures newExtFeature = p.getExtraFeatureByName(extraFeature);
+					productExtraFeatureService.removeProductExtraFeature(newExtFeature);
+				}
+			}
+		}	
 	}
-	private Set<String> FeatureNames(Set<Feature> feats){
-		Set<String> names = new HashSet<String>();
-		for(Feature p : feats){
-			names.add(p.getName());
-		}
-		return names;
-	}	
 	
 	@RequestMapping(value = "/admin/removeCategory", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.OK)
@@ -285,12 +316,18 @@ public class AdminController {
 		Category cat = categoryService.findById(categoryId);
 		
 		if(categoryService.listSubCategories(categoryId).size() == 0 && cat.getProducts().size() == 0){
+			for(Feature f : cat.getFeatures()){
+				categoryService.RemoveReferenceToFeature(cat.getId(), f.getId());
+				if(f.getCategories().size() == 0){
+					featureService.removeFeature(f.getId());
+				}
+			}
 			categoryService.removeCategory(categoryId);
 		}
 	}
 	
 	@RequestMapping(value = "/admin/getProducts", method = RequestMethod.GET)
-	public @ResponseBody List<ProductWrapper> getProducts(HttpServletRequest request, HttpServletResponse response){
+	public @ResponseBody List<ProductWrapper> getProducts(){
 		List<ProductWrapper> products = new ArrayList<ProductWrapper>();
 		
 		for(Product p : productService.listProducts()){
@@ -303,8 +340,7 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value = "/admin/getProduct", method = RequestMethod.GET)
-	public @ResponseBody ProductWrapper getProductById(@RequestParam Integer productId, HttpServletRequest request, HttpServletResponse response, Model model){
-		
+	public @ResponseBody ProductWrapper getProductById(@RequestParam Integer productId){
 		ProductWrapper pw = new ProductWrapper();
 		Product p = productService.findById(productId);
 		pw.setProduct(p);
@@ -340,13 +376,14 @@ public class AdminController {
 		
 		productService.AddProduct(newProduct);
 		
-		Set<String> featureNames = categoryService.listTreeFeaturesToTop(cat.getId());
-		
-		for(String f : featureNames){
-			System.out.println("f : " + f);
+		Set<String> featureNames = categoryService.featuresTreeToTop(cat.getId());
+		for(String featName : featureNames){
+			ProductExtraFeatures newExtraFeature = new ProductExtraFeatures();
+			newExtraFeature.setName(featName);
+			newExtraFeature.setValue("");
+			newExtraFeature.setProduct(newProduct);
+			productExtraFeatureService.addProductExtraFeature(newExtraFeature);
 		}
-		
-		productService.addNewExtraFeatures(newProduct, featureNames);
 	}
 		
 	@RequestMapping(value = "/admin/editProduct", method = RequestMethod.POST)
@@ -359,20 +396,20 @@ public class AdminController {
 			, @RequestParam("country") String country
 			, @RequestParam("weight") Integer weight
 			, @RequestParam("amountOnWarehouse") Integer amountOnWarehouse
-			//, @RequestParam("extraFeatures[]") List<String> extraFeatures
+			, @RequestParam("extraFeatures[]") List<String> extraFeatures
 			){
 		
 		Map<String, String> efNameValue = new HashMap<String, String>();
 		
-//		for(String efName : extraFeatures){
-//			String[] nameValue = efName.split("__");
-//			if(nameValue[1] == "null_null"){
-//				nameValue[1] = "";
-//			}
-//			efNameValue.put(nameValue[0], nameValue[1]);
-//		}
+		for(String efName : extraFeatures){
+			String[] nameValue = efName.split("__");
+			if(nameValue[1] == "null_null"){
+				nameValue[1] = "";
+			}
+			efNameValue.put(nameValue[0], nameValue[1]);
+		}
 		
-		productExtraFeatureService.setExtraFeatures(productId, efNameValue);
+		productExtraFeatureService.setValuesExtraFeatures(productId, efNameValue);
 		
 		Product editedProduct = productService.findById(productId);
 		editedProduct.setName(name);
@@ -382,13 +419,13 @@ public class AdminController {
 		editedProduct.setWeight(weight);
 		editedProduct.setAmountOnWarehouse(amountOnWarehouse);
 
-		productService.editProduct(productId, editedProduct);
+		productService.editProduct(editedProduct);
 		
 		Category oldCat = editedProduct.getCategory();
 		Category newCat = categoryService.findByName(category);
 
 		if(!oldCat.getName().equals(newCat.getName())){
-			productService.setCategory(editedProduct, newCat);
+			editedProduct.setCategory(newCat); //check if works
 		}
 	}
 	
@@ -396,11 +433,10 @@ public class AdminController {
 	@ResponseStatus(value = HttpStatus.OK)
 	public void removeProduct(@RequestParam("productId") Integer productId){
 		Product p = productService.findById(productId);
-		if(p.getOrders().size() == 0){
+		if(p.getOrders().size() == 0 && p.getUsers().size() == 0){
 			productService.removeProduct(productId);
 		}
 	}
-	
 	
 	@RequestMapping(value = "/admin/addProductPhoto/{productId}", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.OK)
@@ -432,25 +468,19 @@ public class AdminController {
 	@RequestMapping(value = "/admin/removeProductPhoto", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.OK)
 	public void removeProductPhoto(@RequestParam("photoId") int photoId) {
-		
-		//productService.removePhoto(photoService.findById(photoId).getProduct(), photoService.findById(photoId));
-				photoService.removePhoto(photoId);
-//				
-//				Photo newPhoto = new Photo();
-//					newPhoto.setData(file.getBytes());
-//					newPhoto.setProduct(prod);
-//					photoService.addPhoto(newPhoto);
+		photoService.removePhoto(photoId);
 	}
 	
 	@RequestMapping(value = "/admin/product/photo", method = RequestMethod.GET)
-	  public void showImage(@RequestParam("id") Integer itemId, HttpServletResponse response,HttpServletRequest request) 
-	          throws ServletException, IOException{
-
-	    Photo photo = photoService.findById(itemId);        
+	public void getImage(@RequestParam("id") Integer photoId, HttpServletResponse response){
+	    Photo photo = photoService.findById(photoId);        
 	    response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
-	    response.getOutputStream().write(photo.getData());
-	    
-	    response.getOutputStream().close();
+	    try {
+			response.getOutputStream().write(photo.getData());
+		    response.getOutputStream().close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@RequestMapping(value = "/admin/getOrders", method = RequestMethod.GET)
@@ -470,9 +500,7 @@ public class AdminController {
 	@RequestMapping(value = "/admin/changeOrderStatus", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.OK)
 	public void changeOrderStatus(@RequestParam("orderId") int orderId, @RequestParam("status") String status){
-		Orders ord = orderService.findById(orderId);
-		ord.setStatus(status);
-		orderService.updateOrder(ord);
+		orderService.changeStatus(orderId, status);
 	}
 }
 

@@ -1,6 +1,5 @@
 package ua.sombra.webstore.domain;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -32,7 +31,16 @@ public class Photo {
 	public void setId(int id) {
 		this.id = id;
 	}
+	
+	@Column(name = "data", nullable = false)
+	public byte[] getData() {
+		return data;
+	}
 
+	public void setData(byte[] data) {
+		this.data = data;
+	}
+	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "product_id", nullable = false)
 	@JsonBackReference
@@ -42,14 +50,5 @@ public class Photo {
 
 	public void setProduct(Product product) {
 		this.product = product;
-	}
-
-	@Column(name = "data", nullable = false)
-	public byte[] getData() {
-		return data;
-	}
-
-	public void setData(byte[] data) {
-		this.data = data;
 	}
 }

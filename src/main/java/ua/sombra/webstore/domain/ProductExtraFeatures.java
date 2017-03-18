@@ -1,6 +1,5 @@
 package ua.sombra.webstore.domain;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -51,7 +50,7 @@ public class ProductExtraFeatures {
 		this.value = value;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "product_id", nullable = false)
 	@JsonBackReference
 	public Product getProduct() {

@@ -1,4 +1,4 @@
-package ua.sombra.webstore.service;
+package ua.sombra.webstore.service.paging;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -21,13 +21,14 @@
 
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<script src="${contextPath}/resources/js/jquery-3.1.1.js"></script>
+	<script src="${contextPath}/resources/js/bootstrap.min.js"></script>
 
 </head>
 
 <body>
 
 <div class="container">
-
     <form:form method="POST" modelAttribute="userForm" class="form-signin">
         <h2 class="form-signin-heading">Create your account</h2>
         <spring:bind path="login">
@@ -101,7 +102,5 @@
 
 </div>
 <!-- /container -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<script src="${contextPath}/resources/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -1,14 +1,13 @@
-package ua.sombra.webstore.service;
+package ua.sombra.webstore.service.databaseService.impls;
 
 import java.util.Map;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ua.sombra.webstore.dao.interfaces.ProductExtraFeaturesDAO;
-import ua.sombra.webstore.domain.Product;
 import ua.sombra.webstore.domain.ProductExtraFeatures;
+import ua.sombra.webstore.service.databaseService.interfaces.ProductExtraFeatureService;
 
 @Service
 public class ProductExtraFeatureServiceImpl implements ProductExtraFeatureService {
@@ -27,17 +26,12 @@ public class ProductExtraFeatureServiceImpl implements ProductExtraFeatureServic
 	}
 
 	@Override
-	public void setValueProductExtraFeature(Integer productId, String valueName, String value){
-		productExtraFeaturesDAO.setValueProductExtraFeature(productId, valueName, value);
-	}
-
-	@Override
 	public ProductExtraFeatures findById(Integer productEFId){
 		return productExtraFeaturesDAO.findById(productEFId);
 	}
-
+	
 	@Override
-	public void setExtraFeatures(Integer productId, Map<String, String> featureNameValue){
-		productExtraFeaturesDAO.setExtraFeatures(productId, featureNameValue);
+	public void setValuesExtraFeatures(Integer productId, Map<String, String> featureNameValue){
+		productExtraFeaturesDAO.setValuesExtraFeatures(productId, featureNameValue);
 	}
 }

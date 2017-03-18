@@ -122,7 +122,7 @@ public class User {
 		this.login = login;
 	}
 	
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER)
 	  @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
 	          inverseJoinColumns = @JoinColumn(name = "role_id"))
 	@JsonManagedReference
@@ -134,7 +134,7 @@ public class User {
 		this.roles = roles;
 	}
 	
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER)
 	   @JoinTable(name = "cart", joinColumns = @JoinColumn(name = "user_id"),
 	           inverseJoinColumns = @JoinColumn(name = "product_id"))
 	@JsonManagedReference

@@ -45,14 +45,14 @@
 							<li><a href="/webstore/products/All category-1">All category</a></li>
 					</c:if>
 					<c:forEach items="${categories}" var="category">
-						<c:if test="${category == topSeparator}">
+						<c:if test="${category.equals(\"topSeparator\")}">
 							<li class='menu-separator'><i class="fa fa-chevron-down" aria-hidden="true"></i></li>
 						</c:if>
-						<c:if test="${category == bottomSeparator}">
+						<c:if test="${category.equals(\"bottomSeparator\")}">
 							<li class='menu-separator'><i class="fa fa-chevron-up" aria-hidden="true"></i></li>
 						</c:if>
-						<c:if test="${category != bottomSeparator}">
-							<c:if test="${category != topSeparator}">
+						<c:if test="${!category.equals(\"bottomSeparator\")}">
+							<c:if test="${!category.equals(\"topSeparator\")}">
 								<c:if test="${currentCategory == category}">
 									<li class="selected-menu-item"><a href="/webstore/products/${category}-1">${category}</a></li>
 								</c:if>

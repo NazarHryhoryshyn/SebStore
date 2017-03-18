@@ -114,7 +114,7 @@ public class Product implements Comparable<Product> {
 		this.category = category;
 	}	
 	
-	@OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "product", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JsonManagedReference
 	public Set<Photo> getPhotos() {
 		return photos;
@@ -179,7 +179,6 @@ public class Product implements Comparable<Product> {
 	public int compareTo(Product o) {
 		return Integer.compare(o.getId(), this.getId());
 	}
-	
 }
 
 

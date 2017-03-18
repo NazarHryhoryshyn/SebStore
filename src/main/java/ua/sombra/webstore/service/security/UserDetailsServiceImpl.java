@@ -1,4 +1,4 @@
-package ua.sombra.webstore.service;
+package ua.sombra.webstore.service.security;
 
 import ua.sombra.webstore.dao.interfaces.UserDAO;
 import ua.sombra.webstore.domain.Role;

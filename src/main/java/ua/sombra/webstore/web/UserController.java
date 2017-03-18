@@ -1,8 +1,5 @@
 package ua.sombra.webstore.web;
 
-import java.util.Map;
-
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -10,16 +7,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import ua.sombra.webstore.service.SecurityService;
 import ua.sombra.webstore.validator.UserValidator;
 import ua.sombra.webstore.domain.User;
-import ua.sombra.webstore.service.UserService;
+import ua.sombra.webstore.service.databaseService.interfaces.SecurityService;
+import ua.sombra.webstore.service.databaseService.interfaces.UserService;
 
 @Controller
 public class UserController {
@@ -42,16 +38,6 @@ public class UserController {
 
         return "registration";
     }
-    
-    @RequestMapping(value = { "/profile", }, method = RequestMethod.GET)
-	public String profile(Model model) {
-		User u = userService.findByLogin(securityService.findLoggedInLogin());
-		model.addAttribute("uname", u.getLastname() + " " + u.getFirstname());
-		model.addAttribute("isAdmin", userService.currUserIsAdmin());
-		model.addAttribute("user", u);
-		
-		return "profile";
-	}
     
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult, Model model) {
@@ -81,25 +67,17 @@ public class UserController {
 
         return "login";
     }
-    
-	@RequestMapping("/users")
-	public String listUsers(Map<String, Object> map) {
-
-		map.put("user", new User());
-		map.put("userList", userService.listUsers());
-
-		return "user";
-	}
-
-	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String addUser(@ModelAttribute("contact") User user,
-			BindingResult result) {
-
-		userService.addUser(user);
-
-		return "redirect:/";
-	}
 	
+    @RequestMapping(value = { "/profile", }, method = RequestMethod.GET)
+   	public String profile(Model model) {
+   		User u = userService.findByLogin(securityService.findLoggedInLogin());
+   		model.addAttribute("uname", u.getLastname() + " " + u.getFirstname());
+   		model.addAttribute("isAdmin", userService.currUserIsAdmin());
+   		model.addAttribute("user", u);
+   		
+   		return "profile";
+   	}
+    
 	@RequestMapping(value = "/profile/changefname", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.OK)
 	public void changeFirstName(@RequestParam("firstname") String firstname){

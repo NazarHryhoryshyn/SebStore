@@ -17,10 +17,10 @@ import ua.sombra.webstore.domain.Category;
 import ua.sombra.webstore.domain.Photo;
 import ua.sombra.webstore.domain.Product;
 import ua.sombra.webstore.domain.User;
-import ua.sombra.webstore.service.CategoryService;
-import ua.sombra.webstore.service.ProductService;
-import ua.sombra.webstore.service.SecurityService;
-import ua.sombra.webstore.service.UserService;
+import ua.sombra.webstore.service.databaseService.interfaces.CategoryService;
+import ua.sombra.webstore.service.databaseService.interfaces.ProductService;
+import ua.sombra.webstore.service.databaseService.interfaces.SecurityService;
+import ua.sombra.webstore.service.databaseService.interfaces.UserService;
 
 @Controller
 public class MainPageController {
@@ -40,32 +40,31 @@ public class MainPageController {
 	@RequestMapping(value = { "/", }, method = RequestMethod.GET)
 	public String mainPage(Model model) {
 		User u = userService.findByLogin(securityService.findLoggedInLogin());
-		System.out.println(u);
-		model.addAttribute("uname", u.getLastname() + " " + u.getFirstname());
-		model.addAttribute("isAdmin", userService.currUserIsAdmin());
-		
 		Set<String> catNames = new HashSet<String>();
+		Map<Integer, Integer> productPhoto = new HashMap<Integer, Integer>();
+		Set<Product> popularProducts = new HashSet<Product>();
+		int prodSize = 0;
+		int amountProducts = 0;
 		
 		for(Category c : categoryService.listTopCategories()){
 			catNames.add(c.getName());
 		}
 		
-		model.addAttribute("categories", catNames);
-		
-		Map<Integer, Integer> productPhoto = new HashMap<Integer, Integer>();
-		
-		Set<Product> popularProducts = new HashSet<Product>();
 		List<Product> prods = productService.listProducts();
-		int prodSize = prods.size();
+		
+		prodSize = prods.size();
+		
 		for(int i = 0; i < prodSize || i < 12; i++){
 			popularProducts.add(prods.get(i));
-			
 			Iterator<Photo> iter = prods.get(i).getPhotos().iterator();
-			
 			productPhoto.put(prods.get(i).getId(), iter.next().getId());
 		}
-		int amountProducts = popularProducts.size();
 		
+		amountProducts = popularProducts.size();
+
+		model.addAttribute("uname", u.getLastname() + " " + u.getFirstname());
+		model.addAttribute("isAdmin", userService.currUserIsAdmin());
+		model.addAttribute("categories", catNames);
 		model.addAttribute("popularProducts", popularProducts);
 		model.addAttribute("amountProducts", amountProducts);
 		model.addAttribute("productPhoto", productPhoto);

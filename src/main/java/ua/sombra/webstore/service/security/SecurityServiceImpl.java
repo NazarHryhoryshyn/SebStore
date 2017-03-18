@@ -1,6 +1,4 @@
-package ua.sombra.webstore.service;
-
-import java.util.Set;
+package ua.sombra.webstore.service.security;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,8 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
-import ua.sombra.webstore.dao.interfaces.RoleDAO;
-import ua.sombra.webstore.domain.Role;
+import ua.sombra.webstore.service.databaseService.interfaces.SecurityService;
 
 @Service
 public class SecurityServiceImpl implements SecurityService {
@@ -26,12 +23,6 @@ public class SecurityServiceImpl implements SecurityService {
 
 	@Autowired
 	private UserDetailsService userDetailsService;
-
-	@Autowired
-	private UserService userService;
-	
-	@Autowired
-	private RoleDAO roleDao;
 	
 	@Override
 	public String findLoggedInLogin() {

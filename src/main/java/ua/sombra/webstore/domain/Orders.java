@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,7 +15,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -126,18 +124,6 @@ public class Orders {
 		this.deliveryPrice = deliveryPrice;
 	}
 
-	@ManyToMany(fetch = FetchType.EAGER)
-	  @JoinTable(name = "orders_products", joinColumns = @JoinColumn(name = "order_id"),
-	          inverseJoinColumns = @JoinColumn(name = "product_id"))
-	@JsonManagedReference
-	public Set<Product> getProducts() {
-		return products;
-	}
-
-	public void setProducts(Set<Product> products) {
-		this.products = products;
-	}
-	
 	@Column(name = "address", length = 250 ,nullable = true)
 	public String getAddress() {
 		return address;
@@ -174,7 +160,7 @@ public class Orders {
 		this.cardThreeNumbers = cardThreeNumbers;
 	}
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id")
 	@JsonBackReference
 	public User getUser() {
@@ -183,6 +169,18 @@ public class Orders {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+	
+	@ManyToMany(fetch = FetchType.EAGER)
+	  @JoinTable(name = "orders_products", joinColumns = @JoinColumn(name = "order_id"),
+	          inverseJoinColumns = @JoinColumn(name = "product_id"))
+	@JsonManagedReference
+	public Set<Product> getProducts() {
+		return products;
+	}
+
+	public void setProducts(Set<Product> products) {
+		this.products = products;
 	}
 }
 

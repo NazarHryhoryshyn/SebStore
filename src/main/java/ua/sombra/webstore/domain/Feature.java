@@ -3,7 +3,6 @@ package ua.sombra.webstore.domain;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -43,7 +42,7 @@ public class Feature {
 		this.name = name;
 	}
 
-	@ManyToMany(mappedBy = "features", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToMany(mappedBy = "features", fetch = FetchType.EAGER)
 	@JsonBackReference
 	public Set<Category> getCategories() {
 		return categories;

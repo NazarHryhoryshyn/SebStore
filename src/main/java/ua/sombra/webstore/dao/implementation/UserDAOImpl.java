@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.sombra.webstore.dao.interfaces.UserDAO;
 import ua.sombra.webstore.domain.Product;
 import ua.sombra.webstore.domain.User;
-import ua.sombra.webstore.service.ProductService;
 
 @Repository
 @Transactional
@@ -20,42 +19,12 @@ public class UserDAOImpl implements UserDAO {
 
 	@Autowired
 	private SessionFactory sessionFactory;
-	
-	@Autowired
-	private ProductService productService;
 
 	@Override
 	public void addUser(User user) {
 		sessionFactory.getCurrentSession().save(user);
 	}
-
-	@Override
-	@SuppressWarnings("unchecked")
-	public List<User> listUsers() {
-		return (List<User>) sessionFactory.getCurrentSession().createQuery("From User").list();
-	}
-
-	@Override
-	public void removeUser(Integer id) {
-		User user = (User) sessionFactory.getCurrentSession().load(User.class, id);
-		if (user != null) {
-			sessionFactory.getCurrentSession().delete(user);
-		}
-	}
-
-	@Override
-	public User findByLogin(String login) {
-		User u = (User) sessionFactory.getCurrentSession().createQuery("FROM User u WHERE u.login LIKE :login")
-				.setString("login", login).uniqueResult();
-		return u;
-	}
-
-	@Override
-	public User findById(Integer id) {
-		return (User) sessionFactory.getCurrentSession().createQuery("From User u where u.id = :id")
-				.setParameter("id", id).uniqueResult();
-	}
-
+	
 	@Override
 	public void editUser(User userNewParameters){
 		User u = findById(userNewParameters.getId());
@@ -66,9 +35,60 @@ public class UserDAOImpl implements UserDAO {
 		u.setSex(userNewParameters.getSex());
 		u.setPassword(userNewParameters.getPassword());
 	}
+	
+	@Override
+	public User findById(Integer id) {
+		return (User) sessionFactory.getCurrentSession().createQuery("From User u where u.id = :id")
+				.setParameter("id", id).uniqueResult();
+	}
+	
+	@Override
+	public User findByLogin(String login) {
+		User u = (User) sessionFactory.getCurrentSession().createQuery("FROM User u WHERE u.login LIKE :login")
+				.setString("login", login).uniqueResult();
+		return u;
+	}
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<User> listUsers() {
+		return (List<User>) sessionFactory.getCurrentSession().createQuery("From User").list();
+	}
 
 	@Override
-	public void addProduct(int userId, int productId){
+	public void awardAdminRights(int userId, int roleAdminId){
+		Query q = sessionFactory.getCurrentSession().createSQLQuery("insert into user_roles values(:userId, :adminId)");
+		q.setParameter("userId", userId);
+		q.setParameter("adminId", roleAdminId);
+		q.executeUpdate();
+	}
+
+	@Override
+	public void takeOffAdminRights(int userId, int roleAdminId){
+		Query q = sessionFactory.getCurrentSession().createSQLQuery("delete from user_roles where user_id = :userId and role_id = :adminId)");
+		q.setParameter("userId", userId);
+		q.setParameter("adminId", roleAdminId);
+		q.executeUpdate();
+	}
+	
+	@Override
+	public void awardUserRights(int userId, int roleUserId){
+		Query q = sessionFactory.getCurrentSession().createSQLQuery("insert into user_roles values(:userId, :roleUserId)");
+		q.setParameter("userId", userId);
+		q.setParameter("roleUserId", roleUserId);
+		q.executeUpdate();
+	}
+
+	@Override
+	public void takeOffUserRights(int userId, int roleUserId){
+		Query q = sessionFactory.getCurrentSession().createSQLQuery("delete from user_roles where user_id = :userId and role_id = :roleUserId)");
+		q.setParameter("userId", userId);
+		q.setParameter("roleUserId", roleUserId);
+		q.executeUpdate();
+	}
+	
+	@Override
+	public void addReferenceToProduct(int userId, int productId){
 		Session session = sessionFactory.getCurrentSession();
 		User u = (User) session.load(User.class, userId);
 		Product p = (Product) session.load(Product.class, productId);
@@ -76,18 +96,16 @@ public class UserDAOImpl implements UserDAO {
 			Query query = session.createSQLQuery("insert into cart values(:userId, :productId)");
 			query.setParameter("userId", userId);
 			query.setParameter("productId", productId);
-			 
 			query.executeUpdate();
 		}
 	}
 
 	@Override
-	public void removeProduct(int userId, int productId){
+	public void removeReferenceToProduct(int userId, int productId){
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createSQLQuery("delete from cart where user_id = :userId and product_id = :productId");
 		query.setParameter("userId", userId);
 		query.setParameter("productId", productId);
-		 
 		query.executeUpdate();
 	}
 }

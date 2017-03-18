@@ -420,15 +420,15 @@ function editProduct(){
 	
 	var extraFeatures = [];
 	
-//	$("#modal-product-edit-extraFeatures").find('tr').each(function (i, el) {
-//        var $tds = $(this).find('td');
-//           var efName = $tds.eq(0).text();
-//           var efValue = $tds.eq(1).find('.fValue').val();
-//           if(efValue == ""){
-//        	   efValue = "null_null";
-//           }
-//           extraFeatures.push(efName + "__"+ efValue);
-//    });
+	$("#modal-product-edit-extraFeatures").find('tr').each(function (i, el) {
+        var $tds = $(this).find('td');
+           var efName = $tds.eq(0).text();
+           var efValue = $tds.eq(1).find('.fValue').val();
+           if(efValue == ""){
+        	   efValue = "null_null";
+           }
+           extraFeatures.push(efName + "__"+ efValue);
+    });
 	
 	$.ajax({
 		method : "POST",
@@ -443,7 +443,7 @@ function editProduct(){
 			country : country,
 			weight : weight,
 			amountOnWarehouse : amountOnWarehouse,
-			//extraFeatures : extraFeatures
+			extraFeatures : extraFeatures
 		},
 		success : function(){
 			createListProducts();

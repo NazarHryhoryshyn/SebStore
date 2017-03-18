@@ -32,37 +32,30 @@ public class ProductExtraFeaturesDAOImpl implements ProductExtraFeaturesDAO {
 	public void removeProductExtraFeature(ProductExtraFeatures productExtraFeature) {
 		sessionFactory.getCurrentSession().delete(productExtraFeature);
 	}
-
-	@Override
-	public void setValueProductExtraFeature(Integer productId, String valueName, String value) {
-		Product p = productDao.findById(productId);
-		for(ProductExtraFeatures pef : p.getProductExtraFeatures()){
-			if(pef.getValue().equals(valueName)){
-				pef.setValue(value);
-				sessionFactory.getCurrentSession().save(pef);
-				break;
-			}
-		}
-	}
-
-	@Override
-	public void setExtraFeatures(Integer productId, Map<String, String> featureNameValue){
-		Product p = productDao.findById(productId);
-		for(Entry<String, String> entry : featureNameValue.entrySet()){
-			for(ProductExtraFeatures pef : p.getProductExtraFeatures()){
-				if(pef.getName().equals(entry.getKey())){
-					pef.setValue(entry.getValue());
-					sessionFactory.getCurrentSession().update(pef);
-					break;
-				}
-			}
-		}
-	}
 	
 	@Override
 	public ProductExtraFeatures findById(Integer productEFId) {
 		ProductExtraFeatures productExtraFeature = (ProductExtraFeatures)sessionFactory.getCurrentSession()
 				.get(ProductExtraFeatures.class, productEFId);
 		return productExtraFeature;
+	}
+
+	@Override
+	public void setValueExtraFeature(Product product, String valueName, String newValue) {
+		for(ProductExtraFeatures pef : product.getProductExtraFeatures()){
+			if(pef.getValue().equals(valueName)){
+				pef.setValue(newValue);
+				sessionFactory.getCurrentSession().update(pef);
+				break;
+			}
+		}
+	}
+
+	@Override
+	public void setValuesExtraFeatures(Integer productId, Map<String, String> featureNameValue){
+		Product p = productDao.findById(productId);
+		for(Entry<String, String> entry : featureNameValue.entrySet()){			
+			setValueExtraFeature(p, entry.getKey(), entry.getValue());
+		}
 	}
 }
