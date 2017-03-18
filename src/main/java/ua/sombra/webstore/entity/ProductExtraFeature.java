@@ -1,4 +1,4 @@
-package ua.sombra.webstore.domain;
+package ua.sombra.webstore.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -6,19 +6,19 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
 @Entity
-@Table(name = "photo")
-public class Photo {
+@Table(name = "product_extra_features")
+public class ProductExtraFeature {
 
-	int id;
-	private byte[] data;
+	private int id;
+	private String name;
+	private String value;
 
 	private Product product;
 
@@ -31,16 +31,25 @@ public class Photo {
 	public void setId(int id) {
 		this.id = id;
 	}
-	
-	@Column(name = "data", nullable = false)
-	public byte[] getData() {
-		return data;
+
+	@Column(name = "name", length = 250, nullable = false)
+	public String getName() {
+		return name;
 	}
 
-	public void setData(byte[] data) {
-		this.data = data;
+	public void setName(String name) {
+		this.name = name;
 	}
-	
+
+	@Column(name = "value", length = 250, nullable = false)
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "product_id", nullable = false)
 	@JsonBackReference

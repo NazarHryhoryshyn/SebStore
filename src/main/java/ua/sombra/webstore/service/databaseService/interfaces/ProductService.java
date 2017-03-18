@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import ua.sombra.webstore.domain.Product;
+import ua.sombra.webstore.entity.Product;
 
 public interface ProductService {
 	

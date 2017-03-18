@@ -1,4 +1,4 @@
-package ua.sombra.webstore.domain;
+package ua.sombra.webstore.entity;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -37,7 +37,7 @@ public class Product implements Comparable<Product> {
 	private Set<Photo> photos = new HashSet<Photo>(0);
 	private Set<User> users = new HashSet<User>(0);
 	private Set<Orders> orders = new HashSet<Orders>(0);
-	private Set<ProductExtraFeatures> productExtraFeatures = new HashSet<ProductExtraFeatures>(0);
+	private Set<ProductExtraFeature> productExtraFeatures = new HashSet<ProductExtraFeature>(0);
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -146,11 +146,11 @@ public class Product implements Comparable<Product> {
 	
 	@OneToMany(mappedBy = "product", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JsonManagedReference
-	public Set<ProductExtraFeatures> getProductExtraFeatures() {
+	public Set<ProductExtraFeature> getProductExtraFeatures() {
 		return productExtraFeatures;
 	}
 
-	public void setProductExtraFeatures(Set<ProductExtraFeatures> productExtraFeatures) {
+	public void setProductExtraFeatures(Set<ProductExtraFeature> productExtraFeatures) {
 		this.productExtraFeatures = productExtraFeatures;
 	}
 	
@@ -158,7 +158,7 @@ public class Product implements Comparable<Product> {
 		if(getProductExtraFeatures() == null || getProductExtraFeatures().size() == 0){
 			return false;
 		}
-		for(ProductExtraFeatures pef : getProductExtraFeatures()){
+		for(ProductExtraFeature pef : getProductExtraFeatures()){
 			if(pef.getName().equals(featureName)){
 				return true;
 			}
@@ -166,8 +166,8 @@ public class Product implements Comparable<Product> {
 		return false;
 	}
 	
-	public ProductExtraFeatures getExtraFeatureByName(String featureName){
-		for(ProductExtraFeatures pef : getProductExtraFeatures()){
+	public ProductExtraFeature getExtraFeatureByName(String featureName){
+		for(ProductExtraFeature pef : getProductExtraFeatures()){
 			if(pef.getName().equals(featureName)){
 				return pef;
 			}

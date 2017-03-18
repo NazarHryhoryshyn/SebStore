@@ -1,4 +1,4 @@
-package ua.sombra.webstore.domain;
+package ua.sombra.webstore.entity;
 
 import java.util.HashSet;
 import java.util.Set;

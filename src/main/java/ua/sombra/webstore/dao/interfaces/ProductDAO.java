@@ -1,7 +1,8 @@
 package ua.sombra.webstore.dao.interfaces;
 
 import java.util.List;
-import ua.sombra.webstore.domain.Product;
+
+import ua.sombra.webstore.entity.Product;
 
 public interface ProductDAO {
 	

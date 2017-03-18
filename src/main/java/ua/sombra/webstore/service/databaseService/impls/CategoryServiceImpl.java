@@ -11,9 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ua.sombra.webstore.dao.interfaces.CategoryDAO;
-import ua.sombra.webstore.domain.Category;
-import ua.sombra.webstore.domain.Feature;
-import ua.sombra.webstore.domain.Product;
+import ua.sombra.webstore.entity.Category;
+import ua.sombra.webstore.entity.Feature;
+import ua.sombra.webstore.entity.Product;
 import ua.sombra.webstore.service.databaseService.interfaces.CategoryService;
 
 @Service

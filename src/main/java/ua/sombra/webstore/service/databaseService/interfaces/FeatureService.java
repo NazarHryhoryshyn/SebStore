@@ -2,7 +2,7 @@ package ua.sombra.webstore.service.databaseService.interfaces;
 
 import java.util.List;
 
-import ua.sombra.webstore.domain.Feature;
+import ua.sombra.webstore.entity.Feature;
 
 public interface FeatureService {
 	

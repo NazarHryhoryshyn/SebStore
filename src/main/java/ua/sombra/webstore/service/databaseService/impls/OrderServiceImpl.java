@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ua.sombra.webstore.dao.interfaces.OrderDAO;
-import ua.sombra.webstore.domain.Orders;
+import ua.sombra.webstore.entity.Orders;
 import ua.sombra.webstore.service.databaseService.interfaces.OrderService;
 
 @Service

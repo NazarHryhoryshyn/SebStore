@@ -2,7 +2,7 @@ package ua.sombra.webstore.dao.interfaces;
 
 import java.util.List;
 
-import ua.sombra.webstore.domain.User;
+import ua.sombra.webstore.entity.User;
 
 public interface UserDAO {
 	

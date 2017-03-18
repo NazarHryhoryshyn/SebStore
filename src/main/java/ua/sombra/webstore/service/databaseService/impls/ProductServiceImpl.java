@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ua.sombra.webstore.dao.interfaces.ProductDAO;
-import ua.sombra.webstore.domain.Photo;
-import ua.sombra.webstore.domain.Product;
+import ua.sombra.webstore.entity.Photo;
+import ua.sombra.webstore.entity.Product;
 import ua.sombra.webstore.service.databaseService.interfaces.ProductService;
 
 @Service

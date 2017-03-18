@@ -1,4 +1,4 @@
-package ua.sombra.webstore.domain;
+package ua.sombra.webstore.entity;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -19,7 +19,7 @@ import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import ua.sombra.webstore.domain.Role;
+import ua.sombra.webstore.entity.Role;
 
 @Entity
 @Table(name = "user")

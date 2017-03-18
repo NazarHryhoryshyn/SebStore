@@ -22,12 +22,14 @@
 	<!-- Определяем папки, в которых будем автоматически искать бины-компоненты 
 		(@Component, @Service) -->
 	<context:component-scan base-package="ua.sombra.webstore.dao.implementation" />
-	<context:component-scan base-package="ua.sombra.webstore.service" />
+	<context:component-scan base-package="ua.sombra.webstore.service.databaseService.impls" />
+	<context:component-scan base-package="ua.sombra.webstore.service.security" />
 	<context:component-scan base-package="ua.sombra.webstore.validator" />
 
 	<!-- Файл с настройками ресурсов для работы с данными (Data Access Resources) -->
 	<import resource="data.xml" />
 
 	<import resource="security.xml" />
-
+	
+	
 </beans>

@@ -1,6 +1,6 @@
 package ua.sombra.webstore.service.databaseService.interfaces;
 
-import ua.sombra.webstore.domain.Photo;
+import ua.sombra.webstore.entity.Photo;
 
 public interface PhotoService {
 	

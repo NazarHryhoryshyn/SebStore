@@ -2,7 +2,7 @@ package ua.sombra.webstore.dao.interfaces;
 
 import java.util.List;
 
-import ua.sombra.webstore.domain.Feature;
+import ua.sombra.webstore.entity.Feature;
 
 public interface FeatureDAO {
 	

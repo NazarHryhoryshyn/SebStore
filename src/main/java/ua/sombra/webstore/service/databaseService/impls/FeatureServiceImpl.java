@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ua.sombra.webstore.dao.interfaces.FeatureDAO;
-import ua.sombra.webstore.domain.Feature;
+import ua.sombra.webstore.entity.Feature;
 import ua.sombra.webstore.service.databaseService.interfaces.FeatureService;
 
 @Service

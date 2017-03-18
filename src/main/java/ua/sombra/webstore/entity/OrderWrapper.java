@@ -1,4 +1,4 @@
-package ua.sombra.webstore.domain;
+package ua.sombra.webstore.entity;
 
 public class OrderWrapper {
 	Orders order;

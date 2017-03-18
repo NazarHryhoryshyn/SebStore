@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import ua.sombra.webstore.validator.UserValidator;
-import ua.sombra.webstore.domain.User;
+import ua.sombra.webstore.entity.User;
 import ua.sombra.webstore.service.databaseService.interfaces.SecurityService;
 import ua.sombra.webstore.service.databaseService.interfaces.UserService;
 

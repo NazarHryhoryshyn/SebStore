@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import ua.sombra.webstore.domain.User;
+import ua.sombra.webstore.entity.User;
 import ua.sombra.webstore.service.databaseService.interfaces.OrderService;
 import ua.sombra.webstore.service.databaseService.interfaces.SecurityService;
 import ua.sombra.webstore.service.databaseService.interfaces.UserService;

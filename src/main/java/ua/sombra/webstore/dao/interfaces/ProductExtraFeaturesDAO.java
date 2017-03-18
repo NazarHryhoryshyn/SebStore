@@ -2,16 +2,16 @@ package ua.sombra.webstore.dao.interfaces;
 
 import java.util.Map;
 
-import ua.sombra.webstore.domain.Product;
-import ua.sombra.webstore.domain.ProductExtraFeatures;
+import ua.sombra.webstore.entity.Product;
+import ua.sombra.webstore.entity.ProductExtraFeature;
 
 public interface ProductExtraFeaturesDAO {
 	
-	public void addProductExtraFeature(ProductExtraFeatures productExtraFeature);
+	public void addProductExtraFeature(ProductExtraFeature productExtraFeature);
 	
-	public void removeProductExtraFeature(ProductExtraFeatures productExtraFeatures);
+	public void removeProductExtraFeature(ProductExtraFeature productExtraFeatures);
 	
-	public ProductExtraFeatures findById(Integer productEFId);
+	public ProductExtraFeature findById(Integer productEFId);
 	
 	public void setValueExtraFeature(Product product, String valueName, String newValue);
 	

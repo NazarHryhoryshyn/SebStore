@@ -10,8 +10,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import ua.sombra.webstore.dao.interfaces.UserDAO;
-import ua.sombra.webstore.domain.Product;
-import ua.sombra.webstore.domain.User;
+import ua.sombra.webstore.entity.Product;
+import ua.sombra.webstore.entity.User;
 
 @Repository
 @Transactional

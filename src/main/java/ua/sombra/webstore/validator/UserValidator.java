@@ -1,6 +1,6 @@
 package ua.sombra.webstore.validator;
 
-import ua.sombra.webstore.domain.User;
+import ua.sombra.webstore.entity.User;
 import ua.sombra.webstore.service.databaseService.interfaces.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;

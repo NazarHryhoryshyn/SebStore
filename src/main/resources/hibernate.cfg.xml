@@ -4,13 +4,13 @@
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <mapping class="ua.sombra.webstore.domain.User"></mapping> 
-        <mapping class="ua.sombra.webstore.domain.Role"></mapping> 
-        <mapping class="ua.sombra.webstore.domain.Category"></mapping> 
-        <mapping class="ua.sombra.webstore.domain.Feature"></mapping> 
-        <mapping class="ua.sombra.webstore.domain.Orders"></mapping> 
-        <mapping class="ua.sombra.webstore.domain.Photo"></mapping> 
-        <mapping class="ua.sombra.webstore.domain.Product"></mapping> 
-        <mapping class="ua.sombra.webstore.domain.ProductExtraFeatures"></mapping> 
+        <mapping class="ua.sombra.webstore.entity.Category"></mapping> 
+        <mapping class="ua.sombra.webstore.entity.Feature"></mapping> 
+        <mapping class="ua.sombra.webstore.entity.Orders"></mapping> 
+        <mapping class="ua.sombra.webstore.entity.Photo"></mapping> 
+        <mapping class="ua.sombra.webstore.entity.Product"></mapping> 
+        <mapping class="ua.sombra.webstore.entity.ProductExtraFeature"></mapping> 
+        <mapping class="ua.sombra.webstore.entity.Role"></mapping> 
+        <mapping class="ua.sombra.webstore.entity.User"></mapping> 
     </session-factory>
 </hibernate-configuration>

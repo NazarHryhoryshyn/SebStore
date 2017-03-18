@@ -1,8 +1,9 @@
 package ua.sombra.webstore.service.security;
 
 import ua.sombra.webstore.dao.interfaces.UserDAO;
-import ua.sombra.webstore.domain.Role;
-import ua.sombra.webstore.domain.User;
+import ua.sombra.webstore.entity.Role;
+import ua.sombra.webstore.entity.User;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

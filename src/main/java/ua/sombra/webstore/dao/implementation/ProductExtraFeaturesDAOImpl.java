@@ -10,8 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ua.sombra.webstore.dao.interfaces.ProductDAO;
 import ua.sombra.webstore.dao.interfaces.ProductExtraFeaturesDAO;
-import ua.sombra.webstore.domain.Product;
-import ua.sombra.webstore.domain.ProductExtraFeatures;
+import ua.sombra.webstore.entity.Product;
+import ua.sombra.webstore.entity.ProductExtraFeature;
 
 @Repository
 @Transactional
@@ -24,25 +24,25 @@ public class ProductExtraFeaturesDAOImpl implements ProductExtraFeaturesDAO {
 	ProductDAO productDao;
 	
 	@Override
-	public void addProductExtraFeature(ProductExtraFeatures productExtraFeature) {
+	public void addProductExtraFeature(ProductExtraFeature productExtraFeature) {
 		sessionFactory.getCurrentSession().save(productExtraFeature);
 	}
 
 	@Override
-	public void removeProductExtraFeature(ProductExtraFeatures productExtraFeature) {
+	public void removeProductExtraFeature(ProductExtraFeature productExtraFeature) {
 		sessionFactory.getCurrentSession().delete(productExtraFeature);
 	}
 	
 	@Override
-	public ProductExtraFeatures findById(Integer productEFId) {
-		ProductExtraFeatures productExtraFeature = (ProductExtraFeatures)sessionFactory.getCurrentSession()
-				.get(ProductExtraFeatures.class, productEFId);
+	public ProductExtraFeature findById(Integer productEFId) {
+		ProductExtraFeature productExtraFeature = (ProductExtraFeature)sessionFactory.getCurrentSession()
+				.get(ProductExtraFeature.class, productEFId);
 		return productExtraFeature;
 	}
 
 	@Override
 	public void setValueExtraFeature(Product product, String valueName, String newValue) {
-		for(ProductExtraFeatures pef : product.getProductExtraFeatures()){
+		for(ProductExtraFeature pef : product.getProductExtraFeatures()){
 			if(pef.getValue().equals(valueName)){
 				pef.setValue(newValue);
 				sessionFactory.getCurrentSession().update(pef);

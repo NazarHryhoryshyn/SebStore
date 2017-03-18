@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import ua.sombra.webstore.domain.Category;
-import ua.sombra.webstore.domain.Photo;
-import ua.sombra.webstore.domain.Product;
-import ua.sombra.webstore.domain.User;
+import ua.sombra.webstore.entity.Category;
+import ua.sombra.webstore.entity.Photo;
+import ua.sombra.webstore.entity.Product;
+import ua.sombra.webstore.entity.User;
 import ua.sombra.webstore.service.databaseService.interfaces.CategoryService;
 import ua.sombra.webstore.service.databaseService.interfaces.ProductService;
 import ua.sombra.webstore.service.databaseService.interfaces.SecurityService;

@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ua.sombra.webstore.dao.interfaces.PhotoDAO;
-import ua.sombra.webstore.domain.Photo;
+import ua.sombra.webstore.entity.Photo;
 import ua.sombra.webstore.service.databaseService.interfaces.PhotoService;
 
 @Service

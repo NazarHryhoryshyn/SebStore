@@ -2,7 +2,7 @@ package ua.sombra.webstore.dao.interfaces;
 
 import java.util.List;
 
-import ua.sombra.webstore.domain.Category;
+import ua.sombra.webstore.entity.Category;
 
 public interface CategoryDAO {
 

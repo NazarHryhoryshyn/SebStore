@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import ua.sombra.webstore.dao.interfaces.RoleDAO;
-import ua.sombra.webstore.domain.Role;
+import ua.sombra.webstore.entity.Role;
 
 @Repository
 @Transactional

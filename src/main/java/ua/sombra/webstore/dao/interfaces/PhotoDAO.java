@@ -1,6 +1,6 @@
 package ua.sombra.webstore.dao.interfaces;
 
-import ua.sombra.webstore.domain.Photo;
+import ua.sombra.webstore.entity.Photo;
 
 public interface PhotoDAO {
 	

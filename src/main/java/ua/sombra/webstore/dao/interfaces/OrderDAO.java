@@ -3,7 +3,7 @@ package ua.sombra.webstore.dao.interfaces;
 
 import java.util.List;
 
-import ua.sombra.webstore.domain.Orders;
+import ua.sombra.webstore.entity.Orders;
 
 public interface OrderDAO {
 

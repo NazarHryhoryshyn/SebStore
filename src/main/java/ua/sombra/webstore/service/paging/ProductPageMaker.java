@@ -3,7 +3,7 @@ package ua.sombra.webstore.service.paging;
 import java.util.HashSet;
 import java.util.Set;
 
-import ua.sombra.webstore.domain.Product;
+import ua.sombra.webstore.entity.Product;
 
 public class ProductPageMaker implements PageMaker<Product> {
 	

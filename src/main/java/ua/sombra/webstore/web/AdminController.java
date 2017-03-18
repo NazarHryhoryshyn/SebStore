@@ -27,15 +27,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
 
-import ua.sombra.webstore.domain.Category;
-import ua.sombra.webstore.domain.Feature;
-import ua.sombra.webstore.domain.OrderWrapper;
-import ua.sombra.webstore.domain.Orders;
-import ua.sombra.webstore.domain.Photo;
-import ua.sombra.webstore.domain.Product;
-import ua.sombra.webstore.domain.ProductExtraFeatures;
-import ua.sombra.webstore.domain.ProductWrapper;
-import ua.sombra.webstore.domain.User;
+import ua.sombra.webstore.entity.Category;
+import ua.sombra.webstore.entity.Feature;
+import ua.sombra.webstore.entity.OrderWrapper;
+import ua.sombra.webstore.entity.Orders;
+import ua.sombra.webstore.entity.Photo;
+import ua.sombra.webstore.entity.Product;
+import ua.sombra.webstore.entity.ProductExtraFeature;
+import ua.sombra.webstore.entity.ProductWrapper;
+import ua.sombra.webstore.entity.User;
 import ua.sombra.webstore.service.databaseService.interfaces.CategoryService;
 import ua.sombra.webstore.service.databaseService.interfaces.FeatureService;
 import ua.sombra.webstore.service.databaseService.interfaces.OrderService;
@@ -52,8 +52,8 @@ public class AdminController {
 	private UserService userService;
 
 	@Autowired
-	private ProductService productService;
-
+	private SecurityService securityService;
+	
 	@Autowired
 	private CategoryService categoryService;
 
@@ -61,8 +61,8 @@ public class AdminController {
 	private FeatureService featureService;
 	
 	@Autowired
-	private SecurityService securityService;
-
+	private ProductService productService;
+	
 	@Autowired
 	private PhotoService photoService;
 	
@@ -186,7 +186,7 @@ public class AdminController {
 		for(Product p : editedProducts){
 			for(String extraFeature : addExistsFeature){
 				if(!p.hasFeature(extraFeature)){
-					ProductExtraFeatures newExtFeature = new ProductExtraFeatures();
+					ProductExtraFeature newExtFeature = new ProductExtraFeature();
 					newExtFeature.setName(extraFeature);
 					newExtFeature.setValue("");
 					newExtFeature.setProduct(p);
@@ -196,7 +196,7 @@ public class AdminController {
 			}
 			for(String extraFeature : addNewFeatures){
 				if(!p.hasFeature(extraFeature)){
-					ProductExtraFeatures newExtFeature = new ProductExtraFeatures();
+					ProductExtraFeature newExtFeature = new ProductExtraFeature();
 					newExtFeature.setName(extraFeature);
 					newExtFeature.setValue("");
 					newExtFeature.setProduct(p);
@@ -285,7 +285,7 @@ public class AdminController {
 		for(Product p : editedProducts){
 			for(String extraFeature : addExistsFeature){
 				if(!p.hasFeature(extraFeature)){
-					ProductExtraFeatures newExtFeature = new ProductExtraFeatures();
+					ProductExtraFeature newExtFeature = new ProductExtraFeature();
 					newExtFeature.setName(extraFeature);
 					newExtFeature.setValue("");
 					newExtFeature.setProduct(p);
@@ -294,7 +294,7 @@ public class AdminController {
 			}
 			for(String extraFeature : addNewFeatures){
 				if(!p.hasFeature(extraFeature)){
-					ProductExtraFeatures newExtFeature = new ProductExtraFeatures();
+					ProductExtraFeature newExtFeature = new ProductExtraFeature();
 					newExtFeature.setName(extraFeature);
 					newExtFeature.setValue("");
 					newExtFeature.setProduct(p);
@@ -303,7 +303,7 @@ public class AdminController {
 			}
 			for(String extraFeature : removeFeatures){
 				if(p.hasFeature(extraFeature)){
-					ProductExtraFeatures newExtFeature = p.getExtraFeatureByName(extraFeature);
+					ProductExtraFeature newExtFeature = p.getExtraFeatureByName(extraFeature);
 					productExtraFeatureService.removeProductExtraFeature(newExtFeature);
 				}
 			}
@@ -378,7 +378,7 @@ public class AdminController {
 		
 		Set<String> featureNames = categoryService.featuresTreeToTop(cat.getId());
 		for(String featName : featureNames){
-			ProductExtraFeatures newExtraFeature = new ProductExtraFeatures();
+			ProductExtraFeature newExtraFeature = new ProductExtraFeature();
 			newExtraFeature.setName(featName);
 			newExtraFeature.setValue("");
 			newExtraFeature.setProduct(newProduct);

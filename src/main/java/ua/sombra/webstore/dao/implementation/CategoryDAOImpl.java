@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import ua.sombra.webstore.dao.interfaces.CategoryDAO;
-import ua.sombra.webstore.domain.Category;
+import ua.sombra.webstore.entity.Category;
 
 @Repository
 @Transactional

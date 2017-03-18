@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ua.sombra.webstore.dao.interfaces.ProductExtraFeaturesDAO;
-import ua.sombra.webstore.domain.ProductExtraFeatures;
+import ua.sombra.webstore.entity.ProductExtraFeature;
 import ua.sombra.webstore.service.databaseService.interfaces.ProductExtraFeatureService;
 
 @Service
@@ -16,17 +16,17 @@ public class ProductExtraFeatureServiceImpl implements ProductExtraFeatureServic
 	ProductExtraFeaturesDAO productExtraFeaturesDAO;
 
 	@Override
-	public void addProductExtraFeature(ProductExtraFeatures productExtraFeature){
+	public void addProductExtraFeature(ProductExtraFeature productExtraFeature){
 		productExtraFeaturesDAO.addProductExtraFeature(productExtraFeature);
 	}
 
 	@Override
-	public void removeProductExtraFeature(ProductExtraFeatures productExtraFeature){
+	public void removeProductExtraFeature(ProductExtraFeature productExtraFeature){
 		productExtraFeaturesDAO.removeProductExtraFeature(productExtraFeature);
 	}
 
 	@Override
-	public ProductExtraFeatures findById(Integer productEFId){
+	public ProductExtraFeature findById(Integer productEFId){
 		return productExtraFeaturesDAO.findById(productEFId);
 	}
 	

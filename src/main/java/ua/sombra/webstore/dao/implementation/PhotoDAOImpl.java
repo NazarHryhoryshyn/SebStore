@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import ua.sombra.webstore.dao.interfaces.PhotoDAO;
-import ua.sombra.webstore.domain.Photo;
+import ua.sombra.webstore.entity.Photo;
 
 @Repository
 @Transactional

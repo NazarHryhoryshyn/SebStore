@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import ua.sombra.webstore.dao.interfaces.ProductDAO;
-import ua.sombra.webstore.domain.Product;
+import ua.sombra.webstore.entity.Product;
 
 @Repository
 @Transactional
