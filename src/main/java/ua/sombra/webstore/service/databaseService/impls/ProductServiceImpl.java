@@ -71,4 +71,9 @@ public class ProductServiceImpl implements ProductService {
 			}
 		}
 	}
+	
+	@Override
+	public void setNewCategory(int productId, int categoryId){
+		productDao.setNewCategory(productId, categoryId);
+	}
 }

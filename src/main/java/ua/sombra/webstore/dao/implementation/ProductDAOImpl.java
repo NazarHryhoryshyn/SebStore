@@ -59,6 +59,14 @@ public class ProductDAOImpl implements ProductDAO {
 	public List<Product> listProducts() {
 		return (List<Product>) sessionFactory.getCurrentSession().createQuery("From Product").list();
 	}
+	
+	@Override
+	public void setNewCategory(int productId, int categoryId){
+		Query q = sessionFactory.getCurrentSession().createSQLQuery("update product set category_id = :catId where id = :prodId");
+		q.setParameter("catId", categoryId);
+		q.setParameter("prodId", productId);
+		q.executeUpdate();
+	}
 }
 
 

@@ -149,6 +149,7 @@ function removeCategory(categoryId){
 	$.ajax({
 		type : "POST",
 		url : "/webstore/admin/removeCategory",
+		async : false,
 		data : {"categoryId" : categoryId}
 	});
 	createTreeCategory();
@@ -233,13 +234,14 @@ function createCategory(){
 		method : "POST",
 		url : "/webstore/admin/addCategory",
 	    dataType:'json',
+	    async : false,
 		data : {
 			name : name,
 			mainCategoryId : mainCategoryId,
 			featureNames : featureNames
 		}
 	});
-	location.reload();
+	createTreeCategory();
 }
 
 function generateModalEditCategory(categoryId){
@@ -313,6 +315,7 @@ function editCategory(){
 		method : "POST",
 		url : "/webstore/admin/editCategory",
 	    dataType:'json',
+	    async : false,
 		data : {
 			name : name,
 			categoryId : categoryId,
@@ -390,9 +393,10 @@ function removeProduct(productId){
 	$.ajax({
 		type : "POST",
 		url : "/webstore/admin/removeProduct",
-		data : {"productId" : productId}
+		data : {"productId" : productId},
+		async : false
 	});
-	createListProducts();
+	createListProducts(1);
 }
 
 function generateModalProductFeatures(productId){
@@ -443,6 +447,7 @@ function createProduct(){
 		method : "POST",
 		url : "/webstore/admin/addProduct",
 	    dataType:'json',
+	    async : false,
 		data : {
 			name : name,
 			price : price,
@@ -451,17 +456,16 @@ function createProduct(){
 			country : country,
 			weight : weight,
 			amountOnWarehouse : amountOnWarehouse
-		},
-		success : function(){
-			createListProducts();
 		}
 	});
+	createListProducts(1);
 }
 
 function generateEditProductModal(productId){
 	$.ajax({
 		type : "GET",
 		url : "/webstore/admin/allCategories",
+		async : false,
 		data : {},
 		success : function(cats) {
 			$("#modal-product-edit-category").text("");	
@@ -473,6 +477,7 @@ function generateEditProductModal(productId){
 	$.ajax({
 		type : "GET",
 		url : "/webstore/admin/getProduct",
+		async : false,
 		data : {"productId" : productId},
 		success : function(prod) {
 			$("#modal-product-edit-title").text(prod.product.name + " edit");
@@ -506,7 +511,7 @@ function editProduct(){
 	var weight = $("#modal-product-edit-weight").val();
 	var amountOnWarehouse = $("#modal-product-edit-amount-on-warehouse").val();
 	
-	var extraFeatures = [];
+	var extraFeatures = ["no_elements"];
 	
 	$("#modal-product-edit-extraFeatures").find('tr').each(function (i, el) {
         var $tds = $(this).find('td');
@@ -517,27 +522,24 @@ function editProduct(){
            }
            extraFeatures.push(efName + "__"+ efValue);
     });
-	
 	$.ajax({
 		method : "POST",
 		url : "/webstore/admin/editProduct",
 	    dataType:'json',
+	    async : false,
 		data : {
-			productId : productId,
-			name : name,
-			price : price,
-			category : category,
-			producer : producer,
-			country : country,
-			weight : weight,
-			amountOnWarehouse : amountOnWarehouse,
-			extraFeatures : extraFeatures
-		},
-		success : function(){
-			createListProducts();
+			"productId" : productId,
+			"name" : name,
+			"price" : price,
+			"category" : category,
+			"producer" : producer,
+			"country" : country,
+			"weight" : weight,
+			"amountOnWarehouse" : amountOnWarehouse,
+			"extraFeatures" : extraFeatures
 		}
 	});
-	createListProducts();
+	createListProducts(1);
 }
 
 function generateModalProductPhotos(productId){
@@ -693,12 +695,14 @@ function changeOrderStatus() {
 	var status = $("#new-order-status").val();
 	$.ajax({
 		method : "POST",
+		async : false,
 		url : "/webstore/admin/changeOrderStatus",
 		data : {
 			orderId : orderId,
 			status : status
 		}
 	});
+	createListOrders(1);
 }
 
 

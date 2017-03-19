@@ -23,4 +23,6 @@ public interface ProductService {
 	public Set<byte[]> getBytesPhotos(Integer id);
 	
 	public void editProductProperties(Integer id, Map<String, String> propertiesNameValue);
+	
+	public void setNewCategory(int productId, int categoryId);
 }

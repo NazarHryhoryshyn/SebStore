@@ -17,4 +17,6 @@ public interface ProductDAO {
 	public void editProduct(Product newParamsProduct);
 	
 	public List<Product> listProducts();
+	
+	public void setNewCategory(int productId, int categoryId);
 }

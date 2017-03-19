@@ -145,7 +145,7 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value = "/admin/getCategory", method = RequestMethod.GET)
-	public @ResponseBody Category getCategoryById(@RequestParam Integer categoryId){
+	public @ResponseBody Category getCategoryById(@RequestParam int categoryId){
 		return categoryService.findById(categoryId);
 	}
 	
@@ -364,7 +364,7 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value = "/admin/getProduct", method = RequestMethod.GET)
-	public @ResponseBody ProductWrapper getProductById(@RequestParam Integer productId){
+	public @ResponseBody ProductWrapper getProductById(@RequestParam("productId") int productId){
 		ProductWrapper pw = new ProductWrapper();
 		Product p = productService.findById(productId);
 		pw.setProduct(p);
@@ -373,7 +373,7 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value = "/admin/getCatNameProduct", method = RequestMethod.GET)
-	public @ResponseBody String getCatNameProduct(@RequestParam Integer productId){
+	public @ResponseBody String getCatNameProduct(@RequestParam("productId") int productId){
 		Product p = productService.findById(productId);
 		return p.getCategory().getName();
 	}
@@ -430,7 +430,9 @@ public class AdminController {
 			){
 		
 		Map<String, String> efNameValue = new HashMap<String, String>();
-		
+		if(extraFeatures.contains("no_elements")){
+			extraFeatures.remove("no_elements");
+		}
 		for(String efName : extraFeatures){
 			String[] nameValue = efName.split("__");
 			if(nameValue[1] == "null_null"){
@@ -455,7 +457,15 @@ public class AdminController {
 		Category newCat = categoryService.findByName(category);
 
 		if(!oldCat.getName().equals(newCat.getName())){
-			editedProduct.setCategory(newCat); //check if works
+			productExtraFeatureService.removeAllExtraFeaturesFromProduct(editedProduct.getId());
+			productService.setNewCategory(editedProduct.getId(), newCat.getId());
+			for(Feature f : newCat.getFeatures()){
+				ProductExtraFeature newPef = new ProductExtraFeature();
+				newPef.setName(f.getName());
+				newPef.setValue("-");
+				newPef.setProduct(editedProduct);
+				productExtraFeatureService.addProductExtraFeature(newPef);
+			}
 		}
 	}
 	
@@ -535,7 +545,7 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value = "/admin/getUserLoginFromOrder", method = RequestMethod.GET)
-	public @ResponseBody String getUserFromOrder(@RequestParam Integer orderId){
+	public @ResponseBody String getUserFromOrder(@RequestParam("orderId") Integer orderId){
 		Orders p = orderService.findById(orderId);
 		return p.getUser().getLogin();
 	}
