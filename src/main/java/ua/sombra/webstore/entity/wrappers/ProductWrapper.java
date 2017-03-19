@@ -1,4 +1,7 @@
-package ua.sombra.webstore.entity;
+package ua.sombra.webstore.entity.wrappers;
+
+import ua.sombra.webstore.entity.Category;
+import ua.sombra.webstore.entity.Product;
 
 public class ProductWrapper{
 	

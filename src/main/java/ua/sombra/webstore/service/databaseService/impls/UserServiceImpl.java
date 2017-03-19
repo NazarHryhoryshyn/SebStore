@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
 	public void addUser(User user) {
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		Set<Role> roles = new HashSet<>();
-		roles.add(roleDao.getById(1L));
+		roles.add(roleDao.getByName("ROLE_USER"));
 		user.setRoles(roles);
 		userDao.addUser(user);
 	}
@@ -111,9 +111,9 @@ public class UserServiceImpl implements UserService {
 		User u = findByLogin(login);
 		Role userRole = roleDao.getByName("ROLE_USER");
 		if (status == true && !UserIsBlocked(login)) {
-			userDao.awardUserRights(u.getId(), userRole.getId());
-		} else if (status == false && UserIsBlocked(login)) {
 			userDao.takeOffUserRights(u.getId(), userRole.getId());
+		} else if (status == false && UserIsBlocked(login)) {
+			userDao.awardUserRights(u.getId(), userRole.getId());
 		}
 	}
 

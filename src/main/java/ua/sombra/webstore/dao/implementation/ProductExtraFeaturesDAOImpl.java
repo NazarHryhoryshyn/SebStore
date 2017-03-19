@@ -3,6 +3,7 @@ package ua.sombra.webstore.dao.implementation;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -43,7 +44,7 @@ public class ProductExtraFeaturesDAOImpl implements ProductExtraFeaturesDAO {
 	@Override
 	public void setValueExtraFeature(Product product, String valueName, String newValue) {
 		for(ProductExtraFeature pef : product.getProductExtraFeatures()){
-			if(pef.getValue().equals(valueName)){
+			if(pef.getName().equals(valueName)){
 				pef.setValue(newValue);
 				sessionFactory.getCurrentSession().update(pef);
 				break;
@@ -57,5 +58,13 @@ public class ProductExtraFeaturesDAOImpl implements ProductExtraFeaturesDAO {
 		for(Entry<String, String> entry : featureNameValue.entrySet()){			
 			setValueExtraFeature(p, entry.getKey(), entry.getValue());
 		}
+	}
+	
+	@Override
+
+	public void removeAllExtraFeaturesFromProduct(int productId){
+		Query q = sessionFactory.getCurrentSession().createSQLQuery("delete from product_extra_features where product_id = :productId");
+		q.setParameter("productId", productId);
+		q.executeUpdate();
 	}
 }

@@ -1,4 +1,7 @@
-package ua.sombra.webstore.entity;
+package ua.sombra.webstore.entity.wrappers;
+
+import ua.sombra.webstore.entity.Orders;
+import ua.sombra.webstore.entity.User;
 
 public class OrderWrapper {
 	Orders order;

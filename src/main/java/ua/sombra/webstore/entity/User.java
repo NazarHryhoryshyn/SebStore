@@ -23,7 +23,7 @@ import ua.sombra.webstore.entity.Role;
 
 @Entity
 @Table(name = "user")
-public class User {
+public class User implements Comparable<User> {
 	
 	private int id;
 	private String firstname;
@@ -155,5 +155,10 @@ public class User {
 
 	public void setOrders(Set<Orders> orders) {
 		this.orders = orders;
+	}
+
+	@Override
+	public int compareTo(User u) {
+		return Integer.compare(u.getId(), this.getId());
 	}
 }

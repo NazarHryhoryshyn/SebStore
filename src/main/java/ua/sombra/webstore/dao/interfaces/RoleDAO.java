@@ -4,7 +4,7 @@ import ua.sombra.webstore.entity.Role;
 
 public interface RoleDAO {
 	
-	Role getById(long id);
+	Role getById(int id);
 	
 	Role getByName(String Name);
 }

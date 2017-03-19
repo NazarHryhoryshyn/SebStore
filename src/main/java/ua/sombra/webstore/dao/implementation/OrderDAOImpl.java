@@ -31,7 +31,8 @@ public class OrderDAOImpl implements OrderDAO {
 	
 	@Override
 	public void changeStatus(int orderId, String newStatus) {
-		Query q = sessionFactory.getCurrentSession().createSQLQuery("update orders set status = :newstatus where id = :orderId");
+		Query q = sessionFactory.getCurrentSession().createSQLQuery("update orders set status = :newStatus where id = :orderId");
+		q.setParameter("newStatus", newStatus);
 		q.setParameter("orderId", orderId);
 		q.executeUpdate();
 	}

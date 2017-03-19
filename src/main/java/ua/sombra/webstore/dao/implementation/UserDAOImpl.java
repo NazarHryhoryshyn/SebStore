@@ -65,7 +65,7 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public void takeOffAdminRights(int userId, int roleAdminId){
-		Query q = sessionFactory.getCurrentSession().createSQLQuery("delete from user_roles where user_id = :userId and role_id = :adminId)");
+		Query q = sessionFactory.getCurrentSession().createSQLQuery("delete from user_roles where user_id = :userId and role_id = :adminId");
 		q.setParameter("userId", userId);
 		q.setParameter("adminId", roleAdminId);
 		q.executeUpdate();
@@ -81,7 +81,7 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public void takeOffUserRights(int userId, int roleUserId){
-		Query q = sessionFactory.getCurrentSession().createSQLQuery("delete from user_roles where user_id = :userId and role_id = :roleUserId)");
+		Query q = sessionFactory.getCurrentSession().createSQLQuery("delete from user_roles where user_id = :userId and role_id = :roleUserId");
 		q.setParameter("userId", userId);
 		q.setParameter("roleUserId", roleUserId);
 		q.executeUpdate();

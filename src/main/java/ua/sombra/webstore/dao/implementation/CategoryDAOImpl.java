@@ -84,7 +84,7 @@ public class CategoryDAOImpl implements CategoryDAO {
 	
 	@Override
 	public void RemoveReferenceToFeature(int categoryId, int featureId){
-		Query q = sessionFactory.getCurrentSession().createSQLQuery("delete from additional_features where category_id = :categoryId and feature_id :featureId)");
+		Query q = sessionFactory.getCurrentSession().createSQLQuery("delete from additional_features where category_id = :categoryId and feature_id = :featureId");
 		q.setParameter("categoryId", categoryId);
 		q.setParameter("featureId", featureId);
 		q.executeUpdate();
@@ -92,7 +92,7 @@ public class CategoryDAOImpl implements CategoryDAO {
 	
 	@Override
 	public void RemoveAllReferencesToFeatures(int categoryId){
-		Query q = sessionFactory.getCurrentSession().createSQLQuery("delete from additional_features where category_id = :categoryId)");
+		Query q = sessionFactory.getCurrentSession().createSQLQuery("delete from additional_features where category_id = :categoryId");
 		q.setParameter("categoryId", categoryId);
 		q.executeUpdate();
 	}	

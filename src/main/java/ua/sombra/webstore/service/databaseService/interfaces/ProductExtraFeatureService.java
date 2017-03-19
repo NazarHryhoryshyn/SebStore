@@ -13,4 +13,6 @@ public interface ProductExtraFeatureService {
 	public ProductExtraFeature findById(Integer productEFId);
 	
 	public void setValuesExtraFeatures(Integer productId, Map<String, String> featureNameValue);
+
+	public void removeAllExtraFeaturesFromProduct(int productId);
 }

@@ -34,4 +34,9 @@ public class ProductExtraFeatureServiceImpl implements ProductExtraFeatureServic
 	public void setValuesExtraFeatures(Integer productId, Map<String, String> featureNameValue){
 		productExtraFeaturesDAO.setValuesExtraFeatures(productId, featureNameValue);
 	}
+	
+	@Override
+	public void removeAllExtraFeaturesFromProduct(int productId){
+		productExtraFeaturesDAO.removeAllExtraFeaturesFromProduct(productId);
+	}
 }

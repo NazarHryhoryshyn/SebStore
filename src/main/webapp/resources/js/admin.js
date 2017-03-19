@@ -1,3 +1,78 @@
+function createListUsers(pageNumber){
+		$.ajax({
+			type : "GET",
+			url : "/webstore/admin/getUsers-"+pageNumber,
+			data : {},
+			success : function(pgProdInfo) {
+						$("#list-users").text("");
+						var usersTab = "<tr>"+
+										"<th>First name</th>"+
+										"<th>Last name</th>"+
+										"<th>Login</th>"+
+										"<th>Email</th>"+
+										"<th>Telephone</th>"+
+										"<th>Sex</th>"+
+										"<th>Admin</th>"+
+										"<th>Blocked</th>"+
+										"<th>Orders</th>"+
+									"</tr>";
+						for (var i = 0; i < pgProdInfo.objects.length; i++) {
+							usersTab+="<tr>"+
+							"<td>"+pgProdInfo.objects[i].firstname+"</td>"+
+							"<td>"+pgProdInfo.objects[i].lastname+"</td>"+
+							"<td>"+pgProdInfo.objects[i].login+"</td>"+
+							"<td>"+pgProdInfo.objects[i].email+"</td>"+
+							"<td>"+pgProdInfo.objects[i].telephone+"</td>"+
+							"<td>"+pgProdInfo.objects[i].sex+"</td>";
+							usersTab += "<td><input type='checkbox' onclick='changeAdmiStatus(this,\""+pgProdInfo.objects[i].login+"\");' ";
+							
+							$.ajax({
+								type : "GET",
+								url : "/webstore/admin/checkUserIsAdmin",
+								async: false,
+								data : {
+									"login" : pgProdInfo.objects[i].login
+								},
+								success : function(isAdm) {
+									if(isAdm){
+										usersTab += "checked";
+									}
+								}
+							});							
+							
+							usersTab += "></td>";
+							usersTab += "<td><input type='checkbox' onclick='changeBlockedStatus(this,\""+pgProdInfo.objects[i].login+"\");' ";
+							$.ajax({
+								type : "GET",
+								url : "/webstore/admin/checkUserIsBlocked",
+								async: false,
+								data : {
+									"login" : pgProdInfo.objects[i].login
+								},
+								success : function(isBlocked) {
+									if(isBlocked){
+										usersTab += "checked";
+									}
+								}
+							});
+							
+							
+							usersTab += "></td>";
+							usersTab += "<td><button class='btn btn-primary' data-toggle='modal' onclick='showUserOrders(\""+pgProdInfo.objects[i].login+"\");'"+
+											"data-target='#modal-user-orders'>Show</button></td>"+
+							"</tr>";
+						}
+						$("#list-users").append(
+						"<table class='table-user'>" + usersTab + "</table>");
+						var pageBlock = makePaginationBlock(pgProdInfo.page, pgProdInfo.totalPages
+											,pgProdInfo.block ,pgProdInfo.amountPagesInBlock, "createListUsers");
+						$("#list-users").append(pageBlock);
+					}
+				});
+}
+
+
+
 function showUserOrders(login) {
 	$.ajax({
 		type : "GET",
@@ -247,12 +322,12 @@ function editCategory(){
 	createTreeCategory();
 }
 
-function createListProducts(){
+function createListProducts(pageNumber){
 		$.ajax({
 			type : "GET",
-			url : "/webstore/admin/getProducts",
+			url : "/webstore/admin/getProducts-"+pageNumber,
 			data : {},
-			success : function(products) {
+			success : function(pgProdInfo) {
 						$("#list-product").text("");
 						var prods = "<tr>"+
 										"<th>Name</th>"+
@@ -267,24 +342,34 @@ function createListProducts(){
 										"<th></th>"+
 										"<th></th>"+
 									"</tr>";
-						for (var i = 0; i < products.length; i++) {
+						var categoryName = "";
+						for (var i = 0; i < pgProdInfo.objects.length; i++) {
+							$.ajax({
+								type : "GET",
+								url : "/webstore/admin/getCatNameProduct",
+								async : false,
+								data : {"productId" : pgProdInfo.objects[i].id},
+								success : function(catName) {
+									categoryName = catName;
+								}
+							});
 							prods+="<tr>"+
-							"<td>"+products[i].product.name+"</td>"+
-							"<td>"+products[i].product.price+"&#8372;</td>"+
-							"<td>"+products[i].category.name+"</td>"+
-							"<td>"+products[i].product.producer+"</td>"+
-							"<td>"+products[i].product.country+"</td>"+
-							"<td>"+products[i].product.weight+"</td>"+
-							"<td>"+products[i].product.amountOnWarehouse+"</td>"+
-							"<td><button onclick='generateModalProductFeatures(\""+products[i].product.id+"\");' class='btn btn-primary' data-toggle='modal'"+
+							"<td>"+pgProdInfo.objects[i].name+"</td>"+
+							"<td>"+pgProdInfo.objects[i].price+"&#8372;</td>"+
+							"<td>"+categoryName+"</td>"+
+							"<td>"+pgProdInfo.objects[i].producer+"</td>"+
+							"<td>"+pgProdInfo.objects[i].country+"</td>"+
+							"<td>"+pgProdInfo.objects[i].weight+"</td>"+
+							"<td>"+pgProdInfo.objects[i].amountOnWarehouse+"</td>"+
+							"<td><button onclick='generateModalProductFeatures(\""+pgProdInfo.objects[i].id+"\");' class='btn btn-primary' data-toggle='modal'"+
 							"	data-target='#modal-product-features'>Show</button></td>"+
-							"	<td><button onclick='generateModalProductPhotos(\""+products[i].product.id+"\");' class='btn btn-primary' data-toggle='modal'"+
+							"	<td><button onclick='generateModalProductPhotos(\""+pgProdInfo.objects[i].id+"\");' class='btn btn-primary' data-toggle='modal'"+
 							"		data-target='#modal-product-photos'>Show</button></td>"+
-							"	<td><button onclick='generateEditProductModal(\""+products[i].product.id+"\");' class='btn btn-danger' data-toggle='modal'"+
+							"	<td><button onclick='generateEditProductModal(\""+pgProdInfo.objects[i].id+"\");' class='btn btn-danger' data-toggle='modal'"+
 							"			data-target='#modal-product-edit'>"+
 							"			<i class='fa fa-pencil'></i>"+
 							"		</button></td>"+
-							"<td><button onclick='removeProduct(\""+products[i].product.id+"\");' class='btn btn-danger'><i class='fa fa-times'></i></button></td>"+
+							"<td><button onclick='removeProduct(\""+pgProdInfo.objects[i].id+"\");' class='btn btn-danger'><i class='fa fa-times'></i></button></td>"+
 							"</tr>";
 						}
 						prods +="<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>"+
@@ -294,6 +379,9 @@ function createListProducts(){
 								"	</button></tr>";
 						$("#list-product").append(
 						"<table class='table-product'>" + prods + "</table>");
+						var pagingBlock = makePaginationBlock(pgProdInfo.page, pgProdInfo.totalPages
+											,pgProdInfo.block ,pgProdInfo.amountPagesInBlock, "createListProducts");
+						$("#list-product").append(pagingBlock);
 					}
 				});
 }
@@ -547,13 +635,13 @@ function changeBlockedStatus(cb, login) {
 	});
 }
 
-function createListOrders(){
+function createListOrders(pageNumber){
 	$("#list-orders").text("");
 	$.ajax({
 		type : "GET",
-		url : "/webstore/admin/getOrders",
+		url : "/webstore/admin/getOrders-"+pageNumber,
 		data : {},
-		success : function(orders) {
+		success : function(pgProdInfo) {
 					
 					var ords = "<tr>"+
 									"<th>№</th>"+
@@ -563,21 +651,34 @@ function createListOrders(){
 									"<th></th>"+
 									"<th></th>"+
 								"</tr>";
-					for (var i = 0; i < orders.length; i++) {
+					var userLogin = "";
+					for (var i = 0; i < pgProdInfo.objects.length; i++) {						
+						$.ajax({
+							type : "GET",
+							url : "/webstore/admin/getUserLoginFromOrder",
+							async : false,
+							data : {"orderId" : pgProdInfo.objects[i].id},
+							success : function(userLog) {
+								userLogin = userLog;
+							}
+						});
 						var date =  new Date();
-						date.setTime(orders[i].order.date);
+						date.setTime(pgProdInfo.objects[i].date);
 						ords+="<tr>"+
-						"<td>"+orders[i].order.id+"</td>"+
-						"<td>"+orders[i].user.login+"</td>"+
-						"<td>"+orders[i].order.status+"</td>"+
+						"<td>"+pgProdInfo.objects[i].id+"</td>"+
+						"<td>"+userLogin+"</td>"+
+						"<td>"+pgProdInfo.objects[i].status+"</td>"+
 						"<td>"+date.getDate()+"."+(date.getMonth()+1)+"."+date.getFullYear()+" " + date.getHours()+":"+date.getMinutes()+":"+date.getSeconds()+"</td>"+
-						"<td><a class='btn btn-info' href='/webstore/admin/order/"+orders[i].order.id+"'>full info</a></td>"+
-								"<td><button onclick='generateModelChangeOrderStatus(\""+orders[i].order.id+"\", \""+orders[i].order.status+"\");' class='btn btn-danger' data-toggle='modal' data-target='#modal-order-ch-status'>"+
-								"change status</button></td>"
-										"</tr>";
+						"<td><a class='btn btn-info' href='/webstore/admin/order/"+pgProdInfo.objects[i].id+"'>full info</a></td>"+
+								"<td><button onclick='generateModelChangeOrderStatus(\""+pgProdInfo.objects[i].id+"\", \""+
+								pgProdInfo.objects[i].status+"\");' class='btn btn-danger' data-toggle='modal' data-target='#modal-order-ch-status'>"+
+								"change status</button></td></tr>";
 					}
 					$("#list-orders").append(
 					"<table class='table-order'>" + ords + "</table>");
+					var pagingBlock = makePaginationBlock(pgProdInfo.page, pgProdInfo.totalPages
+							,pgProdInfo.block ,pgProdInfo.amountPagesInBlock, "createListOrders");
+						$("#list-orders").append(pagingBlock);
 				}
 			});
 }
@@ -598,4 +699,37 @@ function changeOrderStatus() {
 			status : status
 		}
 	});
+}
+
+
+function makePaginationBlock(page, totalPages, block, amountPagesInBlock, functionName){
+	var pagBlock = "";
+	pagBlock += "<div class='pagination-block' style='text-align: center; width: 100%;'>";
+	pagBlock +="<ul class='pagination'>";
+		if(page == 1){
+			pagBlock += "<li><a href='#'>&lt;&lt;</a></li><li><a href='#'>&lt;</a></li>";
+		}
+		if(page > 1){
+			pagBlock += "<li><a onclick='"+functionName+"(1);' href='#'>&lt;&lt;</a></li>";
+			pagBlock += "<li><a onclick='"+functionName+"("+(page-1)+");' href='#'>&lt;</a></li>";
+		}
+		for(var i = (block*amountPagesInBlock)-(amountPagesInBlock-1); 
+						i <= ((block * amountPagesInBlock) > totalPages ? totalPages : block * amountPagesInBlock);
+						i++ ){
+			pagBlock += "<li ";
+			if(i == page){
+				pagBlock += "class='active'";
+			}
+			pagBlock +=	"><a onclick='"+functionName+"("+i+");' href='#'>"+i+"</a></li>";
+		}
+		if(page == totalPages){
+			pagBlock += "<li><a href='#'>&gt;</a></li><li><a href='#' href='#'>&gt;&gt;</a></li>";
+		}
+		
+		if(page < totalPages){
+			pagBlock += "<li><a onclick='"+functionName+"("+(page+1)+");' href='#'>&gt;</a></li>"+
+					    "<li><a onclick='"+functionName+"("+totalPages+");' href='#'>&gt;&gt;</a></li>";
+		}
+		pagBlock += "</ul></div>";
+		return pagBlock;
 }

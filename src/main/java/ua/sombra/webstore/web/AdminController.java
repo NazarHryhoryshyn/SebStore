@@ -1,16 +1,14 @@
 package ua.sombra.webstore.web;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
+import java.util.TreeSet;
 import java.io.IOException;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.util.List;
@@ -29,13 +27,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import ua.sombra.webstore.entity.Category;
 import ua.sombra.webstore.entity.Feature;
-import ua.sombra.webstore.entity.OrderWrapper;
 import ua.sombra.webstore.entity.Orders;
 import ua.sombra.webstore.entity.Photo;
 import ua.sombra.webstore.entity.Product;
 import ua.sombra.webstore.entity.ProductExtraFeature;
-import ua.sombra.webstore.entity.ProductWrapper;
 import ua.sombra.webstore.entity.User;
+import ua.sombra.webstore.entity.wrappers.PageInfo;
+import ua.sombra.webstore.entity.wrappers.ProductWrapper;
 import ua.sombra.webstore.service.databaseService.interfaces.CategoryService;
 import ua.sombra.webstore.service.databaseService.interfaces.FeatureService;
 import ua.sombra.webstore.service.databaseService.interfaces.OrderService;
@@ -44,6 +42,7 @@ import ua.sombra.webstore.service.databaseService.interfaces.ProductExtraFeature
 import ua.sombra.webstore.service.databaseService.interfaces.ProductService;
 import ua.sombra.webstore.service.databaseService.interfaces.SecurityService;
 import ua.sombra.webstore.service.databaseService.interfaces.UserService;
+import ua.sombra.webstore.service.paging.PageMaker;
 
 @Controller
 public class AdminController {
@@ -75,27 +74,45 @@ public class AdminController {
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
 	public String admin(Model model) {
 		User u = userService.findByLogin(securityService.findLoggedInLogin());
-		List<User> users = userService.listUsers();
 		
-		Map<String, Boolean> isAdmins = new HashMap<String, Boolean>();
-		Map<String, Boolean> isBlockeds = new HashMap<String, Boolean>();
-		
-		for(User user : users){
-			isAdmins.put(user.getLogin(), userService.UserIsAdmin(user.getLogin()));
-			isBlockeds.put(user.getLogin(), userService.UserIsBlocked(user.getLogin()));
-		}
-
 		model.addAttribute("uname", u.getLastname() + " " + u.getFirstname());
 		model.addAttribute("isAdmin", userService.currUserIsAdmin());
-		model.addAttribute("users", users);
-		model.addAttribute("isAdmins", isAdmins);		
-		model.addAttribute("isBlockeds", isBlockeds);
 		
 		return "admin";
 	}
 
+	@RequestMapping(value = "/admin/getUsers-{page}", method = RequestMethod.GET)
+	public @ResponseBody PageInfo<User> getUsers(@PathVariable("page") int page){
+		PageInfo<User> userInfo = new PageInfo<User>();
+		Set<User> allUsers = new TreeSet<User>();
+		
+		for(User u : userService.listUsers()){
+			allUsers.add(u);
+		}
+		
+		PageMaker<User> pgMaker = new PageMaker<User>();
+		pgMaker.setObjects(allUsers);
+
+		userInfo.setTotalPages(pgMaker.totalPages());
+		userInfo.setPage(page);
+		userInfo.setBlock(pgMaker.getBlock(page));
+		userInfo.setObjects(pgMaker.getFromPage(page));
+		userInfo.setAmountPagesInBlock(pgMaker.getAmountPagesInBlock());
+		return userInfo;
+	}
+	
+	@RequestMapping(value = "/admin/checkUserIsAdmin", method = RequestMethod.GET)
+	public @ResponseBody boolean getUserIsAdmin(@RequestParam("login") String login){
+		return userService.UserIsAdmin(login);
+	}
+	
+	@RequestMapping(value = "/admin/checkUserIsBlocked", method = RequestMethod.GET)
+	public @ResponseBody boolean getUserIsBlocked(@RequestParam("login") String login){
+		return userService.UserIsBlocked(login);
+	}
+	
 	@RequestMapping(value = "/admin/user/orders", method = RequestMethod.GET)
-	public @ResponseBody Set<Orders> userOrders(@RequestParam String login){
+	public @ResponseBody Set<Orders> userOrders(@RequestParam("login") String login){
 		User u = userService.findByLogin(login);
 		 return u.getOrders();
 	}	
@@ -326,17 +343,24 @@ public class AdminController {
 		}
 	}
 	
-	@RequestMapping(value = "/admin/getProducts", method = RequestMethod.GET)
-	public @ResponseBody List<ProductWrapper> getProducts(){
-		List<ProductWrapper> products = new ArrayList<ProductWrapper>();
+	@RequestMapping(value = "/admin/getProducts-{page}", method = RequestMethod.GET)
+	public @ResponseBody PageInfo<Product> getProducts(@PathVariable("page") int page){
+		PageInfo<Product> productInfo = new PageInfo<Product>();
+		Set<Product> allProducts = new TreeSet<Product>();
 		
 		for(Product p : productService.listProducts()){
-			ProductWrapper pw = new ProductWrapper();
-			pw.setProduct(p);
-			pw.setCategory(p.getCategory());
-			products.add(pw);
+			allProducts.add(p);
 		}
-		return products;
+		
+		PageMaker<Product> pgMaker = new PageMaker<Product>();
+		pgMaker.setObjects(allProducts);
+
+		productInfo.setTotalPages(pgMaker.totalPages());
+		productInfo.setPage(page);
+		productInfo.setBlock(pgMaker.getBlock(page));
+		productInfo.setObjects(pgMaker.getFromPage(page));
+		productInfo.setAmountPagesInBlock(pgMaker.getAmountPagesInBlock());
+		return productInfo;
 	}
 	
 	@RequestMapping(value = "/admin/getProduct", method = RequestMethod.GET)
@@ -346,6 +370,12 @@ public class AdminController {
 		pw.setProduct(p);
 		pw.setCategory(p.getCategory());
 		return pw;
+	}
+	
+	@RequestMapping(value = "/admin/getCatNameProduct", method = RequestMethod.GET)
+	public @ResponseBody String getCatNameProduct(@RequestParam Integer productId){
+		Product p = productService.findById(productId);
+		return p.getCategory().getName();
 	}
 	
 	@RequestMapping(value = "/admin/addProduct", method = RequestMethod.POST)
@@ -434,6 +464,7 @@ public class AdminController {
 	public void removeProduct(@RequestParam("productId") Integer productId){
 		Product p = productService.findById(productId);
 		if(p.getOrders().size() == 0 && p.getUsers().size() == 0){
+			productExtraFeatureService.removeAllExtraFeaturesFromProduct(productId);
 			productService.removeProduct(productId);
 		}
 	}
@@ -483,18 +514,30 @@ public class AdminController {
 		}
 	}
 	
-	@RequestMapping(value = "/admin/getOrders", method = RequestMethod.GET)
-	public @ResponseBody List<OrderWrapper> getOrders(HttpServletRequest request, HttpServletResponse response){
-		OrderWrapper ord = new OrderWrapper();
-		List<OrderWrapper> list = new ArrayList<OrderWrapper>();
+	@RequestMapping(value = "/admin/getOrders-{page}", method = RequestMethod.GET)
+	public @ResponseBody PageInfo<Orders> getOrders(@PathVariable("page") int page){
+		PageInfo<Orders> orderInfo = new PageInfo<Orders>();
+		Set<Orders> allOrders = new TreeSet<Orders>();
 		
 		for(Orders o : orderService.listOrders()){
-			ord.setOrder(o);
-			ord.setUser(o.getUser());
-			list.add(ord);
+			allOrders.add(o);
 		}
 		
-		return list;
+		PageMaker<Orders> pgMaker = new PageMaker<Orders>();
+		pgMaker.setObjects(allOrders);
+
+		orderInfo.setTotalPages(pgMaker.totalPages());
+		orderInfo.setPage(page);
+		orderInfo.setBlock(pgMaker.getBlock(page));
+		orderInfo.setObjects(pgMaker.getFromPage(page));
+		orderInfo.setAmountPagesInBlock(pgMaker.getAmountPagesInBlock());
+		return orderInfo;
+	}
+	
+	@RequestMapping(value = "/admin/getUserLoginFromOrder", method = RequestMethod.GET)
+	public @ResponseBody String getUserFromOrder(@RequestParam Integer orderId){
+		Orders p = orderService.findById(orderId);
+		return p.getUser().getLogin();
 	}
 	
 	@RequestMapping(value = "/admin/changeOrderStatus", method = RequestMethod.POST)

@@ -16,7 +16,7 @@ public class RoleDAOImpl implements RoleDAO {
 	private SessionFactory sessionFactory;
 	
 	@Override
-	public Role getById(long id) {
+	public Role getById(int id) {
 		return (Role) sessionFactory.getCurrentSession().createQuery("FROM Role r WHERE r.id = :id")
 				.setParameter("id", id).uniqueResult();
 	}

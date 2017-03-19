@@ -26,7 +26,7 @@ import ua.sombra.webstore.service.databaseService.interfaces.CategoryService;
 import ua.sombra.webstore.service.databaseService.interfaces.ProductService;
 import ua.sombra.webstore.service.databaseService.interfaces.SecurityService;
 import ua.sombra.webstore.service.databaseService.interfaces.UserService;
-import ua.sombra.webstore.service.paging.ProductPageMaker;
+import ua.sombra.webstore.service.paging.PageMaker;
 
 @Controller
 public class ProductController {
@@ -101,14 +101,14 @@ public class ProductController {
 			}
 		}
 		
-		ProductPageMaker pgMaker = new ProductPageMaker();
-		pgMaker.setProducts(catProducts);
+		PageMaker<Product> pgMaker = new PageMaker<Product>();
+		pgMaker.setObjects(catProducts);
 
 		int totalPages = pgMaker.totalPages();
 		int block = pgMaker.getBlock(page);
 		
 		pageProducts = pgMaker.getFromPage(page);
-		
+
 		for(Product p : pageProducts){
 			photos.put(p.getId(), p.getPhotos().iterator().next().getId());
 		}

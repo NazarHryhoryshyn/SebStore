@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name="orders")
-public class Orders {
+public class Orders implements Comparable<Orders>{
 	
 	private Integer id;
 	private String status;
@@ -181,6 +181,11 @@ public class Orders {
 
 	public void setProducts(Set<Product> products) {
 		this.products = products;
+	}
+
+	@Override
+	public int compareTo(Orders o) {
+		return Integer.compare(o.getId(), this.getId());
 	}
 }
 

@@ -176,8 +176,8 @@ public class Product implements Comparable<Product> {
 	}
 
 	@Override
-	public int compareTo(Product o) {
-		return Integer.compare(o.getId(), this.getId());
+	public int compareTo(Product p) {
+		return Integer.compare(p.getId(), this.getId());
 	}
 }
 

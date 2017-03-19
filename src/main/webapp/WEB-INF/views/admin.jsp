@@ -47,6 +47,7 @@
 			});
 
 			$("[data-toggle=tooltip]").tooltip();
+			$("#tab1").click();
 		});
 	</script>
 	<jsp:include page="staticHtml/header.jsp"></jsp:include>
@@ -63,55 +64,20 @@
 	<div class="container content-block">
 		<div class="container" style="margin: 10px;">
 			<div class="tabs">
-				<input id="tab1" type="radio" name="tabs" checked> <label
+				<input id="tab1" onclick="createListUsers(1);" type="radio" name="tabs" checked> <label
 					for="tab1" title="Users">Users</label> 
 				<input id="tab2" onclick="createTreeCategory();"
 					type="radio" name="tabs"> <label for="tab2"
 					title="Categories">Categories</label> 
-				<input id="tab3" onclick="createListProducts();" type="radio"
+				<input id="tab3" onclick="createListProducts(1);" type="radio"
 					name="tabs"> <label for="tab3" title="Products">Products</label>
-				<input id="tab4" onclick="createListOrders();" type="radio" name="tabs"> <label for="tab4"
+				<input id="tab4" onclick="createListOrders(1);" type="radio" name="tabs"> <label for="tab4"
 					title="Orders">Orders</label>
 
 				<section id="content-tab1">
-					<div class="tab-content">
-						<table class="table-user">
-							<tr>
-								<th>First name</th>
-								<th>Last name</th>
-								<th>Login</th>
-								<th>Email</th>
-								<th>Telephone</th>
-								<th>Sex</th>
-								<th>Admin</th>
-								<th>Blocked</th>
-								<th>Orders</th>
-							</tr>
-							<c:forEach items="${users}" var="u">
-								<tr>
-									<td>${u.firstname}</td>
-									<td>${u.lastname}</td>
-									<td>${u.login}</td>
-									<td>${u.email}</td>
-									<td>${u.telephone}</td>
-									<td>${u.sex}</td>
-									<c:if test="${isAdmins[u.login] == true}">
-										<td><input type="checkbox"  onclick="changeAdmiStatus(this,'${u.login}');" checked></td>
-									</c:if>
-									<c:if test="${isAdmins[u.login] == false}">
-										<td><input type="checkbox" onclick="changeAdmiStatus(this,'${u.login}');"></td>
-									</c:if>
-									<c:if test="${isBlockeds[u.login] == true}">
-										<td><input type="checkbox"  onclick="changeBlockedStatus(this,'${u.login}');" checked></td>
-									</c:if>
-									<c:if test="${isBlockeds[u.login] == false}">
-										<td><input type="checkbox" onclick="changeBlockedStatus(this,'${u.login}');"></td>
-									</c:if>
-									<td><button class="btn btn-primary" data-toggle="modal" onclick="showUserOrders('${u.login}');"
-											data-target="#modal-user-orders">Show</button></td>
-								</tr>
-							</c:forEach>
-						</table>
+					<div id="list-users" class="tab-content">
+						<input type="hidden" id="isAdmTemplVal" value="true">
+						<input type="hidden" id="isBlockTemplVal" value="true">
 					</div>
 				</section>
 				<section id="content-tab2">
@@ -361,7 +327,7 @@
 				<div class="modal-body small-modal-body">
 					<p style="font-weight: bold;">Order №<font id="title-order-id">234324</font></p>
 					<select id="new-order-status">
-						<option selected="selected">in_processing</option>
+						<option selected="selected">in processing</option>
 						<option>preparation for sending</option>
 						<option>sent</option>
 						<option>arrived</option>
