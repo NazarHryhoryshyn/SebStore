@@ -70,7 +70,7 @@ public class Orders implements Comparable<Orders>{
 		this.deliveryType = deliveryType;
 	}
 
-	@Column(name = "date", nullable = false)
+	@Column(name = "date")
 	public Date getDate() {
 		return date;
 	}

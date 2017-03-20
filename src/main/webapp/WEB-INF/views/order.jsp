@@ -1,6 +1,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 <!DOCTYPE html>
@@ -16,9 +18,9 @@
 <link
 	href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css"
 	rel="stylesheet">
-<script
-	src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+<script src="${contextPath}/resources/js/jquery-3.1.1.js"></script>
+<script src="${contextPath}/resources/js/bootstrap.min.js"></script>
+<script src="${contextPath}/resources/js/order.js"></script>
 </head>
 <body>
 	<jsp:include page="staticHtml/header.jsp"></jsp:include>
@@ -42,14 +44,11 @@
 		</div>
 		<div id="rewatch-product" style="display: static;">
 			<div class="tab-content">
+			<c:forEach items="${products}" var="product">
 				<div class="prod-block">
-					<p style="font-weight: bold;">Ball</p>
-					$99<br> 1 pcs.
+					<p style="font-weight: bold;">${product.name} </p>${product.price}&#8372;
 				</div>
-				<div class="prod-block">
-					<p style="font-weight: bold;">Ball</p>
-					$99<br> 1 pcs.
-				</div>
+			</c:forEach>
 			</div>
 			<div class="button-block">
 				<button class="btn btn-primary"
@@ -63,30 +62,30 @@
 				<table class="table-delivery">
 					<tr>
 						<td>Type sending</td>
-						<td><select>
+						<td><select id="delivery-type">
 								<option>courier</option>
-								<option>self sending</option>
+								<option selected>self sending</option>
 						</select></td>
 					</tr>
 					<tr>
 						<td>Receiver</td>
-						<td><input type="text"></td>
+						<td><input id="receiver" type="text"></td>
 					</tr>
 					<tr>
 						<td>Phone</td>
-						<td><input type="number" maxlength="14"></td>
+						<td><input id="phone" type="number" maxlength="14"></td>
 					</tr>
 					<tr>
 						<td>Email</td>
-						<td><input type="text"></td>
+						<td><input id="email" type="text"></td>
 					</tr>
 					<tr>
 						<td>Address</td>
-						<td><input type="text"></td>
+						<td><input id="address" type="text"></td>
 					</tr>
 					<tr>
 						<td>Delivery price</td>
-						<td>&#8372; 10</td>
+						<td>10&#8372;</td>
 					</tr>
 				</table>
 			</div>
@@ -107,13 +106,13 @@
 				<table class="table-delivery">
 					<tr>
 						<td>Type payment</td>
-						<td><select>
+						<td><select id="payment-type">
 								<option>cash</option>
-								<option>credit card</option>
+								<option selected>credit card</option>
 						</select></td>
 					</tr>
 				</table>
-				<div class="payment-block">
+				<div id="payment-block" class="payment-block">
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							<h3 class="panel-title">Payment Details</h3>
@@ -123,7 +122,7 @@
 								<div class="form-group">
 									<label for="cardNumber"> CARD NUMBER</label>
 									<div class="input-group">
-										<input type="text" class="form-control" id="cardNumber"
+										<input type="number" maxlength="16" class="form-control" id="cardNumber"
 											placeholder="Valid Card Number" required autofocus /> <span
 											class="input-group-addon"><i class="fa fa-lock" aria-hidden="true"></i></span>
 									</div>
@@ -133,11 +132,11 @@
 										<div class="form-group">
 											<label for="expityMonth"> EXPIRY DATE</label>
 											<div class="col-xs-6 col-lg-6 pl-ziro">
-												<input type="text" class="form-control" id="expityMonth"
+												<input type="number" maxlength="2" max="12" class="form-control" id="expityMonth"
 													placeholder="MM" required />
 											</div>
 											<div class="col-xs-6 col-lg-6 pl-ziro">
-												<input type="text" class="form-control" id="expityYear"
+												<input type="number" maxlength="2" max="12" class="form-control" id="expityYear"
 													placeholder="YY" required />
 											</div>
 										</div>
@@ -155,10 +154,8 @@
 					<ul class="nav nav-pills nav-stacked">
 						<li class="active"><a href="#"><span
 								class="badge pull-right"><span
-									class="glyphicon glyphicon-usd"></span>4200</span> Final Payment</a></li>
+									class="glyphicon glyphicon-usd"></span>${productSumPrice}</span> Final Payment</a></li>
 					</ul>
-					<br /> <a href="http://www.jquery2dotnet.com"
-						class="btn btn-success btn-lg btn-block" role="button">Pay</a>
 				</div>
 			</div>
 			<div class="button-block">
@@ -167,7 +164,7 @@
 					<i class="fa fa-arrow-left"></i>
 				</button>
 				<button class="btn btn-primary"
-					onclick="$('#payment').css('display', 'none'); $('#finish').css('display', 'block'); $('#title-3').css('background', 'none'); $('#title-4').css('background', '#259425');">
+					onclick="setOrderValues(); $('#payment').css('display', 'none'); $('#finish').css('display', 'block'); $('#title-3').css('background', 'none'); $('#title-4').css('background', '#259425');">
 					<i class="fa fa-arrow-right"></i>
 				</button>
 			</div>
@@ -178,21 +175,25 @@
 					<div style="text-align: left;">
 						Products:<br>
 						<ul>
-							<li>Ball 99</li>
-							<li>laptop 99</li>
+						<c:forEach items="${products}" var="prod">
+							<li>${prod.name} ${prod.price}&#8372;</li>
+						</c:forEach>
 						</ul>
-						sum: 198<br><br>
+						sum: ${productSumPrice}&#8372;<br><br>
 						Delivery:<br>
-						Courier<br>
-						Address: Івано-Франківськ вулювовчинецька буд 1<br>
-						Receiver: Григоришин Назар Іванович<br>
-						price delivery: 10<br><br>
+						<p id="inf-delivery-type"></p>
+						Address: <p id="inf-address"></p>
+						Receiver: <p id="inf-receiver"></p>
+						price delivery: 10<br>
 						Payment:<br>
-						credit card: 2340 2340 3290 2345<br><br>
+						type: <p id="inf-pay-type"></p>
+						<div id="inf-creditcard-block">credit card: <p id="inf-credit-card"></p></div>
 						
-						Payable: 208<br>
+						Payable: ${productSumPrice+10}<br>
 						<hr>
-						Date: 24.08.2017 19:09:03<br>
+						<c:set var="now" value="<%=new java.util.Date()%>" />
+						
+						Date: <fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${now}" /><br>
 						Welcome to WebStore!
 					</div>
 				</div>
@@ -203,7 +204,7 @@
 					onclick="$('#finish').css('display', 'none'); $('#payment').css('display', 'block'); $('#title-4').css('background', 'none'); $('#title-3').css('background', '#259425');">
 					<i class="fa fa-arrow-left"></i>
 				</button>
-				<button class="btn btn-primary">finish</button>
+				<button onclick="makeOrder();" class="btn btn-primary">finish</button>
 			</div>
 		</div>
 	</div>

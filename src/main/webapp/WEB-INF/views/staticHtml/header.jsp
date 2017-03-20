@@ -11,6 +11,7 @@
 	rel="stylesheet">
 	<link href="${contextPath}/resources/css/bootstrap.min.css"
 	rel="stylesheet">
+<script	src="${contextPath}/resources/js/product.js"></script>
 </head>
 <body>
 <form id="logoutForm" method="POST" action="${contextPath}/logout">
@@ -28,9 +29,9 @@
 		<div id="custom-search-input-container">
 			
 				<div class="input-group">
-					<input type="text" class="search-query form-control button-bg-color"
+					<input id="prodName" type="text" class="search-query form-control button-bg-color"
 						placeholder="Search" /> <span class="input-group-btn">
-						<button class="btn btn-default button-bg-color" type="button">
+						<button onclick="findByName();" class="btn btn-default button-bg-color" type="button">
 							<img src="${contextPath}/resources/img/search.png" height="20px;">
 						</button>
 					</span>

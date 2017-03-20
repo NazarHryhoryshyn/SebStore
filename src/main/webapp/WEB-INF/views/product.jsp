@@ -49,7 +49,7 @@
 			<div class="row">
 				<div id="bc2" class="btn-group btn-breadcrumb">
 					<a href="/webstore/" class="btn btn-default "><i class="fa fa-home"></i></a>
-					<a href="/webstore/products/${product.category.name}-1" class="btn btn-default ">${product.category.name}</a> 
+					<a href="/webstore/products/${product.category.name}-1-all-all-0-0" class="btn btn-default ">${product.category.name}</a> 
 					<a href="#" class="btn btn-default ">${product.name}</a>
 				</div>
 			</div>

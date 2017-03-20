@@ -1,5 +1,6 @@
 package ua.sombra.webstore.web;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -42,15 +43,21 @@ public class ProductController {
 	@Autowired
 	private SecurityService securityService;
 
-	@RequestMapping(value = { "/products/{categoryName}-{page}", }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/products/{categoryName}-{page}-{name}-{prodMaker}-{minPrice}-{maxPrice}", }, method = RequestMethod.GET)
 	public String getProductsByCategory(Model model, @PathVariable("categoryName") String categoryName
-			, @PathVariable("page") int page) {
+			, @PathVariable("page") int page
+			, @PathVariable("name") String prodName
+			, @PathVariable("prodMaker") String prodMaker
+			, @PathVariable("minPrice") int minPrice
+			, @PathVariable("maxPrice") int maxPrice
+			) {
 		User u = userService.findByLogin(securityService.findLoggedInLogin());
 		List<String> catNames = new ArrayList<String>();
 		List<String> categoryTree = new ArrayList<String>();
 		Set<Product> catProducts = new TreeSet<Product>();
 		Set<Product> pageProducts = new TreeSet<Product>();
 		Map<Integer, Integer> photos = new HashMap<Integer, Integer>();
+		Category currentCategory = categoryService.findByName(categoryName);
 		
 		for(Category c : categoryService.listTopCategories()){
 			catNames.add(c.getName());
@@ -61,10 +68,9 @@ public class ProductController {
 				catProducts.add(p);
 			}
 		} else {
-			Category cat = categoryService.findByName(categoryName);
-			catProducts = categoryService.productsTreeFromCategory(cat);
+			catProducts = categoryService.productsTreeFromCategory(currentCategory);
 			
-			categoryTree = categoryService.categoriesTreeToTop(cat.getId());
+			categoryTree = categoryService.categoriesTreeToTop(currentCategory.getId());
 			
 			if(!categoryTree.contains(categoryName)){
 				categoryTree.add(categoryName);
@@ -98,6 +104,36 @@ public class ProductController {
 					 catNames = newCatNames;
 				 }
 			}
+		}
+		
+		Set<Product> filteredCatProducts = new TreeSet<Product>();
+		
+		if(!prodName.equals("all") || !prodMaker.equals("all") || minPrice != 0 || maxPrice != 0){
+			BigDecimal bd = new BigDecimal(minPrice);
+			BigDecimal bd2 = new BigDecimal(maxPrice);
+			for(Product p : catProducts){
+				int res = p.getPrice().compareTo(bd);
+				int res2 = p.getPrice().compareTo(bd2);
+				boolean addProduct = true;
+				
+				if(!prodName.equals("all") && !p.getName().matches("(.*)"+prodName+"(.*)")){
+					addProduct = false;
+				}
+				if(!prodMaker.equals("all") && !p.getProducer().matches("(.*)"+prodMaker+"(.*)")){
+					addProduct = false;
+				}
+				if(minPrice != 0 && res != 1){
+					addProduct = false;
+				}
+				if(maxPrice != 0 && res2 != -1){
+					addProduct = false;
+				}
+				
+				if(addProduct){
+					filteredCatProducts.add(p);
+				}
+			}
+			catProducts = filteredCatProducts;
 		}
 		
 		PageMaker<Product> pgMaker = new PageMaker<Product>();

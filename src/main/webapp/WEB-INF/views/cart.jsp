@@ -16,9 +16,8 @@
 	rel="stylesheet">
 <link href="${contextPath}/resources/css/cart_styles.css"
 	rel="stylesheet">
-<script
-	src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-<script	src="${contextPath}/resources/js/bootstrap.min.js"></script>
+<script src="${contextPath}/resources/js/jquery-3.1.1.js"></script>
+<script src="${contextPath}/resources/js/bootstrap.min.js"></script>
 <link href="${contextPath}/resources/css/admin.css" rel="stylesheet">
 </head>
 <body>

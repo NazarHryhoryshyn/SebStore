@@ -205,7 +205,7 @@ public class AdminController {
 				if(!p.hasFeature(extraFeature)){
 					ProductExtraFeature newExtFeature = new ProductExtraFeature();
 					newExtFeature.setName(extraFeature);
-					newExtFeature.setValue("");
+					newExtFeature.setValue("-");
 					newExtFeature.setProduct(p);
 					productExtraFeatureService.addProductExtraFeature(newExtFeature);					
 					
@@ -215,7 +215,7 @@ public class AdminController {
 				if(!p.hasFeature(extraFeature)){
 					ProductExtraFeature newExtFeature = new ProductExtraFeature();
 					newExtFeature.setName(extraFeature);
-					newExtFeature.setValue("");
+					newExtFeature.setValue("-");
 					newExtFeature.setProduct(p);
 					productExtraFeatureService.addProductExtraFeature(newExtFeature);					
 					

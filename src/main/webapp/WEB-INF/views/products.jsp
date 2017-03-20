@@ -28,7 +28,7 @@
 			<div class="row">
 				<div id="bc2" class="btn-group btn-breadcrumb">
 					<a href="#" class="btn btn-default "><i class="fa fa-home"></i></a>
-					<a href="#" class="btn btn-default ">products</a>
+					<a id="currCat" href="#" class="btn btn-default ">${currentCategory}</a>
 				</div>
 			</div>
 		</div>
@@ -39,10 +39,10 @@
 				<div id="menu">
 					<ul class="menu-ul">
 					<c:if test="${currentCategory.equals(\"All category\")}">
-							<li class="selected-menu-item"><a href="/webstore/products/All category-1">All category</a></li>
+							<li class="selected-menu-item"><a href="/webstore/products/All category-1-all-all-0-0">All category</a></li>
 					</c:if>
 					<c:if test="${!currentCategory.equals(\"All category\")}">
-							<li><a href="/webstore/products/All category-1">All category</a></li>
+							<li><a href="/webstore/products/All category-1-all-all-0-0">All category</a></li>
 					</c:if>
 					<c:forEach items="${categories}" var="category">
 						<c:if test="${category.equals(\"topSeparator\")}">
@@ -54,10 +54,10 @@
 						<c:if test="${!category.equals(\"bottomSeparator\")}">
 							<c:if test="${!category.equals(\"topSeparator\")}">
 								<c:if test="${currentCategory == category}">
-									<li class="selected-menu-item"><a href="/webstore/products/${category}-1">${category}</a></li>
+									<li class="selected-menu-item"><a href="/webstore/products/${category}-1-all-all-0-0">${category}</a></li>
 								</c:if>
 								<c:if test="${currentCategory != category}">
-									<li><a href="/webstore/products/${category}-1">${category}</a></li>
+									<li><a href="/webstore/products/${category}-1-all-all-0-0">${category}</a></li>
 								</c:if>
 							</c:if>
 						</c:if>
@@ -71,13 +71,13 @@
 						<div class="parameter-block">
 							<div class="parameter-name-block">name</div>
 							<div class="parameter-input-block">
-								<input type="text" name="name">
+								<input id="productName" type="text" name="name">
 							</div>
 						</div>
 						<div class="parameter-block">
 							<div class="parameter-name-block">producer</div>
 							<div class="parameter-input-block">
-								<input type="text" name="producer">
+								<input id="prodMaker" type="text" name="producer">
 							</div>
 						</div>
 						<div class="parameter-interval-block">
@@ -85,17 +85,27 @@
 							<div>
 								<div class="parameter-interval-input-container"
 									style="float: left;">
-									<input type="number" value="1" min="1" max="200" name="price_min">
+									<input id="minPrice" type="number" value="1" min="1">
 								</div>
 								-
 								<div class="parameter-interval-input-container"
 									style="float: right;">
-									<input type="number" value="10" min="1" max="200" name="price_max">
+									<input id="maxPrice" type="number" value="10" min="1">
 								</div>
 							</div>
 						</div>
+						<c:forEach items="${filters}" var="filter">
+							<div class="parameter-feature-block">
+								<div class="parameter-name-feature">${filter.key}</div>
+								<div class="parameter-input-feature">
+								<c:forEach items="${filter.value}" var="featureValue">
+									<label><input type="checkbox" name="${filter.key}" value="${featureValue}">${featureValue}</label><br>
+								</c:forEach>
+								</div>
+							</div>
+						</c:forEach>
 						<div class="parameter-block" style="height: 45px;">
-								<button type="button" class="btn btn-success mybutton">Go</button>
+								<button onclick="doFilters();" type="button" class="btn btn-success mybutton">Go</button>
 						</div>
 					</div>
 				</div>
@@ -179,15 +189,15 @@
 							<li><a href="#">&lt;</a></li>
 						</c:if>
 						<c:if test="${page > 1 }">
-							<li><a href="/webstore/products/${currentCategory}-${1}">&lt;&lt;</a></li>
-							<li><a href="/webstore/products/${currentCategory}-${page-1}">&lt;</a></li>
+							<li><a href="/webstore/products/${currentCategory}-${1}-all-all-0-0">&lt;&lt;</a></li>
+							<li><a href="/webstore/products/${currentCategory}-${page-1}-all-all-0-0">&lt;</a></li>
 						</c:if>
 						<c:forEach begin="${(block*5)-4}" end="${(block * 5) > totalPages ? totalPages : block * 5}" step="1" varStatus="loop">
 							<c:if test="${loop.index == page}">
-								<li class="active"><a href="/webstore/products/${currentCategory}-${loop.index}">${loop.index}</a></li>
+								<li class="active"><a href="/webstore/products/${currentCategory}-${loop.index}-all-all-0-0">${loop.index}</a></li>
 							</c:if>
 							<c:if test="${loop.index != page}">
-								<li><a href="/webstore/products/${currentCategory}-${loop.index}">${loop.index}</a></li>
+								<li><a href="/webstore/products/${currentCategory}-${loop.index}-all-all-0-0">${loop.index}</a></li>
 							</c:if>
 						</c:forEach>
 						<c:if test="${page == totalPages }">
@@ -195,8 +205,8 @@
 							<li><a href="#">&gt;&gt;</a></li>
 						</c:if>
 						<c:if test="${page < totalPages }">
-							<li><a href="/webstore/products/${currentCategory}-${page+1}">&gt;</a></li>
-							<li><a href="/webstore/products/${currentCategory}-${totalPages}">&gt;&gt;</a></li>
+							<li><a href="/webstore/products/${currentCategory}-${page+1}-all-all-0-0">&gt;</a></li>
+							<li><a href="/webstore/products/${currentCategory}-${totalPages}-all-all-0-0">&gt;&gt;</a></li>
 						</c:if>
 					</ul>
 				</div>

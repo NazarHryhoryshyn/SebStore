@@ -44,6 +44,33 @@
 .parameter-input-block input{
 	width: 100%;
 }
+	
+.parameter-feature-block{
+	background-color: #E9FFE9;
+	margin: 2px;
+	width: 100%;
+}
+
+.parameter-name-feature{
+	width: 100%;
+	text-align: left;
+	padding-left: 30px;
+	font-weight: bold;
+}
+
+.parameter-input-feature{
+	width: 100%;
+	text-align: left;
+	padding-left: 30px;
+}
+
+.parameter-input-feature label{
+	font-weight: normal;
+}
+
+.parameter-input-feature input{
+
+	}
 
 .parameter-interval-block{
 	background-color: #E9FFE9;
