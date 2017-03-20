@@ -55,8 +55,8 @@
 		<div class="location-sub-block">
 			<div class="row">
 				<div id="bc2" class="btn-group btn-breadcrumb">
-					<a href="#" class="btn btn-default "><i class="fa fa-home"></i></a>
-					<a href="#" class="btn btn-default ">profile</a>
+					<a href="/webstore/" class="btn btn-default "><i class="fa fa-home"></i></a>
+					<a href="#" class="btn btn-default ">admin</a>
 				</div>
 			</div>
 		</div>

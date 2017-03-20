@@ -48,9 +48,9 @@
 		<div class="location-sub-block">
 			<div class="row">
 				<div id="bc2" class="btn-group btn-breadcrumb">
-					<a href="#" class="btn btn-default "><i class="fa fa-home"></i></a>
-					<a href="#" class="btn btn-default ">${product.category.name}</a> <a href="#"
-						class="btn btn-default ">${product.name}</a>
+					<a href="/webstore/" class="btn btn-default "><i class="fa fa-home"></i></a>
+					<a href="/webstore/products/${product.category.name}-1" class="btn btn-default ">${product.category.name}</a> 
+					<a href="#" class="btn btn-default ">${product.name}</a>
 				</div>
 			</div>
 		</div>
@@ -108,7 +108,7 @@
 							${product.name}
 						</div>
 						<div class="column">
-						   ${product.price}&#8372;
+						  Price: ${product.price}&#8372;
 						</div>
 						<div class="column">
 							Exists ${product.amountOnWarehouse} pcs. on stack
@@ -129,14 +129,12 @@
 
 				<section id="content-tab1">
 					<table class="characteristic-table">
+					<c:forEach items="${features}" var="feat">
 						<tr>
-							<td>Колір</td>
-							<td>Зелений</td>
+							<td>${feat.name}</td>
+							<td>${feat.value}</td>
 						</tr>
-						<tr>
-							<td>Модель</td>
-							<td>Lenovo-A390</td>
-						</tr>
+					</c:forEach>
 					</table>
 				</section>
 				<section id="content-tab2">

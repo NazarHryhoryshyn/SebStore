@@ -11,6 +11,7 @@
 <link href="${contextPath}/resources/css/bootstrap.min.css"
 	rel="stylesheet">
 <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
+<link href="${contextPath}/resources/css/carousel.css" rel="stylesheet">
 <link href="${contextPath}/resources/css/location_div_styles.css"
 	rel="stylesheet">
 <link href="${contextPath}/resources/css/cart_styles.css"
@@ -27,7 +28,7 @@
 		<div class="location-sub-block">
 			<div class="row">
 				<div id="bc2" class="btn-group btn-breadcrumb">
-					<a href="#" class="btn btn-default "><i class="fa fa-home"></i></a>
+					<a href="/webstore/" class="btn btn-default "><i class="fa fa-home"></i></a>
 					<a href="#" class="btn btn-default ">cart</a>
 				</div>
 			</div>
@@ -47,7 +48,7 @@
 				</div>
 				<div class="product-description-block">
 					<div class="product-description-text">
-						<div class="column-product-name">${product.name}</div>
+						<div class="column-product-name"><a href="/webstore/product/${product.id}">${product.name}</a></div>
 						<div class="column">Price: ${product.price}&#8372;</div>
 					</div>
 					<div class="container-remove">

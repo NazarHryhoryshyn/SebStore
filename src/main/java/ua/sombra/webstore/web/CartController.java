@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import ua.sombra.webstore.entity.Photo;
 import ua.sombra.webstore.entity.Product;
 import ua.sombra.webstore.entity.User;
+import ua.sombra.webstore.service.databaseService.interfaces.ProductService;
 import ua.sombra.webstore.service.databaseService.interfaces.SecurityService;
 import ua.sombra.webstore.service.databaseService.interfaces.UserService;
 
@@ -24,6 +25,9 @@ public class CartController {
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private ProductService productService;
+	
 	@Autowired
 	private SecurityService securityService;
 	
@@ -53,9 +57,10 @@ public class CartController {
 	@RequestMapping(value = { "/cart/delete/{productId}", }, method = RequestMethod.GET)
 	public String deleteProduct(@PathVariable("productId") int productId){
 		User u = userService.findByLogin(securityService.findLoggedInLogin());
-		
+		Product p = productService.findById(productId);
 		userService.removeReferenceToProduct(u.getId(), productId);
-		
+		p.setAmountOnWarehouse(p.getAmountOnWarehouse()+1);
+		productService.editProduct(p);
 		return  "redirect: /webstore/cart";
 	}
 }

@@ -9,14 +9,13 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import ua.sombra.webstore.entity.Category;
 import ua.sombra.webstore.entity.Photo;
@@ -143,13 +142,27 @@ public class ProductController {
 		model.addAttribute("product", p);
 		model.addAttribute("photos", photos);
 		model.addAttribute("amountPhotos", photos.size());
+		model.addAttribute("features", p.getProductExtraFeatures());
 		
 		return "product";
 	}
 	
 	@RequestMapping(value = "/product/addToCart", method = RequestMethod.POST)
-	@ResponseStatus(value = HttpStatus.OK)
-	public void addProductToCart(@RequestParam("productId") int productId){
-		userService.addReferenceToProduct(userService.findByLogin(securityService.findLoggedInLogin()).getId(), productId);
+	public @ResponseBody boolean addProductToCart(@RequestParam("productId") int productId){
+		User u = userService.findByLogin(securityService.findLoggedInLogin());
+		
+		for(Product prod : u.getProducts()){
+			if(prod.getId() == productId){
+				return false;
+			}
+		}
+		Product p = productService.findById(productId);
+		if(p.getAmountOnWarehouse() > 0){
+			userService.addReferenceToProduct(u.getId(), productId);
+			p.setAmountOnWarehouse(p.getAmountOnWarehouse()-1);
+			productService.editProduct(p);
+			return true;
+		}
+		return false;
 	}
 }

@@ -4,6 +4,7 @@
 
 .prod{
 	clear: both;
+	height: 126px;
 }
 
 .prod:hover{
@@ -11,14 +12,23 @@
 }
 
 .product-photo{
-	width: 20%;
+    min-height: 126px;
+	width: 226px;
 	float: left;
+    border-radius: 15px;
+    position: relative;
 }
 
-.product-photo img{
-	width: 90%;
+.product-photo img{ 
+	max-height: 90px;
+    max-width: 226px;
 	border-radius: 20px;
-	margin: 5%;
+    position: absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    margin:auto;
 }
 
 .product-description-block{
@@ -31,11 +41,19 @@
 	width: 80%;	
 	float: left; 
 }
+
+.product-description-text a:link{
+	color: black;
+}
+.product-description-text a:visited{
+	color: black;
+}
+
 .container-remove{
 	width: 20%;	
 	float: right;
 	text-align: center;
-    margin-top: 60px;
+    margin-top: 25px;
 }
 
 .column{

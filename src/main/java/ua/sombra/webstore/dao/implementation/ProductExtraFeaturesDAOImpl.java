@@ -61,7 +61,6 @@ public class ProductExtraFeaturesDAOImpl implements ProductExtraFeaturesDAO {
 	}
 	
 	@Override
-
 	public void removeAllExtraFeaturesFromProduct(int productId){
 		Query q = sessionFactory.getCurrentSession().createSQLQuery("delete from product_extra_features where product_id = :productId");
 		q.setParameter("productId", productId);
