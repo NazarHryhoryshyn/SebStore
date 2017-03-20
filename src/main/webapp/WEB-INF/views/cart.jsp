@@ -14,7 +14,7 @@
 <link href="${contextPath}/resources/css/carousel.css" rel="stylesheet">
 <link href="${contextPath}/resources/css/location_div_styles.css"
 	rel="stylesheet">
-<link href="${contextPath}/resources/css/cart_styles.css"
+<link href="${contextPath}/resources/css/cart.css"
 	rel="stylesheet">
 <script src="${contextPath}/resources/js/jquery-3.1.1.js"></script>
 <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
