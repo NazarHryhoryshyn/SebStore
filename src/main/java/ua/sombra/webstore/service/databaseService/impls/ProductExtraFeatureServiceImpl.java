@@ -6,12 +6,14 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import ua.sombra.webstore.dao.interfaces.ProductExtraFeaturesDAO;
 import ua.sombra.webstore.entity.ProductExtraFeature;
 import ua.sombra.webstore.service.databaseService.interfaces.ProductExtraFeatureService;
 
 @Service
+@Transactional
 public class ProductExtraFeatureServiceImpl implements ProductExtraFeatureService {
 	
 	@Autowired
@@ -43,7 +45,7 @@ public class ProductExtraFeatureServiceImpl implements ProductExtraFeatureServic
 	}
 
 	@Override
-	public Map<String, String> parseStringtoMapFeatures(List<String> notParsedFeatures) {
+	public Map<String, String> parseStringToMapFeatures(List<String> notParsedFeatures) {
 		Map<String, String> efNameValue = new HashMap<String, String>();
 		if(notParsedFeatures.contains("no_elements")){
 			notParsedFeatures.remove("no_elements");

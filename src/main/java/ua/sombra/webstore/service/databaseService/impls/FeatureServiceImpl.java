@@ -4,12 +4,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import ua.sombra.webstore.dao.interfaces.FeatureDAO;
 import ua.sombra.webstore.entity.Feature;
 import ua.sombra.webstore.service.databaseService.interfaces.FeatureService;
 
 @Service
+@Transactional
 public class FeatureServiceImpl implements FeatureService{
 
 	@Autowired

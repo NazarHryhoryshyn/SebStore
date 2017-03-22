@@ -17,5 +17,5 @@ public interface ProductExtraFeatureService {
 
 	public void removeAllExtraFeaturesFromProduct(int productId);
 	
-	public Map<String, String> parseStringtoMapFeatures(List<String> notParsedFeatures);
+	public Map<String, String> parseStringToMapFeatures(List<String> notParsedFeatures);
 }

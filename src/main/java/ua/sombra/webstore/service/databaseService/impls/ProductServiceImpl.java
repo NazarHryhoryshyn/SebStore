@@ -25,6 +25,7 @@ import ua.sombra.webstore.service.databaseService.interfaces.ProductService;
 import ua.sombra.webstore.service.paging.PageMaker;
 
 @Service
+@Transactional
 public class ProductServiceImpl implements ProductService {
 
 	@Autowired
@@ -143,6 +144,7 @@ public class ProductServiceImpl implements ProductService {
 		return productSumPrice;
 	}
 	
+	@Transactional
 	@Override
 	public void tryRemoveProduct(int productId){
 		Product p = findById(productId);
@@ -157,6 +159,7 @@ public class ProductServiceImpl implements ProductService {
 		productDao.update(p);
 	}
 	
+	@Transactional
 	@Override
 	public void changeCategory(int productId, String newCatName){
 		Product editedProduct = findById(productId);
@@ -212,7 +215,7 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public void transactionEditProduct(int productId, String name, BigDecimal price, String category, String producer
 			, String country, int weight, int amountOnWarehouse, List<String> extraFeatures){
-		Map<String, String> efNameValue = productExtraFeatureService.parseStringtoMapFeatures(extraFeatures);
+		Map<String, String> efNameValue = productExtraFeatureService.parseStringToMapFeatures(extraFeatures);
 		productExtraFeatureService.setValuesExtraFeatures(productId, efNameValue);
 		editProduct(productId, name, price, category, producer, country, weight, amountOnWarehouse);
 		changeCategory(productId, category);

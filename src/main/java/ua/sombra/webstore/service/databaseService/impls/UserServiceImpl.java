@@ -106,6 +106,7 @@ public class UserServiceImpl implements UserService {
 		return true;
 	}
 
+	@Transactional
 	@Override
 	public void ChangeIsAdmin(String login, Boolean status) {
 		User u = findByLogin(login);
@@ -117,6 +118,7 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
+	@Transactional
 	@Override
 	public void ChangeIsBlocked(String login, Boolean status) {
 		User u = findByLogin(login);
@@ -128,6 +130,7 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
+	@Transactional
 	@Override
 	public boolean addProductToCurrentUserCart(int productId) {
 		User u = findByLogin(securityService.findLoggedInLogin());
@@ -197,6 +200,7 @@ public class UserServiceImpl implements UserService {
 		editUser(u);
 	}
 	
+	@Transactional
 	@Override
 	public void removeProductFromCart(int prodId){
 		User u = userService.findByLogin(securityService.findLoggedInLogin());

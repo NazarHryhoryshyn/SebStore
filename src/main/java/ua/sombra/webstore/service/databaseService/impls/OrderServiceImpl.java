@@ -8,6 +8,7 @@ import java.util.TreeSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import ua.sombra.webstore.dao.interfaces.OrderDAO;
 import ua.sombra.webstore.entity.Orders;
@@ -20,6 +21,7 @@ import ua.sombra.webstore.service.databaseService.interfaces.UserService;
 import ua.sombra.webstore.service.paging.PageMaker;
 
 @Service
+@Transactional
 public class OrderServiceImpl implements OrderService {
 
 	@Autowired
@@ -52,6 +54,7 @@ public class OrderServiceImpl implements OrderService {
 		return orderDao.listAll();
 	}
 	
+	@Transactional
 	@Override
 	public void makeOrder(String address, String receiver, String paymentType, String deliveryType, 
 			String phone, String email, String cardNumber, String cardTreeNumber, String cardTermOf){

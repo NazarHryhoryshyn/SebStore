@@ -24,6 +24,7 @@ import ua.sombra.webstore.service.databaseService.interfaces.ProductExtraFeature
 import ua.sombra.webstore.service.databaseService.interfaces.ProductService;
 
 @Service
+@Transactional
 public class CategoryServiceImpl implements CategoryService{
 
 	@Autowired
@@ -55,6 +56,7 @@ public class CategoryServiceImpl implements CategoryService{
 		categoryDao.create(category);
 	}
 
+	@Transactional
 	@Override
 	public void addCategory(String name, Integer mainCategoryId, List<String> featureNames){
 		if(featureNames.contains("no_elements")){
@@ -131,6 +133,7 @@ public class CategoryServiceImpl implements CategoryService{
 		categoryDao.delete(id);
 	}
 	
+	@Transactional
 	@Override
 	public void editCategory(String newName, Integer categoryId, List<String> featureNames){
 		if(featureNames.contains("no_elements")){

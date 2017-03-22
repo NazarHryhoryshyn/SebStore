@@ -6,6 +6,7 @@ import java.util.Arrays;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import ua.sombra.webstore.dao.interfaces.PhotoDAO;
@@ -15,6 +16,7 @@ import ua.sombra.webstore.service.databaseService.interfaces.PhotoService;
 import ua.sombra.webstore.service.databaseService.interfaces.ProductService;
 
 @Service
+@Transactional
 public class PhotoServiceImpl implements PhotoService{
 	
 	@Autowired
