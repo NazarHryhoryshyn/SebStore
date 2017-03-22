@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ua.sombra.webstore.Constants;
 import ua.sombra.webstore.dao.interfaces.ProductExtraFeaturesDAO;
 import ua.sombra.webstore.entity.ProductExtraFeature;
 import ua.sombra.webstore.service.databaseService.interfaces.ProductExtraFeatureService;
@@ -47,12 +48,12 @@ public class ProductExtraFeatureServiceImpl implements ProductExtraFeatureServic
 	@Override
 	public Map<String, String> parseStringToMapFeatures(List<String> notParsedFeatures) {
 		Map<String, String> efNameValue = new HashMap<String, String>();
-		if(notParsedFeatures.contains("no_elements")){
-			notParsedFeatures.remove("no_elements");
+		if(notParsedFeatures.contains(Constants.EMPTY_LIST)){
+			notParsedFeatures.remove(Constants.EMPTY_LIST);
 		}
 		for(String efName : notParsedFeatures){
-			String[] nameValue = efName.split("__");
-			if(nameValue[1] == "null_null"){
+			String[] nameValue = efName.split(Constants.FEATURE_NAME_VALUE_SEPARATOR);
+			if(nameValue[1] == Constants.VALUE_IS_EMPTY){
 				nameValue[1] = "";
 			}
 			efNameValue.put(nameValue[0], nameValue[1]);

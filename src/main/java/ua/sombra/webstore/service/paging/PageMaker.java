@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
+import ua.sombra.webstore.Constants;
+
 public class PageMaker<T> {
 	
 	private Set<T> objects = new HashSet<T>();
@@ -13,14 +15,14 @@ public class PageMaker<T> {
 	private int amountPagesInBlock;
 
 	public PageMaker(){
-		amountObjectsOnPage = 6;
-		amountPagesInBlock = 5;
+		amountObjectsOnPage = Constants.DEFAULT_AMOUNT_OBJECTS_ON_PAGE;
+		amountPagesInBlock = Constants.DEFAULT_AMOUNT_PAGES_IN_BLOCK;
 	}
 	
 	public PageMaker(Set<T> objects){
 		this.objects = objects;
-		amountObjectsOnPage = 6;
-		amountPagesInBlock = 5;
+		amountObjectsOnPage = Constants.DEFAULT_AMOUNT_OBJECTS_ON_PAGE;
+		amountPagesInBlock = Constants.DEFAULT_AMOUNT_PAGES_IN_BLOCK;
 	}
 	
 	public int getAmountObjectsOnPage() {

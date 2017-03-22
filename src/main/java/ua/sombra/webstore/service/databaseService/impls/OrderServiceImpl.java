@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ua.sombra.webstore.Constants;
 import ua.sombra.webstore.dao.interfaces.OrderDAO;
 import ua.sombra.webstore.entity.Orders;
 import ua.sombra.webstore.entity.Product;
@@ -77,7 +78,7 @@ public class OrderServiceImpl implements OrderService {
 			newOrder.setProducts(u.getProducts());
 			newOrder.setDate(d);
 			newOrder.setDeliveryPrice(new BigDecimal(10));
-			newOrder.setStatus("in processing");
+			newOrder.setStatus(Constants.DEFAULT_ORDER_STATUS);
 			addOrder(newOrder);
 			for(Product p : u.getProducts()){
 				userService.removeReferenceToProduct(u.getId(), p.getId());

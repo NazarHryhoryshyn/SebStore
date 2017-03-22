@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ua.sombra.webstore.Constants;
 import ua.sombra.webstore.dao.interfaces.CategoryDAO;
 import ua.sombra.webstore.entity.Category;
 import ua.sombra.webstore.entity.Feature;
@@ -59,13 +60,13 @@ public class CategoryServiceImpl implements CategoryService{
 	@Transactional
 	@Override
 	public void addCategory(String name, Integer mainCategoryId, List<String> featureNames){
-		if(featureNames.contains("no_elements")){
-			featureNames.remove("no_elements");
+		if(featureNames.contains(Constants.EMPTY_LIST)){
+			featureNames.remove(Constants.EMPTY_LIST);
 		}
 		Category newCategory = new Category();
 		newCategory.setName(name);
 		
-		if(mainCategoryId == -1){
+		if(mainCategoryId == Constants.TOP_CATEGORY){
 			categoryService.addTopCategory(newCategory);
 		}
 		else{
@@ -109,7 +110,7 @@ public class CategoryServiceImpl implements CategoryService{
 				if(!p.hasFeature(extraFeature)){
 					ProductExtraFeature newExtFeature = new ProductExtraFeature();
 					newExtFeature.setName(extraFeature);
-					newExtFeature.setValue("-");
+					newExtFeature.setValue(Constants.DEFAULT_EXTRA_FEATURE_VALUE);
 					newExtFeature.setProduct(p);
 					productExtraFeatureService.addProductExtraFeature(newExtFeature);					
 					
@@ -119,7 +120,7 @@ public class CategoryServiceImpl implements CategoryService{
 				if(!p.hasFeature(extraFeature)){
 					ProductExtraFeature newExtFeature = new ProductExtraFeature();
 					newExtFeature.setName(extraFeature);
-					newExtFeature.setValue("-");
+					newExtFeature.setValue(Constants.DEFAULT_EXTRA_FEATURE_VALUE);
 					newExtFeature.setProduct(p);
 					productExtraFeatureService.addProductExtraFeature(newExtFeature);					
 					
@@ -136,8 +137,8 @@ public class CategoryServiceImpl implements CategoryService{
 	@Transactional
 	@Override
 	public void editCategory(String newName, Integer categoryId, List<String> featureNames){
-		if(featureNames.contains("no_elements")){
-			featureNames.remove("no_elements");
+		if(featureNames.contains(Constants.EMPTY_LIST)){
+			featureNames.remove(Constants.EMPTY_LIST);
 		}
 
 		Category editedCategory = categoryService.findById(categoryId);
@@ -210,7 +211,7 @@ public class CategoryServiceImpl implements CategoryService{
 				if(!p.hasFeature(extraFeature)){
 					ProductExtraFeature newExtFeature = new ProductExtraFeature();
 					newExtFeature.setName(extraFeature);
-					newExtFeature.setValue("");
+					newExtFeature.setValue(Constants.DEFAULT_EXTRA_FEATURE_VALUE);
 					newExtFeature.setProduct(p);
 					productExtraFeatureService.addProductExtraFeature(newExtFeature);
 				}
@@ -219,7 +220,7 @@ public class CategoryServiceImpl implements CategoryService{
 				if(!p.hasFeature(extraFeature)){
 					ProductExtraFeature newExtFeature = new ProductExtraFeature();
 					newExtFeature.setName(extraFeature);
-					newExtFeature.setValue("");
+					newExtFeature.setValue(Constants.DEFAULT_EXTRA_FEATURE_VALUE);
 					newExtFeature.setProduct(p);
 					productExtraFeatureService.addProductExtraFeature(newExtFeature);
 				}
@@ -404,7 +405,7 @@ public class CategoryServiceImpl implements CategoryService{
 			catNames.add(c.getName());
 		}
 		
-		if(!categoryName.equals("All category")){
+		if(!categoryName.equals(Constants.SELECTED_ALL_CATEGORY)){
 			Category currentCategory = categoryService.findByName(categoryName);
 			
 			categoryTree = categoryService.categoriesTreeToTop(currentCategory.getId());
@@ -423,11 +424,11 @@ public class CategoryServiceImpl implements CategoryService{
 					 subCatNames.add(c.getName());
 				 }
 				 if(subCatNames.size() > 0){
-					 addingItems.add("topSeparator");
+					 addingItems.add(Constants.TOP_SEPARATOR);
 					 for(int j = 0; j < subCatNames.size(); j++){
 						 addingItems.add(subCatNames.get(j));
 					 }
-					 addingItems.add("bottomSeparator");
+					 addingItems.add(Constants.BOTTOM_SEPARATOR);
 					 int indexInsert = catNames.indexOf(catName);
 					 List<String> newCatNames = new ArrayList<String>();
 					 int ind = 0;
@@ -449,7 +450,7 @@ public class CategoryServiceImpl implements CategoryService{
 	public Set<Product> getAllProductsFromCategory(String categoryName){
 		Set<Product> catProducts = new TreeSet<Product>();
 		
-		if(categoryName.equals("All category")){
+		if(categoryName.equals(Constants.SELECTED_ALL_CATEGORY)){
 			for(Product p : productService.listProducts()){
 				catProducts.add(p);
 			}
@@ -463,17 +464,17 @@ public class CategoryServiceImpl implements CategoryService{
 	public Set<Product> filterProducts(Set<Product> products, String prodName, String prodProducer, int prodMinPrice, int prodMaxPrice){
 		Set<Product> filteredCatProducts = new TreeSet<Product>();
 		
-		if(!prodName.equals("all") || !prodProducer.equals("all") || prodMinPrice != 0 || prodMaxPrice != 0){
+		if(!prodName.equals(Constants.SEARCH_ALL_COMMAND) || !prodProducer.equals(Constants.SEARCH_ALL_COMMAND) || prodMinPrice != 0 || prodMaxPrice != 0){
 			BigDecimal bd = new BigDecimal(prodMinPrice);
 			BigDecimal bd2 = new BigDecimal(prodMaxPrice);
 			for(Product p : products){
 				int res = p.getPrice().compareTo(bd);
 				int res2 = p.getPrice().compareTo(bd2);
 				boolean addProduct = true;				
-				if(!prodName.equals("all") && !p.getName().matches("(.*)"+prodName+"(.*)")){
+				if(!prodName.equals(Constants.SEARCH_ALL_COMMAND) && !p.getName().matches("(.*)"+prodName+"(.*)")){
 					addProduct = false;
 				}
-				if(!prodProducer.equals("all") && !p.getProducer().matches("(.*)"+prodProducer+"(.*)")){
+				if(!prodProducer.equals(Constants.SEARCH_ALL_COMMAND) && !p.getProducer().matches("(.*)"+prodProducer+"(.*)")){
 					addProduct = false;
 				}
 				if(prodMinPrice != 0 && res != 1){

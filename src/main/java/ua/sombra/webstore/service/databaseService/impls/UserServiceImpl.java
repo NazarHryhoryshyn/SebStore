@@ -16,6 +16,7 @@ import ua.sombra.webstore.service.paging.PageMaker;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import ua.sombra.webstore.Constants;
 import ua.sombra.webstore.dao.interfaces.RoleDAO;
 import ua.sombra.webstore.dao.interfaces.UserDAO;
 import ua.sombra.webstore.entity.Product;
@@ -50,7 +51,7 @@ public class UserServiceImpl implements UserService {
 	public void addUser(User user) {
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		Set<Role> roles = new HashSet<>();
-		roles.add(roleDao.getByName("ROLE_USER"));
+		roles.add(roleDao.getByName(Constants.USER_ROLE_IN_DB));
 		user.setRoles(roles);
 		userDao.create(user);
 	}
@@ -77,7 +78,7 @@ public class UserServiceImpl implements UserService {
 		String login = securityService.findLoggedInLogin();
 		User u = findByLogin(login);
 		for (Role r : u.getRoles()) {
-			if (r.getName().equals("ROLE_ADMIN")) {
+			if (r.getName().equals(Constants.ADMIN_ROLE_IN_DB)) {
 				return true;
 			}
 		}
@@ -88,7 +89,7 @@ public class UserServiceImpl implements UserService {
 	public boolean UserIsAdmin(String login) {
 		User u = findByLogin(login);
 		for (Role r : u.getRoles()) {
-			if (r.getName().equals("ROLE_ADMIN")) {
+			if (r.getName().equals(Constants.ADMIN_ROLE_IN_DB)) {
 				return true;
 			}
 		}
@@ -99,7 +100,7 @@ public class UserServiceImpl implements UserService {
 	public boolean UserIsBlocked(String login) {
 		User u = findByLogin(login);
 		for (Role r : u.getRoles()) {
-			if (r.getName().equals("ROLE_USER")) {
+			if (r.getName().equals(Constants.USER_ROLE_IN_DB)) {
 				return false;
 			}
 		}
@@ -110,7 +111,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void ChangeIsAdmin(String login, Boolean status) {
 		User u = findByLogin(login);
-		Role admRole = roleDao.getByName("ROLE_ADMIN");
+		Role admRole = roleDao.getByName(Constants.ADMIN_ROLE_IN_DB);
 		if (status == true && !UserIsAdmin(login)) {
 			userDao.awardAdminRights(u.getId(), admRole.getId());
 		} else if (status == false && UserIsAdmin(login)) {
@@ -122,7 +123,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void ChangeIsBlocked(String login, Boolean status) {
 		User u = findByLogin(login);
-		Role userRole = roleDao.getByName("ROLE_USER");
+		Role userRole = roleDao.getByName(Constants.USER_ROLE_IN_DB);
 		if (status == true && !UserIsBlocked(login)) {
 			userDao.takeOffUserRights(u.getId(), userRole.getId());
 		} else if (status == false && UserIsBlocked(login)) {
