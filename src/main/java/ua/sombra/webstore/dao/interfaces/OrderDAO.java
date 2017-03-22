@@ -7,12 +7,12 @@ import ua.sombra.webstore.entity.Orders;
 
 public interface OrderDAO {
 
-	public void addOrder(Orders order);
+	public void create(Orders order);
 
 	public Orders findById(int id);
 	
 	public void changeStatus(int orderId, String newStatus);
 	
-	public List<Orders> listOrders();
+	public List<Orders> listAll();
 	
 }

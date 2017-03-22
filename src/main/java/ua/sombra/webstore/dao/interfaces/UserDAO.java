@@ -6,15 +6,15 @@ import ua.sombra.webstore.entity.User;
 
 public interface UserDAO {
 	
-	public void addUser(User user);
+	public void create(User user);
 
-	public void editUser(User userNewParameters);
+	public void update(User userNewParameters);
 
-	public User findById(Integer id);
+	public User findById(int id);
 
 	public User findByLogin(String login);
 	
-	public List<User> listUsers();
+	public List<User> listAll();
 
 	public void awardAdminRights(int userId, int roleAdminId);
 

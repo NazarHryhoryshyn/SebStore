@@ -16,11 +16,11 @@ public class FeatureServiceImpl implements FeatureService{
 	private FeatureDAO featureDao;
 	
 	public void addFeature(Feature feature){
-		featureDao.addFeature(feature);
+		featureDao.create(feature);
 	}
 	
 	public void removeFeature(Integer id){
-		featureDao.removeFeature(id);
+		featureDao.delete(id);
 	}
 	
 	public Feature findById(Integer id){
@@ -32,6 +32,6 @@ public class FeatureServiceImpl implements FeatureService{
 	}
 	
 	public List<Feature> listAllFeatures(){
-		return featureDao.listAllFeatures();
+		return featureDao.listAll();
 	}
 }

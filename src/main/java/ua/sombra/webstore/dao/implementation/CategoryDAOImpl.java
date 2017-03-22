@@ -9,23 +9,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import ua.sombra.webstore.dao.AbstractDAO;
 import ua.sombra.webstore.dao.interfaces.CategoryDAO;
 import ua.sombra.webstore.entity.Category;
 
 @Repository
 @Transactional
-public class CategoryDAOImpl implements CategoryDAO {
+public class CategoryDAOImpl extends AbstractDAO<Category> implements CategoryDAO {
 
 	@Autowired
 	private SessionFactory sessionFactory;
 	
 	@Override
-	public void addCategory(Category category) {
+	public void create(Category category) {
 		sessionFactory.getCurrentSession().save(category);
 	}
 
 	@Override
-	public void removeCategory(Integer id) {
+	public void delete(int id) {
 		Category category = findById(id);
 		if (category != null) {
 			sessionFactory.getCurrentSession().delete(category);
@@ -55,7 +56,7 @@ public class CategoryDAOImpl implements CategoryDAO {
 	
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<Category> listAllCategories() {
+	public List<Category> listAll() {
 		return (List<Category>) sessionFactory.getCurrentSession().createQuery("From Category").list();
 	}
 
@@ -95,5 +96,10 @@ public class CategoryDAOImpl implements CategoryDAO {
 		Query q = sessionFactory.getCurrentSession().createSQLQuery("delete from additional_features where category_id = :categoryId");
 		q.setParameter("categoryId", categoryId);
 		q.executeUpdate();
-	}	
+	}
+
+	@Override
+	public void update(Category ent) {
+		// TODO Auto-generated method stub
+	}
 }

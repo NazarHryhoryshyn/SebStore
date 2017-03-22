@@ -3,6 +3,7 @@ package ua.sombra.webstore.service.databaseService.interfaces;
 import java.util.List;
 
 import ua.sombra.webstore.entity.User;
+import ua.sombra.webstore.entity.wrappers.PageInfo;
 
 public interface UserService {
 	
@@ -24,7 +25,23 @@ public interface UserService {
 
     public void ChangeIsBlocked(String login, Boolean status);
     
-	public void addReferenceToProduct(int userId, int productId);
+	public boolean addProductToCurrentUserCart(int productId);
 
 	public void removeReferenceToProduct(int userId, int productId);
+
+	public void changeFirstName(String firstName);
+	
+	public void changeLastName(String lastName);
+
+	public void changeEmail(String email);
+	
+	public void changeTelephone(String telephone);
+
+	public void changeSex(String sex);
+
+	public void changePassword(String oldPassword, String newPassword);
+	
+	public void removeProductFromCart(int prodId);
+	
+	public PageInfo<User> getPageInfoUsers(int page);
 }

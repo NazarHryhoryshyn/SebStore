@@ -8,18 +8,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import ua.sombra.webstore.dao.AbstractDAO;
 import ua.sombra.webstore.dao.interfaces.OrderDAO;
 import ua.sombra.webstore.entity.Orders;
 
 @Repository
 @Transactional
-public class OrderDAOImpl implements OrderDAO {
+public class OrderDAOImpl extends AbstractDAO<Orders> implements OrderDAO {
 
 	@Autowired
 	SessionFactory sessionFactory;
 	
 	@Override
-	public void addOrder(Orders order) {
+	public void create(Orders order) {
 		sessionFactory.getCurrentSession().save(order);
 	}
 	
@@ -39,7 +40,19 @@ public class OrderDAOImpl implements OrderDAO {
 	
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<Orders> listOrders() {
+	public List<Orders> listAll() {
 		return (List<Orders>) sessionFactory.getCurrentSession().createQuery("From Orders").list();
+	}
+
+	@Override
+	public void update(Orders ent) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void delete(int entId) {
+		// TODO Auto-generated method stub
+		
 	}	
 }

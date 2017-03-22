@@ -1,5 +1,6 @@
 package ua.sombra.webstore.dao.implementation;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import ua.sombra.webstore.dao.AbstractDAO;
 import ua.sombra.webstore.dao.interfaces.ProductDAO;
 import ua.sombra.webstore.dao.interfaces.ProductExtraFeaturesDAO;
 import ua.sombra.webstore.entity.Product;
@@ -16,7 +18,7 @@ import ua.sombra.webstore.entity.ProductExtraFeature;
 
 @Repository
 @Transactional
-public class ProductExtraFeaturesDAOImpl implements ProductExtraFeaturesDAO {
+public class ProductExtraFeaturesDAOImpl extends AbstractDAO<ProductExtraFeature> implements ProductExtraFeaturesDAO {
 
 	@Autowired
 	SessionFactory sessionFactory;
@@ -25,17 +27,18 @@ public class ProductExtraFeaturesDAOImpl implements ProductExtraFeaturesDAO {
 	ProductDAO productDao;
 	
 	@Override
-	public void addProductExtraFeature(ProductExtraFeature productExtraFeature) {
+	public void create(ProductExtraFeature productExtraFeature) {
 		sessionFactory.getCurrentSession().save(productExtraFeature);
 	}
 
 	@Override
-	public void removeProductExtraFeature(ProductExtraFeature productExtraFeature) {
-		sessionFactory.getCurrentSession().delete(productExtraFeature);
+	public void delete(int productExtraFeatureId) {
+		ProductExtraFeature pef = findById(productExtraFeatureId);
+		sessionFactory.getCurrentSession().delete(pef);
 	}
 	
 	@Override
-	public ProductExtraFeature findById(Integer productEFId) {
+	public ProductExtraFeature findById(int productEFId) {
 		ProductExtraFeature productExtraFeature = (ProductExtraFeature)sessionFactory.getCurrentSession()
 				.get(ProductExtraFeature.class, productEFId);
 		return productExtraFeature;
@@ -65,5 +68,17 @@ public class ProductExtraFeaturesDAOImpl implements ProductExtraFeaturesDAO {
 		Query q = sessionFactory.getCurrentSession().createSQLQuery("delete from product_extra_features where product_id = :productId");
 		q.setParameter("productId", productId);
 		q.executeUpdate();
+	}
+
+	@Override
+	public void update(ProductExtraFeature ent) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<ProductExtraFeature> listAll() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

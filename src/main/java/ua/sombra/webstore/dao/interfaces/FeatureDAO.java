@@ -6,13 +6,13 @@ import ua.sombra.webstore.entity.Feature;
 
 public interface FeatureDAO {
 	
-	public void addFeature(Feature feature);
+	public void create(Feature feature);
 	
-	public void removeFeature(Integer id);
+	public void delete(int id);
 	
-	public Feature findById(Integer id);
+	public Feature findById(int id);
 
 	public Feature findByName(String name);
 
-	public List<Feature> listAllFeatures();
+	public List<Feature> listAll();
 }

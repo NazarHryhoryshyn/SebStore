@@ -6,17 +6,17 @@ import ua.sombra.webstore.entity.Product;
 
 public interface ProductDAO {
 	
-	public void addProduct(Product product);
+	public void create(Product product);
 
-	public void removeProduct(Integer id);
+	public void delete(int id);
 	
-	public Product findById(Integer id);
+	public Product findById(int id);
 	
 	public Product findByName(String name);
 	
-	public void editProduct(Product newParamsProduct);
+	public void update(Product newParamsProduct);
 	
-	public List<Product> listProducts();
+	public List<Product> listAll();
 	
 	public void setNewCategory(int productId, int categoryId);
 }

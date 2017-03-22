@@ -1,9 +1,5 @@
 package ua.sombra.webstore.web;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -13,8 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import ua.sombra.webstore.entity.Category;
-import ua.sombra.webstore.entity.Photo;
 import ua.sombra.webstore.entity.Product;
 import ua.sombra.webstore.entity.User;
 import ua.sombra.webstore.service.databaseService.interfaces.CategoryService;
@@ -40,33 +34,15 @@ public class MainPageController {
 	@RequestMapping(value = { "/", }, method = RequestMethod.GET)
 	public String mainPage(Model model) {
 		User u = userService.findByLogin(securityService.findLoggedInLogin());
-		Set<String> catNames = new HashSet<String>();
-		Map<Integer, Integer> productPhoto = new HashMap<Integer, Integer>();
-		Set<Product> popularProducts = new HashSet<Product>();
-		int prodSize = 0;
-		int amountProducts = 0;
+		Set<String> catNames = categoryService.listTopCategoriesNames();
+		Set<Product> popularProducts = productService.getPopularProducts();
+		Map<Integer, Integer> productPhoto = productService.getMapProductPhotos(popularProducts);
 		
-		for(Category c : categoryService.listTopCategories()){
-			catNames.add(c.getName());
-		}
-		
-		List<Product> prods = productService.listProducts();
-		
-		prodSize = prods.size();
-		
-		for(int i = 0; i < prodSize || i < 12; i++){
-			popularProducts.add(prods.get(i));
-			Iterator<Photo> iter = prods.get(i).getPhotos().iterator();
-			productPhoto.put(prods.get(i).getId(), iter.next().getId());
-		}
-		
-		amountProducts = popularProducts.size();
-
 		model.addAttribute("uname", u.getLastname() + " " + u.getFirstname());
 		model.addAttribute("isAdmin", userService.currUserIsAdmin());
 		model.addAttribute("categories", catNames);
 		model.addAttribute("popularProducts", popularProducts);
-		model.addAttribute("amountProducts", amountProducts);
+		model.addAttribute("amountProducts", popularProducts.size());
 		model.addAttribute("productPhoto", productPhoto);
 		
 		return "mainPage";

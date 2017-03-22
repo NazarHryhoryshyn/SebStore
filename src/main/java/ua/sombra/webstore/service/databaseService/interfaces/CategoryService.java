@@ -13,7 +13,13 @@ public interface CategoryService {
 	
 	public void addSubCategory(Category category, Integer mainCategoryId);
 	
-	public void removeCategory(Integer id);
+	public void addCategory(String name, Integer mainCategoryId, List<String> featureNames);
+	
+	public void delete(Integer id);
+	
+	public void editCategory(String newName, Integer categoryId, List<String> featureNames);
+	
+	public void tryDeleteCategory(int categoryId);
 	
 	public void renameCategory (String oldName, String newName);
 	
@@ -23,7 +29,9 @@ public interface CategoryService {
 	
 	public List<Category> listAllCategories();
 	
-	public List<Category> listTopCategories();
+	public List<Category> listTopCategories();	
+
+	public Set<String> listTopCategoriesNames();
 	
 	public List<Category> listSubCategories(int mainCategoryId);
 
@@ -42,4 +50,10 @@ public interface CategoryService {
 	public Map<Integer, List<Category>> mapCategorySubCats(List<Category> categs);
 	
 	public Set<Product> productsTreeFromCategory (Category category);
+
+	public List<String> getAllTreeWithThisCategory(String categoryName);
+	
+	public Set<Product> getAllProductsFromCategory(String categoryName);
+
+	public Set<Product> filterProducts(Set<Product> products, String prodName, String prodProducer, int prodMinPrice, int prodMaxPrice);
 }

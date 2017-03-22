@@ -4,9 +4,9 @@ import ua.sombra.webstore.entity.Photo;
 
 public interface PhotoDAO {
 	
-	public void addPhoto(Photo photo);
+	public void create(Photo photo);
 	
-	public void removePhoto(int id);
+	public void delete(int id);
 	
 	public Photo findById(int id);
 }

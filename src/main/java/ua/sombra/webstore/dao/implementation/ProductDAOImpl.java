@@ -8,30 +8,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import ua.sombra.webstore.dao.AbstractDAO;
 import ua.sombra.webstore.dao.interfaces.ProductDAO;
 import ua.sombra.webstore.entity.Product;
 
 @Repository
 @Transactional
-public class ProductDAOImpl implements ProductDAO {
+public class ProductDAOImpl extends AbstractDAO<Product> implements ProductDAO {
 
 	@Autowired
 	SessionFactory sessionFactory;
 	
 	@Override
-	public void addProduct(Product product) {
+	public void create(Product product) {
 		sessionFactory.getCurrentSession().save(product);
 	}
 
 	@Override
-	public void removeProduct(Integer id) {
+	public void delete(int id) {
 		Query q = sessionFactory.getCurrentSession().createSQLQuery("delete from product where id = :id");
 		q.setParameter("id", id);
 		q.executeUpdate();
 	}
 	
 	@Override
-	public Product findById(Integer id) {
+	public Product findById(int id) {
 		return (Product) sessionFactory.getCurrentSession().createQuery("From Product p where p.id = :id")
 				.setParameter("id", id).uniqueResult();
 	}
@@ -43,7 +44,7 @@ public class ProductDAOImpl implements ProductDAO {
 	}
 
 	@Override
-	public void editProduct(Product newParamsProduct){
+	public void update(Product newParamsProduct){
 		Product p = findById(newParamsProduct.getId());
 		p.setName(newParamsProduct.getName());
 		p.setPrice(newParamsProduct.getPrice());
@@ -56,7 +57,7 @@ public class ProductDAOImpl implements ProductDAO {
 	
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<Product> listProducts() {
+	public List<Product> listAll() {
 		return (List<Product>) sessionFactory.getCurrentSession().createQuery("From Product").list();
 	}
 	

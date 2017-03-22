@@ -1,7 +1,6 @@
 package ua.sombra.webstore.web;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,10 +12,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import ua.sombra.webstore.entity.Orders;
-import ua.sombra.webstore.entity.Product;
 import ua.sombra.webstore.entity.User;
 import ua.sombra.webstore.service.databaseService.interfaces.OrderService;
+import ua.sombra.webstore.service.databaseService.interfaces.ProductService;
 import ua.sombra.webstore.service.databaseService.interfaces.SecurityService;
 import ua.sombra.webstore.service.databaseService.interfaces.UserService;
 
@@ -31,17 +29,18 @@ public class OrderController {
 
 	@Autowired
 	private OrderService orderService;
+
+	@Autowired
+	private ProductService productService;
 	
 	@RequestMapping(value = "/order", method = RequestMethod.GET)
-	public String makeOrder(Model model) {
+	public String makeOrderPage(Model model) {
 		User u = userService.findByLogin(securityService.findLoggedInLogin());
 		model.addAttribute("uname", u.getLastname() + " " + u.getFirstname());
 		model.addAttribute("isAdmin", userService.currUserIsAdmin());
 		model.addAttribute("products",u.getProducts());
-		BigDecimal productSumPrice = new BigDecimal(0);
-		for(Product p : u.getProducts()){
-			productSumPrice = productSumPrice.add(p.getPrice());
-		}
+		BigDecimal productSumPrice = productService.getSumProductsPrices(u.getProducts());
+		
 		model.addAttribute("productSumPrice", productSumPrice.longValueExact());
 		return "order";
 	}
@@ -51,9 +50,8 @@ public class OrderController {
 		User u = userService.findByLogin(securityService.findLoggedInLogin());
 		model.addAttribute("uname", u.getLastname() + " " + u.getFirstname());
 		model.addAttribute("isAdmin", userService.currUserIsAdmin());
-
 		model.addAttribute("order", orderService.findById(orderId));
-
+		
 		return "orderFullInfo";
 	}
 	
@@ -69,31 +67,6 @@ public class OrderController {
 			, @RequestParam("cardTreeNumber") String cardTreeNumber
 			, @RequestParam("cardTermOf") String cardTermOf
 			){
-		
-		User u = userService.findByLogin(securityService.findLoggedInLogin());
-		if(u.getProducts().size() > 0){
-			Orders newOrder = new Orders();
-			
-			newOrder.setAddress(address);
-			newOrder.setReceiver(receiver);
-			newOrder.setPaymentType(paymentType);
-			newOrder.setDeliveryType(deliveryType);
-			newOrder.setPhone(phone);
-			newOrder.setEmail(email);
-			newOrder.setCardNumber(cardNumber);
-			newOrder.setCardThreeNumbers(cardTreeNumber);
-			newOrder.setCardTermOf(cardTermOf);
-			
-			Date d = new Date();
-			newOrder.setUser(u);
-			newOrder.setProducts(u.getProducts());
-			newOrder.setDate(d);
-			newOrder.setDeliveryPrice(new BigDecimal(10));
-			newOrder.setStatus("in processing");
-			orderService.addOrder(newOrder);
-			for(Product p : u.getProducts()){
-				userService.removeReferenceToProduct(u.getId(), p.getId());
-			}
-		}
+		orderService.makeOrder(address, receiver, paymentType, deliveryType, phone, email, cardNumber, cardTreeNumber, cardTermOf);
 	}
 }

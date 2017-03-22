@@ -6,14 +6,19 @@ import java.util.TreeSet;
 
 public class PageMaker<T> {
 	
-	private Set<T> objects;
+	private Set<T> objects = new HashSet<T>();
 	
 	private int amountObjectsOnPage;
 	
 	private int amountPagesInBlock;
 
 	public PageMaker(){
-		objects = new HashSet<T>();
+		amountObjectsOnPage = 6;
+		amountPagesInBlock = 5;
+	}
+	
+	public PageMaker(Set<T> objects){
+		this.objects = objects;
 		amountObjectsOnPage = 6;
 		amountPagesInBlock = 5;
 	}

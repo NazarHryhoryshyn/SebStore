@@ -9,24 +9,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import ua.sombra.webstore.dao.AbstractDAO;
 import ua.sombra.webstore.dao.interfaces.UserDAO;
 import ua.sombra.webstore.entity.Product;
 import ua.sombra.webstore.entity.User;
 
 @Repository
 @Transactional
-public class UserDAOImpl implements UserDAO {
+public class UserDAOImpl extends AbstractDAO<User> implements UserDAO {
 
 	@Autowired
 	private SessionFactory sessionFactory;
 
 	@Override
-	public void addUser(User user) {
+	public void create(User user) {
 		sessionFactory.getCurrentSession().save(user);
 	}
 	
 	@Override
-	public void editUser(User userNewParameters){
+	public void update(User userNewParameters){
 		User u = findById(userNewParameters.getId());
 		u.setFirstname(userNewParameters.getFirstname());
 		u.setLastname(userNewParameters.getLastname());
@@ -37,7 +38,7 @@ public class UserDAOImpl implements UserDAO {
 	}
 	
 	@Override
-	public User findById(Integer id) {
+	public User findById(int id) {
 		return (User) sessionFactory.getCurrentSession().createQuery("From User u where u.id = :id")
 				.setParameter("id", id).uniqueResult();
 	}
@@ -51,7 +52,7 @@ public class UserDAOImpl implements UserDAO {
 	
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<User> listUsers() {
+	public List<User> listAll() {
 		return (List<User>) sessionFactory.getCurrentSession().createQuery("From User").list();
 	}
 
@@ -107,5 +108,11 @@ public class UserDAOImpl implements UserDAO {
 		query.setParameter("userId", userId);
 		query.setParameter("productId", productId);
 		query.executeUpdate();
+	}
+
+	@Override
+	public void delete(int entId) {
+		// TODO Auto-generated method stub
+		
 	}
 }

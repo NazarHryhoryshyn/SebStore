@@ -1,5 +1,7 @@
 package ua.sombra.webstore.service.databaseService.impls;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +19,12 @@ public class ProductExtraFeatureServiceImpl implements ProductExtraFeatureServic
 
 	@Override
 	public void addProductExtraFeature(ProductExtraFeature productExtraFeature){
-		productExtraFeaturesDAO.addProductExtraFeature(productExtraFeature);
+		productExtraFeaturesDAO.create(productExtraFeature);
 	}
 
 	@Override
-	public void removeProductExtraFeature(ProductExtraFeature productExtraFeature){
-		productExtraFeaturesDAO.removeProductExtraFeature(productExtraFeature);
+	public void removeProductExtraFeature(int productExtraFeatureId){
+		productExtraFeaturesDAO.delete(productExtraFeatureId);
 	}
 
 	@Override
@@ -38,5 +40,21 @@ public class ProductExtraFeatureServiceImpl implements ProductExtraFeatureServic
 	@Override
 	public void removeAllExtraFeaturesFromProduct(int productId){
 		productExtraFeaturesDAO.removeAllExtraFeaturesFromProduct(productId);
+	}
+
+	@Override
+	public Map<String, String> parseStringtoMapFeatures(List<String> notParsedFeatures) {
+		Map<String, String> efNameValue = new HashMap<String, String>();
+		if(notParsedFeatures.contains("no_elements")){
+			notParsedFeatures.remove("no_elements");
+		}
+		for(String efName : notParsedFeatures){
+			String[] nameValue = efName.split("__");
+			if(nameValue[1] == "null_null"){
+				nameValue[1] = "";
+			}
+			efNameValue.put(nameValue[0], nameValue[1]);
+		}
+		return efNameValue;
 	}
 }

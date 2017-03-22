@@ -4,11 +4,11 @@ import java.util.List;
 
 import ua.sombra.webstore.entity.Category;
 
-public interface CategoryDAO {
+public interface CategoryDAO{
 
-	public void addCategory(Category category);
+	public void create(Category category);
 
-	public void removeCategory(Integer id);
+	public void delete(int id);
 
 	public void renameCategory (String oldName, String newName);
 	
@@ -16,7 +16,7 @@ public interface CategoryDAO {
 	
 	public Category findByName(String name);
 
-	public List<Category> listAllCategories();
+	public List<Category> listAll();
 	
 	public List<Category> listTopCategories();
 	

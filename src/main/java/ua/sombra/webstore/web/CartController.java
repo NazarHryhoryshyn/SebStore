@@ -1,8 +1,6 @@
 package ua.sombra.webstore.web;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import ua.sombra.webstore.entity.Photo;
-import ua.sombra.webstore.entity.Product;
 import ua.sombra.webstore.entity.User;
 import ua.sombra.webstore.service.databaseService.interfaces.ProductService;
 import ua.sombra.webstore.service.databaseService.interfaces.SecurityService;
@@ -24,7 +20,7 @@ public class CartController {
 
 	@Autowired
 	private UserService userService;
-
+	
 	@Autowired
 	private ProductService productService;
 	
@@ -34,16 +30,8 @@ public class CartController {
 	@RequestMapping(value = { "/cart", }, method = RequestMethod.GET)
 	public String getCartInfo(Model model) {
 		User u = userService.findByLogin(securityService.findLoggedInLogin());
-		BigDecimal productSumPrice = new BigDecimal(0);
-		Map<Integer, Photo> photos = new HashMap<Integer, Photo>();
-		
-		for(Product p : u.getProducts()){
-			if(p.getPhotos().size() > 0){
-				Iterator<Photo> iter = p.getPhotos().iterator();
-				photos.put(p.getId(), iter.next());
-			}
-			productSumPrice = productSumPrice.add(p.getPrice());
-		}
+		BigDecimal productSumPrice = productService.getSumProductsPrices(u.getProducts());
+		Map<Integer, Integer> photos = productService.getMapProductPhotos(u.getProducts());
 
 		model.addAttribute("uname", u.getLastname() + " " + u.getFirstname());
 		model.addAttribute("isAdmin", userService.currUserIsAdmin());
@@ -56,11 +44,7 @@ public class CartController {
 	
 	@RequestMapping(value = { "/cart/delete/{productId}", }, method = RequestMethod.GET)
 	public String deleteProduct(@PathVariable("productId") int productId){
-		User u = userService.findByLogin(securityService.findLoggedInLogin());
-		Product p = productService.findById(productId);
-		userService.removeReferenceToProduct(u.getId(), productId);
-		p.setAmountOnWarehouse(p.getAmountOnWarehouse()+1);
-		productService.editProduct(p);
+		userService.removeProductFromCart(productId);
 		return  "redirect: /webstore/cart";
 	}
 }

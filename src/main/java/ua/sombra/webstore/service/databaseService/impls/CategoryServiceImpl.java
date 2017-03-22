@@ -1,46 +1,251 @@
 package ua.sombra.webstore.service.databaseService.impls;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import ua.sombra.webstore.dao.interfaces.CategoryDAO;
 import ua.sombra.webstore.entity.Category;
 import ua.sombra.webstore.entity.Feature;
 import ua.sombra.webstore.entity.Product;
+import ua.sombra.webstore.entity.ProductExtraFeature;
 import ua.sombra.webstore.service.databaseService.interfaces.CategoryService;
+import ua.sombra.webstore.service.databaseService.interfaces.FeatureService;
+import ua.sombra.webstore.service.databaseService.interfaces.ProductExtraFeatureService;
+import ua.sombra.webstore.service.databaseService.interfaces.ProductService;
 
 @Service
 public class CategoryServiceImpl implements CategoryService{
 
 	@Autowired
-	CategoryDAO categoryDao;
+	private CategoryDAO categoryDao;
+	
+	@Autowired
+	private CategoryService categoryService;
+
+	@Autowired
+	private ProductService productService;
+	
+	@Autowired
+	private FeatureService featureService;
+	
+	@Autowired
+	private ProductExtraFeatureService productExtraFeatureService;
 	
 	@Override
 	public void addTopCategory(Category category) {
 		category.setIsSub(false);
 		category.setMainCategoryId(0);
-		categoryDao.addCategory(category);
+		categoryDao.create(category);
 	}
 
 	@Override
 	public void addSubCategory(Category category, Integer mainCategoryId) {
 		category.setIsSub(true);
 		category.setMainCategoryId(mainCategoryId);
-		categoryDao.addCategory(category);
+		categoryDao.create(category);
 	}
 
 	@Override
-	public void removeCategory(Integer id) {
-		categoryDao.removeCategory(id);
+	public void addCategory(String name, Integer mainCategoryId, List<String> featureNames){
+		if(featureNames.contains("no_elements")){
+			featureNames.remove("no_elements");
+		}
+		Category newCategory = new Category();
+		newCategory.setName(name);
+		
+		if(mainCategoryId == -1){
+			categoryService.addTopCategory(newCategory);
+		}
+		else{
+			categoryService.addSubCategory(newCategory, mainCategoryId);
+		}
+		
+		Set<Category> editedCategories = new HashSet<Category>();
+		Set<Product> editedProducts = new HashSet<Product>();
+		editedCategories = categoryService.categoriesTreeFromCategory(newCategory);
+		editedProducts = categoryService.productsTreeFromCategory(newCategory);
+
+		Set<String> addExistsFeature = new HashSet<String>();
+		Set<String> addNewFeatures = new HashSet<String>();
+		
+		for(String feature : featureNames){
+			if(featureService.findByName(feature) != null ){
+				addExistsFeature.add(feature);
+			} else {
+				addNewFeatures.add(feature);
+			}
+		}
+		
+		for(String fName : addExistsFeature){
+			Feature f = featureService.findByName(fName);
+			for(Category cat : editedCategories){
+				categoryService.AddReferenceToFeature(cat.getId(), f.getId());
+			}
+		}
+		
+		for(String fName : addNewFeatures){
+			Feature newFeat = new  Feature();
+			newFeat.setName(fName);
+			featureService.addFeature(newFeat);
+			for(Category cat : editedCategories){
+				categoryService.AddReferenceToFeature(cat.getId(), newFeat.getId());
+			}
+		}
+		
+		for(Product p : editedProducts){
+			for(String extraFeature : addExistsFeature){
+				if(!p.hasFeature(extraFeature)){
+					ProductExtraFeature newExtFeature = new ProductExtraFeature();
+					newExtFeature.setName(extraFeature);
+					newExtFeature.setValue("-");
+					newExtFeature.setProduct(p);
+					productExtraFeatureService.addProductExtraFeature(newExtFeature);					
+					
+				}
+			}
+			for(String extraFeature : addNewFeatures){
+				if(!p.hasFeature(extraFeature)){
+					ProductExtraFeature newExtFeature = new ProductExtraFeature();
+					newExtFeature.setName(extraFeature);
+					newExtFeature.setValue("-");
+					newExtFeature.setProduct(p);
+					productExtraFeatureService.addProductExtraFeature(newExtFeature);					
+					
+				}
+			}
+		}
+	}
+	
+	@Override
+	public void delete(Integer id) {
+		categoryDao.delete(id);
+	}
+	
+	@Override
+	public void editCategory(String newName, Integer categoryId, List<String> featureNames){
+		if(featureNames.contains("no_elements")){
+			featureNames.remove("no_elements");
+		}
+
+		Category editedCategory = categoryService.findById(categoryId);
+		categoryService.renameCategory(editedCategory.getName(), newName);
+		
+		Set<Category> editedCategories = new HashSet<Category>();
+		Set<Product> editedProducts = new HashSet<Product>();
+		
+		editedCategories = categoryService.categoriesTreeFromCategory(editedCategory);
+		editedProducts = categoryService.productsTreeFromCategory(editedCategory);
+		
+		Set<String> featsOldNames = new HashSet<String>();
+		Set<String> addExistsFeature = new HashSet<String>();
+		Set<String> addNewFeatures = new HashSet<String>();
+		Set<String> removeFeatures = new HashSet<String>();
+		
+		for(Feature p : editedCategory.getFeatures()){
+			featsOldNames.add(p.getName());
+		}
+		
+		for(String feature : featureNames){
+			if(featureService.findByName(feature) != null && !featsOldNames.contains(feature)){
+				addExistsFeature.add(feature);
+			}
+		}
+		
+		for(String oldFeature : featsOldNames){
+			if(!featureNames.contains(oldFeature)){
+				removeFeatures.add(oldFeature);
+			}
+		}
+		
+		for(String feature : featureNames){
+			if(featureService.findByName(feature) == null){
+				addNewFeatures.add(feature);
+			}
+		}
+		
+		for(String fName : addExistsFeature){
+			Feature f = featureService.findByName(fName);
+			for(Category cat : editedCategories){
+				categoryService.AddReferenceToFeature(cat.getId(), f.getId());
+			}
+		}
+		
+		for(String fName : addNewFeatures){
+			Feature newFeat = new  Feature();
+			newFeat.setName(fName);
+			featureService.addFeature(newFeat);
+			for(Category cat : editedCategories){
+				categoryService.AddReferenceToFeature(cat.getId(), newFeat.getId());
+			}
+		}
+		
+		for(String removeFeat : removeFeatures){
+			Feature removingFeat = featureService.findByName(removeFeat);
+			
+			for(Category cat : editedCategories){
+				categoryService.RemoveReferenceToFeature(cat.getId(), removingFeat.getId());
+			}
+			
+			removingFeat = featureService.findByName(removeFeat);
+			if(removingFeat.getCategories().size() == 0){
+				featureService.removeFeature(removingFeat.getId());
+			}
+		}
+		
+		for(Product p : editedProducts){
+			for(String extraFeature : addExistsFeature){
+				if(!p.hasFeature(extraFeature)){
+					ProductExtraFeature newExtFeature = new ProductExtraFeature();
+					newExtFeature.setName(extraFeature);
+					newExtFeature.setValue("");
+					newExtFeature.setProduct(p);
+					productExtraFeatureService.addProductExtraFeature(newExtFeature);
+				}
+			}
+			for(String extraFeature : addNewFeatures){
+				if(!p.hasFeature(extraFeature)){
+					ProductExtraFeature newExtFeature = new ProductExtraFeature();
+					newExtFeature.setName(extraFeature);
+					newExtFeature.setValue("");
+					newExtFeature.setProduct(p);
+					productExtraFeatureService.addProductExtraFeature(newExtFeature);
+				}
+			}
+			for(String extraFeature : removeFeatures){
+				if(p.hasFeature(extraFeature)){
+					ProductExtraFeature newExtFeature = p.getExtraFeatureByName(extraFeature);
+					productExtraFeatureService.removeProductExtraFeature(newExtFeature.getId());
+				}
+			}
+		}
 	}
 
+	@Transactional
+	@Override
+	public void tryDeleteCategory(int categoryId){
+		Category cat = categoryService.findById(categoryId);
+		
+		if(categoryService.listSubCategories(categoryId).size() == 0 && cat.getProducts().size() == 0){
+			for(Feature f : cat.getFeatures()){
+				categoryService.RemoveReferenceToFeature(cat.getId(), f.getId());
+				if(f.getCategories().size() == 0){
+					featureService.removeFeature(f.getId());
+				}
+			}
+			categoryService.delete(categoryId);
+		}
+	}
+	
 	@Override
 	public void renameCategory(String oldName, String newName) {
 		categoryDao.renameCategory(oldName, newName);
@@ -58,12 +263,21 @@ public class CategoryServiceImpl implements CategoryService{
 	
 	@Override
 	public List<Category> listAllCategories() {
-		return categoryDao.listAllCategories();
+		return categoryDao.listAll();
 	}
 
 	@Override
 	public List<Category> listTopCategories() {
 		return categoryDao.listTopCategories();
+	}
+	
+	@Override
+	public Set<String> listTopCategoriesNames(){
+		Set<String> catNames = new HashSet<String>();
+		for(Category c : categoryService.listTopCategories()){
+			catNames.add(c.getName());
+		}
+		return catNames;
 	}
 
 	@Override
@@ -175,5 +389,104 @@ public class CategoryServiceImpl implements CategoryService{
 			products.add(p);
 		}
 		return products;
+	}
+	
+	@Override
+	public List<String> getAllTreeWithThisCategory(String categoryName){
+		List<String> catNames = new ArrayList<String>();
+
+		List<String> categoryTree = new ArrayList<String>();
+		
+		for(Category c : listTopCategories()){
+			catNames.add(c.getName());
+		}
+		
+		if(!categoryName.equals("All category")){
+			Category currentCategory = categoryService.findByName(categoryName);
+			
+			categoryTree = categoryService.categoriesTreeToTop(currentCategory.getId());
+			
+			if(!categoryTree.contains(categoryName)){
+				categoryTree.add(categoryName);
+			}
+
+			List<String> subCatNames = new ArrayList<String>();
+			List<String> addingItems = new ArrayList<String>();
+			
+			for(String catName : categoryTree){
+				subCatNames.clear();
+				addingItems.clear();
+				 for(Category c : categoryService.listSubCategories(categoryService.findByName(catName).getId())){
+					 subCatNames.add(c.getName());
+				 }
+				 if(subCatNames.size() > 0){
+					 addingItems.add("topSeparator");
+					 for(int j = 0; j < subCatNames.size(); j++){
+						 addingItems.add(subCatNames.get(j));
+					 }
+					 addingItems.add("bottomSeparator");
+					 int indexInsert = catNames.indexOf(catName);
+					 List<String> newCatNames = new ArrayList<String>();
+					 int ind = 0;
+					 for(; ind <= indexInsert; ind++){
+						 newCatNames.add(catNames.get(ind));
+					 }
+					 newCatNames.addAll(addingItems);
+					 for(; ind < catNames.size(); ind++){
+						 newCatNames.add(catNames.get(ind));
+					 }
+					 catNames = newCatNames;
+				 }
+			}
+		}
+		
+		return catNames;
+	}
+	
+	public Set<Product> getAllProductsFromCategory(String categoryName){
+		Set<Product> catProducts = new TreeSet<Product>();
+		
+		if(categoryName.equals("All category")){
+			for(Product p : productService.listProducts()){
+				catProducts.add(p);
+			}
+		} else {
+			catProducts = productsTreeFromCategory(categoryService.findByName(categoryName));
+		}
+		
+		return catProducts;
+	}
+	
+	public Set<Product> filterProducts(Set<Product> products, String prodName, String prodProducer, int prodMinPrice, int prodMaxPrice){
+		Set<Product> filteredCatProducts = new TreeSet<Product>();
+		
+		if(!prodName.equals("all") || !prodProducer.equals("all") || prodMinPrice != 0 || prodMaxPrice != 0){
+			BigDecimal bd = new BigDecimal(prodMinPrice);
+			BigDecimal bd2 = new BigDecimal(prodMaxPrice);
+			for(Product p : products){
+				int res = p.getPrice().compareTo(bd);
+				int res2 = p.getPrice().compareTo(bd2);
+				boolean addProduct = true;				
+				if(!prodName.equals("all") && !p.getName().matches("(.*)"+prodName+"(.*)")){
+					addProduct = false;
+				}
+				if(!prodProducer.equals("all") && !p.getProducer().matches("(.*)"+prodProducer+"(.*)")){
+					addProduct = false;
+				}
+				if(prodMinPrice != 0 && res != 1){
+					addProduct = false;
+				}
+				if(prodMaxPrice != 0 && res2 != -1){
+					addProduct = false;
+				}
+				
+				if(addProduct){
+					filteredCatProducts.add(p);
+				}
+			}
+		} else {
+			filteredCatProducts = products;
+		}
+		return filteredCatProducts;
 	}
 }

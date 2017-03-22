@@ -39,7 +39,7 @@
 			<div class="prod">
 				<div class="product-photo">
 				<c:if test="${photos[product.id] != null}">
-					<img src="/webstore/admin/product/photo?id=${photos[product.id].id}">
+					<img src="/webstore/admin/product/photo?id=${photos[product.id]}">
 				</c:if>
 				<c:if test="${photos[product.id] == null}">
 					<img src="${contextPath}/resources/img/open_box-512.png">
