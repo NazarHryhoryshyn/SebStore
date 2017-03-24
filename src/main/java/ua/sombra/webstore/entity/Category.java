@@ -88,4 +88,14 @@ public class Category {
 	public void setProducts(Set<Product> products) {
 		this.products = products;
 	}
+
+	@Override
+	public String toString() {
+		return "Category{" +
+                "id=" + this.id +
+                ", name='" + this.name + "'" +
+                ", isSub=" + this.isSub +
+                ", mainCategoryId=" + this.mainCategoryId +
+                '}';
+	}
 }

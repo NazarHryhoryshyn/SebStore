@@ -2,6 +2,7 @@ package ua.sombra.webstore.dao.implementation;
 
 import java.util.List;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -37,13 +38,13 @@ public class PhotoDAOImpl extends AbstractDAO<Photo> implements PhotoDAO {
 
 	@Override
 	public void update(Photo ent) {
-		// TODO Auto-generated method stub
-		
+		sessionFactory.getCurrentSession().update(ent);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Photo> listAll() {
-		// TODO Auto-generated method stub
-		return null;
+		Session s = sessionFactory.getCurrentSession();
+		return (List<Photo>) s.createQuery("From Photo").list();
 	}	
 }

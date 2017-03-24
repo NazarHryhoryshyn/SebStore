@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +26,8 @@ import ua.sombra.webstore.service.paging.PageMaker;
 @Transactional
 public class OrderServiceImpl implements OrderService {
 
+	private static final Logger log = Logger.getLogger(OrderServiceImpl.class);
+	
 	@Autowired
 	private OrderDAO orderDao;
 
@@ -36,78 +39,109 @@ public class OrderServiceImpl implements OrderService {
 	private UserService userService;
 	
 	@Override
-	public void addOrder(Orders order){
-		orderDao.create(order);
+	public void create(Orders order){
+		try{
+			orderDao.create(order);
+		log.info(order+" successfully created");
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
 	}
 	
 	@Override
 	public Orders findById(Integer id) {
-		return orderDao.findById(id);
+		try{
+			return orderDao.findById(id);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return null;
+		}
 	}
 	
 	@Override
 	public void changeStatus(int orderId, String newStatus){
-		orderDao.changeStatus(orderId, newStatus);
+		try{
+			orderDao.changeStatus(orderId, newStatus);
+			log.info("Status in order with id="+orderId+" successfully changed on"+newStatus);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
 	}
 	
 	@Override
 	public List<Orders> listOrders(){
-		return orderDao.listAll();
+		try{
+			return orderDao.listAll();
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return null;
+		}
 	}
 	
 	@Transactional
 	@Override
 	public void makeOrder(String address, String receiver, String paymentType, String deliveryType, 
-			String phone, String email, String cardNumber, String cardTreeNumber, String cardTermOf){
-		User u = userService.findByLogin(securityService.findLoggedInLogin());
-		if(u.getProducts().size() > 0){
-			Orders newOrder = new Orders();
-			
-			newOrder.setAddress(address);
-			newOrder.setReceiver(receiver);
-			newOrder.setPaymentType(paymentType);
-			newOrder.setDeliveryType(deliveryType);
-			newOrder.setPhone(phone);
-			newOrder.setEmail(email);
-			newOrder.setCardNumber(cardNumber);
-			newOrder.setCardThreeNumbers(cardTreeNumber);
-			newOrder.setCardTermOf(cardTermOf);
-			
-			Date d = new Date();
-			newOrder.setUser(u);
-			newOrder.setProducts(u.getProducts());
-			newOrder.setDate(d);
-			newOrder.setDeliveryPrice(new BigDecimal(10));
-			newOrder.setStatus(Constants.DEFAULT_ORDER_STATUS);
-			addOrder(newOrder);
-			for(Product p : u.getProducts()){
-				userService.removeReferenceToProduct(u.getId(), p.getId());
+		String phone, String email, String cardNumber, String cardTreeNumber, String cardTermOf){
+		try{
+			User u = userService.findByLogin(securityService.findLoggedInLogin());
+			if(u.getProducts().size() > 0){
+				Orders newOrder = new Orders();
+				
+				newOrder.setAddress(address);
+				newOrder.setReceiver(receiver);
+				newOrder.setPaymentType(paymentType);
+				newOrder.setDeliveryType(deliveryType);
+				newOrder.setPhone(phone);
+				newOrder.setEmail(email);
+				newOrder.setCardNumber(cardNumber);
+				newOrder.setCardThreeNumbers(cardTreeNumber);
+				newOrder.setCardTermOf(cardTermOf);
+				
+				Date d = new Date();
+				newOrder.setUser(u);
+				newOrder.setProducts(u.getProducts());
+				newOrder.setDate(d);
+				newOrder.setDeliveryPrice(new BigDecimal(10));
+				newOrder.setStatus(Constants.DEFAULT_ORDER_STATUS);
+				create(newOrder);
+				for(Product p : u.getProducts()){
+					userService.removeReferenceToProduct(u.getId(), p.getId());
+				}
 			}
+		} catch (Exception e) {
+			log.error(e.getMessage());
 		}
 	}
 	
 	@Override
 	public Set<Orders> sortedOrderSet(){
 		Set<Orders> allOrders = new TreeSet<Orders>();
-	
-		for(Orders o : listOrders()){
-			allOrders.add(o);
+		try{
+			for(Orders o : listOrders()){
+				allOrders.add(o);
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage());
 		}
-		
 		return allOrders;
 	}
 	
 	@Override
 	public PageInfo<Orders> getPageInfoOrders(int page){
-		Set<Orders> allOrders = sortedOrderSet();
-		
-		PageMaker<Orders> pgMaker = new PageMaker<Orders>();
-		pgMaker.setObjects(allOrders);
-		
-		PageInfo<Orders> orderInfo = new PageInfo<Orders>();
-		orderInfo.setPage(page);
-		orderInfo.SetValuesWithPageMaker(pgMaker);
-		
-		return orderInfo;
+		try{
+			Set<Orders> allOrders = sortedOrderSet();
+			
+			PageMaker<Orders> pgMaker = new PageMaker<Orders>();
+			pgMaker.setObjects(allOrders);
+			
+			PageInfo<Orders> orderInfo = new PageInfo<Orders>();
+			orderInfo.setPage(page);
+			orderInfo.SetValuesWithPageMaker(pgMaker);
+			
+			return orderInfo;
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return null;
+		}
 	}
 }

@@ -7,9 +7,9 @@ import ua.sombra.webstore.entity.ProductExtraFeature;
 
 public interface ProductExtraFeatureService {
 	
-	public void addProductExtraFeature(ProductExtraFeature productExtraFeature);
+	public void create(ProductExtraFeature productExtraFeature);
 	
-	public void removeProductExtraFeature(int productExtraFeatureId);
+	public void delete(int productExtraFeatureId);
 	
 	public ProductExtraFeature findById(Integer productEFId);
 	

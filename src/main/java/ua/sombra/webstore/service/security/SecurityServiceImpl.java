@@ -1,7 +1,7 @@
 package ua.sombra.webstore.service.security;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,7 +16,7 @@ import ua.sombra.webstore.service.databaseService.interfaces.SecurityService;
 @Service
 public class SecurityServiceImpl implements SecurityService {
 
-	private static final Logger logger = LoggerFactory.getLogger(SecurityServiceImpl.class);
+	private static final Logger log = Logger.getLogger(SecurityServiceImpl.class);
 
 	@Autowired
 	private AuthenticationManager authenticationManager;
@@ -43,7 +43,7 @@ public class SecurityServiceImpl implements SecurityService {
 		if (authenticationToken.isAuthenticated()) {
 			SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
-			logger.debug(String.format("Successfully %s auto logged in", login));
+			log.info(String.format("The %s successfully registered and logged in", login));
 		}
 	}
 }

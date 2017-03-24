@@ -100,6 +100,6 @@ public class CategoryDAOImpl extends AbstractDAO<Category> implements CategoryDA
 
 	@Override
 	public void update(Category ent) {
-		// TODO Auto-generated method stub
+		sessionFactory.getCurrentSession().update(ent);
 	}
 }

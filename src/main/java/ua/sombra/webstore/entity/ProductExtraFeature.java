@@ -60,4 +60,14 @@ public class ProductExtraFeature {
 	public void setProduct(Product product) {
 		this.product = product;
 	}
+	
+	@Override
+	public String toString() {
+		return "ProductExtraFeature{"
+                + "id=" + this.id
+                + ", name='" + this.name + "'" 
+                + ", value='" + this.value + "'"
+                + ", product='" + this.product.getName() + "'"		
+                + "}";
+	}
 }

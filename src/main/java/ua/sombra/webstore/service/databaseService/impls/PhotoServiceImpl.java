@@ -3,6 +3,7 @@ package ua.sombra.webstore.service.databaseService.impls;
 import java.io.IOException;
 import java.util.Arrays;
 
+import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,8 @@ import ua.sombra.webstore.service.databaseService.interfaces.ProductService;
 @Transactional
 public class PhotoServiceImpl implements PhotoService{
 	
+	private static final Logger log = Logger.getLogger(PhotoServiceImpl.class);
+	
 	@Autowired
 	SessionFactory sessionFactory;
 	
@@ -29,18 +32,33 @@ public class PhotoServiceImpl implements PhotoService{
 	private ProductService productService;
 	
 	@Override
-	public void addPhoto(Photo photo) {
-		photoDao.create(photo);
+	public void create(Photo photo) {
+		try{
+			photoDao.create(photo);
+			log.info(photo + " successfully created");
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
 	}
 
 	@Override
 	public Photo findById(int id){
-		return photoDao.findById(id);
+		try{
+			return photoDao.findById(id);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return null;
+		}
 	}
 
 	@Override
 	public void removePhoto(int id) {
-		photoDao.delete(id);
+		try{
+			photoDao.delete(id);
+			log.info("Photo with id="+id+" successfully deleted");
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
 	}
 	
 	@Override
@@ -59,10 +77,10 @@ public class PhotoServiceImpl implements PhotoService{
 				Photo newPhoto = new Photo();
 					newPhoto.setData(file.getBytes());
 					newPhoto.setProduct(prod);
-					addPhoto(newPhoto);
+					create(newPhoto);
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.error(e.getMessage());
 		}
 	}
 }

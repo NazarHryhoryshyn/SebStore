@@ -161,4 +161,23 @@ public class User implements Comparable<User> {
 	public int compareTo(User u) {
 		return Integer.compare(u.getId(), this.getId());
 	}
+	
+	@Override
+	public String toString() {
+		String roles = "[";
+		for(Role r : getRoles()){
+			roles += r.getName()+" ";
+		}
+		roles += "]";
+		return "User{"
+                + "id=" + this.id
+                + ", firstname='" + this.firstname + "'"
+                + ", lastname='" + this.lastname + "'"
+                + ", email='" + this.email + "'"
+                + ", telephone=" + this.telephone
+                + ", sex='" + this.sex + "'"	
+                + ", login='" + this.login + "'"
+                + ", roles='" + roles
+                + "}";
+	}
 }

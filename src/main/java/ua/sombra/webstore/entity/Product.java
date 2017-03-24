@@ -179,10 +179,20 @@ public class Product implements Comparable<Product> {
 	public int compareTo(Product p) {
 		return Integer.compare(p.getId(), this.getId());
 	}
+	
+	@Override
+	public String toString() {
+		return "Product{"
+                + "id=" + this.id
+                + ", name='" + this.name + "'" 
+                + ", price=" + this.price
+                + ", producer='" + this.producer + "'"	
+                + ", country='" + this.country + "'"
+                + ", amountOnWarehouse=" + this.amountOnWarehouse
+                + ", weight=" + this.weight
+                + ", category='" + this.category.getName() + "'"
+                + "}";
+	}
 }
-
-
-
-
 
 

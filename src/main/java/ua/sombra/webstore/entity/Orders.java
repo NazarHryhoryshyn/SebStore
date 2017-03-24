@@ -187,8 +187,23 @@ public class Orders implements Comparable<Orders>{
 	public int compareTo(Orders o) {
 		return Integer.compare(o.getId(), this.getId());
 	}
+	
+	@Override
+	public String toString() {
+		return "Order{" +
+                "id=" + this.id +
+                ", status='" + this.status + "'"
+                		+ ", deliveryType='" + this.deliveryType +"'"
+                        + ", date=" + this.date
+                        + ", paymentType='" + this.paymentType + "'"
+                        + ", receiver='" + this.receiver + "'"
+                        + ", phone=" + this.phone
+                        + ", email='" + this.email + "'"
+                        + ", deliveryPrice=" + this.deliveryPrice
+                        + ", address='" + this.address + "'"
+                        + ", cardNumber=" + this.cardNumber                          
+                		+ "}";
+	}
 }
-
-
 
 

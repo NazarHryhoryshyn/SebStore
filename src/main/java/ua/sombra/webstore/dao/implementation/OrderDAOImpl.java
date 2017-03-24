@@ -46,13 +46,12 @@ public class OrderDAOImpl extends AbstractDAO<Orders> implements OrderDAO {
 
 	@Override
 	public void update(Orders ent) {
-		// TODO Auto-generated method stub
-		
+		sessionFactory.getCurrentSession().update(ent);
 	}
 
 	@Override
 	public void delete(int entId) {
-		// TODO Auto-generated method stub
-		
+		Orders o = (Orders)sessionFactory.getCurrentSession().load(Orders.class, entId);
+		sessionFactory.getCurrentSession().delete(o);
 	}	
 }

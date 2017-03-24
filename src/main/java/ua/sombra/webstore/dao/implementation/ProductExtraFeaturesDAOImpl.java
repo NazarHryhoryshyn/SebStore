@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -72,13 +73,13 @@ public class ProductExtraFeaturesDAOImpl extends AbstractDAO<ProductExtraFeature
 
 	@Override
 	public void update(ProductExtraFeature ent) {
-		// TODO Auto-generated method stub
-		
+		sessionFactory.getCurrentSession().update(ent);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<ProductExtraFeature> listAll() {
-		// TODO Auto-generated method stub
-		return null;
+		Session s = sessionFactory.getCurrentSession();
+		return (List<ProductExtraFeature>) s.createQuery("From ProductExtraFeature").list();
 	}
 }

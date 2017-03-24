@@ -8,7 +8,7 @@ import ua.sombra.webstore.entity.wrappers.PageInfo;
 
 public interface OrderService {
 
-	public void addOrder(Orders order);
+	public void create(Orders order);
 
 	public Orders findById(Integer id);
 	

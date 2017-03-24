@@ -6,9 +6,9 @@ import ua.sombra.webstore.entity.Feature;
 
 public interface FeatureService {
 	
-	public void addFeature(Feature feature);
+	public void create(Feature feature);
 	
-	public void removeFeature(Integer id);
+	public void delete(Integer id);
 
 	public Feature findById(Integer id);
 

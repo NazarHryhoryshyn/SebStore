@@ -112,7 +112,7 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO {
 
 	@Override
 	public void delete(int entId) {
-		// TODO Auto-generated method stub
-		
+		User u = findById(entId);
+		sessionFactory.getCurrentSession().delete(u);
 	}
 }

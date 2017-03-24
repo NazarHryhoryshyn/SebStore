@@ -6,7 +6,7 @@ import ua.sombra.webstore.entity.Photo;
 
 public interface PhotoService {
 	
-	public void addPhoto(Photo photo);
+	public void create(Photo photo);
 
 	public Photo findById(int id);
 	

@@ -51,7 +51,6 @@ public class FeatureDAOImpl extends AbstractDAO<Feature> implements FeatureDAO {
 
 	@Override
 	public void update(Feature ent) {
-		// TODO Auto-generated method stub
-		
+		sessionFactory.getCurrentSession().update(ent);
 	}
 }
